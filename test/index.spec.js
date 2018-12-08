@@ -8,6 +8,7 @@ process.env.NODE_ENV = 'test';
 /* dependencies */
 const { include } = require('@lykmapipo/include');
 const { expect } = require('chai');
+const { SCHEMA_OPTIONS, SUB_SCHEMA_OPTIONS } = include(__dirname, '..');
 const { connect, disconnect } = include(__dirname, '..');
 const { clear, drop, model } = include(__dirname, '..');
 
@@ -18,6 +19,26 @@ describe.only('mongoose-common', () => {
 
   beforeEach(done => disconnect(done));
   afterEach(done => drop(done));
+
+  it('should provide default schema options', () => {
+    expect(SCHEMA_OPTIONS).to.exist;
+    expect(SCHEMA_OPTIONS).to.be.an('object');
+    expect(SCHEMA_OPTIONS).to.be.eql({
+      timestamps: true,
+      emitIndexErrors: true
+    });
+  });
+
+  it('should provide default sub schema options', () => {
+    expect(SUB_SCHEMA_OPTIONS).to.exist;
+    expect(SUB_SCHEMA_OPTIONS).to.be.an('object');
+    expect(SUB_SCHEMA_OPTIONS).to.be.eql({
+      _id: false,
+      id: false,
+      timestamps: false,
+      emitIndexErrors: true
+    });
+  });
 
   it('should be able to connect', () => {
     expect(connect).to.exist;
@@ -44,7 +65,7 @@ describe.only('mongoose-common', () => {
     expect(model).to.exist;
     expect(model).to.be.a('function');
     expect(model.name).to.be.equal('model');
-    expect(model.length).to.be.equal(1);
+    expect(model.length).to.be.equal(2);
   });
 
   it('should be able to drop', () => {

@@ -13,13 +13,17 @@
  *   connect,
  *   clear, 
  *   drop, 
- *   disconnect 
+ *   disconnect,
+ *   model 
  * } = require('@lykmapipo/mongoose-common');
  *
  * connect((error) => { ... });
  * clear((error) => { ... });
  * drop((error) => { ... });
  * disconnect((error) => { ... });
+ * const User = model('User');
+ * const User = model('User', schema);
+ * const randomModel = model(schema);
  */
 
 
@@ -27,6 +31,35 @@
 const _ = require('lodash');
 const { waterfall } = require('async');
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
+
+
+/**
+ * @name SCHEMA_OPTIONS
+ * @description Common options to set on schema
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.1.0
+ * @version 0.1.0
+ */
+exports.SCHEMA_OPTIONS = ({
+  timestamps: true,
+  emitIndexErrors: true
+});
+
+
+/**
+ * @name SUB_SCHEMA_OPTIONS
+ * @description Common options to set on sub doc schema
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.1.0
+ * @version 0.1.0
+ */
+exports.SUB_SCHEMA_OPTIONS = ({
+  _id: false,
+  id: false,
+  timestamps: false,
+  emitIndexErrors: true
+});
 
 
 /**
@@ -184,11 +217,27 @@ exports.drop = function drop(done) {
  * const User = model('User');
  * const User = model('User', Schema);
  */
-exports.model = function model(modelName) {
+exports.model = function model(modelName, schema) {
+
+  // obtain modelName or obtain random name
+  let _modelName = new mongoose.Types.ObjectId().toString();
+  _modelName = (_.isString(modelName) ? modelName : _modelName);
+
+  // obtain schema
+  const _schema = ((modelName instanceof Schema) ? modelName : schema);
 
   // try obtain model or new register model
   try {
-    const Model = mongoose.model(modelName);
+    let Model;
+    // do safe register
+    if (_modelName && (_schema instanceof Schema)) {
+      mongoose.deleteModel(_modelName);
+      Model = mongoose.model(_modelName, _schema);
+    }
+    // do get model
+    if (_modelName && !_schema) {
+      Model = mongoose.model(_modelName);
+    }
     return Model;
   }
 
