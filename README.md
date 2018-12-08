@@ -72,6 +72,16 @@ Example
 disconnect((error) => { ... });
 ```
 
+### `model([name: String], [schema: Schema])`
+Try to obtain existing model or register new model safely.
+
+Example
+```js
+const User = model('User'); // get safely
+const User = model('User', schema); // get or register safely
+const random = model(schema); // register random model safely
+```
+
 ## Testing
 * Clone this repository
 
