@@ -17,7 +17,8 @@ const {
   disconnect,
   clear,
   drop,
-  model
+  model,
+  eachPath
 } = include(__dirname, '..');
 
 
@@ -152,6 +153,55 @@ describe('mongoose-common', () => {
       expect(error).to.not.exist;
       done(error);
     });
+  });
+
+  it('should be able to iterate schema path recursive', () => {
+    const schema = new Schema({ name: String });
+    let paths = [];
+    eachPath(schema, (path, schemaType) => {
+      expect(path).to.exist;
+      expect(schemaType).to.exist;
+      paths = paths.concat(path);
+    });
+    expect(paths).to.include('name');
+  });
+
+  it('should be able to iterate schema path recursive', () => {
+    const schema = new Schema({ name: { firstName: String } });
+    let paths = [];
+    eachPath(schema, (path, schemaType) => {
+      expect(path).to.exist;
+      expect(schemaType).to.exist;
+      paths = paths.concat(path);
+    });
+    expect(paths).to.include('name.firstName');
+  });
+
+  it('should be able to iterate schema path recursive', () => {
+    const schema = new Schema({
+      name: String,
+      profile: { interest: String },
+      address: {
+        street: {
+          name: String,
+          city: {
+            name: String,
+            country: { name: String }
+          }
+        }
+      }
+    });
+    let paths = [];
+    eachPath(schema, (path, schemaType) => {
+      expect(path).to.exist;
+      expect(schemaType).to.exist;
+      paths = paths.concat(path);
+    });
+    expect(paths).to.include('name');
+    expect(paths).to.include('profile.interest');
+    expect(paths).to.include('address.street.name');
+    expect(paths).to.include('address.street.city.name');
+    expect(paths).to.include('address.street.city.country.name');
   });
 
 });

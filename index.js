@@ -252,3 +252,52 @@ exports.model = function model(modelName, schema) {
   }
 
 };
+
+
+/**
+ * @function eachPath
+ * @name eachPath
+ * @description iterate recursively on schema primitive paths and invoke 
+ * provided iteratee function.
+ * @param {Schema} Schema valid instance of mongoose schema
+ * @param {Function} iteratee callback function invoked per each path found. The 
+ * callback is passed the pathName, parentPath and schemaType as arguments on 
+ * each iteration.
+ * @see {@link https://mongoosejs.com/docs/api.html#schema_Schema-eachPath}
+ * @since 0.1.0
+ * @version 0.1.0
+ * @public
+ */
+exports.eachPath = function eachPath(schema, iteratee) {
+
+
+  function iterateRecursive(pathName, schemaType, parentPath) {
+
+    // compute path name
+    const _path = _.compact([parentPath, pathName]).join('.');
+
+    // check if is sub schema
+    const isSchema =
+      (schemaType.schema && _.isFunction(schemaType.schema.eachPath));
+
+    // iterate over sub schema
+    if (isSchema) {
+      schemaType
+        .schema
+        .eachPath(function iterateSubSchema(_pathName, _schemaType) {
+          iterateRecursive(_pathName, _schemaType, _path);
+        });
+    }
+
+    // invoke iteratee
+    else {
+      iteratee(_path, schemaType);
+    }
+  }
+
+  // iterate recursive
+  schema.eachPath(function iterateParentSchema(pathName, schemaType) {
+    iterateRecursive(pathName, schemaType);
+  });
+
+};
