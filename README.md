@@ -64,7 +64,7 @@ Example
 drop((error) => { ... });
 ```
 
-### `disconnect([url: String], done: Function)`
+### `disconnect(done: Function)`
 Close all connection used in test
 
 Example
