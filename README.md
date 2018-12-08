@@ -82,6 +82,15 @@ const User = model('User', schema); // get or register safely
 const random = model(schema); // register random model safely
 ```
 
+### `eachPath(schema: Schema, iteratee: Function)`
+Iterate recursively on schema primitive paths and invoke provided iteratee function.
+
+Example
+```js
+eachPath(schema, (path, schemaType) => { ... });
+```
+
+
 ## Testing
 * Clone this repository
 
