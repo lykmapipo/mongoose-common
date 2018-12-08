@@ -231,24 +231,21 @@ exports.model = function model(modelName, schema) {
   // obtain schema
   const _schema = ((modelName instanceof Schema) ? modelName : schema);
 
+  // check if modelName already registered
+  const modelExists = _.includes(mongoose.modelNames(), _modelName);
+
   // try obtain model or new register model
   try {
-    let Model;
-    // do safe register
-    if (_modelName && (_schema instanceof Schema)) {
-      mongoose.deleteModel(_modelName);
-      Model = mongoose.model(_modelName, _schema);
-    }
-    // do get model
-    if (_modelName && !_schema) {
-      Model = mongoose.model(_modelName);
-    }
+    const Model = (
+      modelExists ?
+      mongoose.model(_modelName) :
+      mongoose.model(_modelName, _schema)
+    );
     return Model;
   }
 
   // catch error
   catch (error) {
-
     // unknown model
     return undefined;
 

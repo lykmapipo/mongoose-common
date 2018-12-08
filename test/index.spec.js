@@ -21,7 +21,7 @@ const {
 } = include(__dirname, '..');
 
 
-describe.only('mongoose-common', () => {
+describe('mongoose-common', () => {
 
   const MONGODB_URI = 'mongodb://localhost/mongoose-common';
 
@@ -79,6 +79,36 @@ describe.only('mongoose-common', () => {
     expect(model).to.be.a('function');
     expect(model.name).to.be.equal('model');
     expect(model.length).to.be.equal(2);
+  });
+
+  it('should be able to register model', () => {
+    const User = model('User', new Schema({ name: String }));
+    expect(User).to.exist;
+    expect(User.modelName).to.be.equal('User');
+  });
+
+  it('should be able to return already registered model', () => {
+    const User = model('User');
+    expect(User).to.exist;
+    expect(User.modelName).to.be.equal('User');
+  });
+
+  it('should be able to return already registered model', () => {
+    const User = model('User', new Schema({ name: String }));
+    expect(User).to.exist;
+    expect(User.modelName).to.be.equal('User');
+  });
+
+  it('should be able to get no existing model silent', () => {
+    const Profile = model('Profile');
+    expect(Profile).to.not.exist;
+  });
+
+  it('should be able to register random model', () => {
+    const User = model(new Schema({ name: String }));
+    expect(User).to.exist;
+    expect(User.modelName).to.exist;
+    expect(User.modelName).to.not.be.equal('User');
   });
 
   it('should be able to drop', () => {
