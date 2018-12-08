@@ -29,9 +29,14 @@
 
 /* dependencies */
 const _ = require('lodash');
-const { waterfall } = require('async');
+const async = require('async');
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const Schema = mongoose.Schema;
+
+
+/* expose shortcuts */
+exports.Schema = Schema;
+_.merge(exports, Schema.Types);
 
 
 /**
@@ -163,7 +168,7 @@ exports.clear = function clear(...modelNames) {
   deletes = _.compact([...deletes]);
 
   // delete
-  waterfall(deletes, _done);
+  async.waterfall(deletes, _done);
 
 };
 

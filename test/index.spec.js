@@ -8,9 +8,17 @@ process.env.NODE_ENV = 'test';
 /* dependencies */
 const { include } = require('@lykmapipo/include');
 const { expect } = require('chai');
-const { SCHEMA_OPTIONS, SUB_SCHEMA_OPTIONS } = include(__dirname, '..');
-const { connect, disconnect } = include(__dirname, '..');
-const { clear, drop, model } = include(__dirname, '..');
+const {
+  Schema,
+  ObjectId,
+  SCHEMA_OPTIONS,
+  SUB_SCHEMA_OPTIONS,
+  connect,
+  disconnect,
+  clear,
+  drop,
+  model
+} = include(__dirname, '..');
 
 
 describe.only('mongoose-common', () => {
@@ -19,6 +27,11 @@ describe.only('mongoose-common', () => {
 
   beforeEach(done => disconnect(done));
   afterEach(done => drop(done));
+
+  it('should expose shortcuts', () => {
+    expect(Schema).to.exist;
+    expect(ObjectId).to.exist;
+  });
 
   it('should provide default schema options', () => {
     expect(SCHEMA_OPTIONS).to.exist;
