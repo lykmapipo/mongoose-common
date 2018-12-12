@@ -33,13 +33,25 @@
 /* dependencies */
 const _ = require('lodash');
 const { waterfall } = require('async');
+const { include } = require('@lykmapipo/include');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 
+/**
+ * @description register path schema plugin
+ * @since 0.1.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * const name = User.path('name');
+ */
+mongoose.plugin(include(__dirname, 'lib', 'path.plugin'));
+
+
 /* expose shortcuts */
 exports.Schema = Schema;
-_.merge(exports, Schema.Types);
+exports.Types = Schema.Types;
 
 
 /**

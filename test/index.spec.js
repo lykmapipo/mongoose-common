@@ -6,11 +6,12 @@ process.env.NODE_ENV = 'test';
 
 
 /* dependencies */
+const mongoose = require('mongoose');
 const { include } = require('@lykmapipo/include');
 const { expect } = require('chai');
 const {
   Schema,
-  ObjectId,
+  Types,
   SCHEMA_OPTIONS,
   SUB_SCHEMA_OPTIONS,
   connect,
@@ -25,13 +26,13 @@ const {
 describe('common', () => {
 
   const MONGODB_URI = 'mongodb://localhost/mongoose-common';
-  
+
   beforeEach(done => disconnect(done));
   afterEach(done => drop(done));
 
   it('should expose shortcuts', () => {
     expect(Schema).to.exist;
-    expect(ObjectId).to.exist;
+    expect(Types).to.exist;
   });
 
   it('should provide default schema options', () => {
@@ -202,6 +203,75 @@ describe('common', () => {
     expect(paths).to.include('address.street.name');
     expect(paths).to.include('address.street.city.name');
     expect(paths).to.include('address.street.city.country.name');
+  });
+
+  it('should be able to get model schema path', () => {
+    const schema = new Schema({ name: String });
+    const User = model(schema);
+
+    expect(User).to.exist;
+    expect(User.path).to.exist;
+    expect(User.path).to.be.a('function');
+    expect(User.path.name).to.be.equal('path');
+    expect(User.path.length).to.be.equal(1);
+  });
+
+  it('should be able to get model schema path', () => {
+    const schema = new Schema({ name: String });
+    const User = model(schema);
+
+    const name = User.path('name');
+    expect(name).to.exist;
+    expect(name).to.be.an.instanceof(mongoose.SchemaType);
+    expect(name).to.be.an.instanceof(Types.String);
+  });
+
+  it('should be able to get model schema path', () => {
+    const schema = new Schema({ profile: { interest: String } });
+    const User = model(schema);
+
+    const interest = User.path('profile.interest');
+    expect(interest).to.exist;
+    expect(interest).to.be.an.instanceof(mongoose.SchemaType);
+    expect(interest).to.be.an.instanceof(Types.String);
+  });
+
+  it('should be able to get model schema path', () => {
+    const schema = new Schema({ profile: new Schema({ interest: String }) });
+    const User = model(schema);
+
+    const interest = User.path('profile.interest');
+    expect(interest).to.exist;
+    expect(interest).to.be.an.instanceof(mongoose.SchemaType);
+    expect(interest).to.be.an.instanceof(Types.String);
+  });
+
+  it('should be able to get model schema path', () => {
+    const schema = new Schema({
+      address: { street: { city: { country: String } } }
+    });
+    const User = model(schema);
+
+    const country = User.path('address.street.city.country');
+    expect(country).to.exist;
+    expect(country).to.be.an.instanceof(mongoose.SchemaType);
+    expect(country).to.be.an.instanceof(Types.String);
+  });
+
+  it('should be able to get model schema path', () => {
+    const schema = new Schema({
+      address: new Schema({
+        street: new Schema({
+          city: new Schema({ country: String })
+        })
+      })
+    });
+    const User = model(schema);
+
+    const country = User.path('address.street.city.country');
+    expect(country).to.exist;
+    expect(country).to.be.an.instanceof(mongoose.SchemaType);
+    expect(country).to.be.an.instanceof(Types.String);
   });
 
 });
