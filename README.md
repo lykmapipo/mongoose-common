@@ -90,6 +90,16 @@ Example
 eachPath(schema, (path, schemaType) => { ... });
 ```
 
+### `path(pathName: String)`
+A shortcut to obtain schema path from model.
+
+Example
+```js
+User.path('name');
+User.path('name.given');
+User.path('name.surname');
+```
+
 
 ## Testing
 * Clone this repository
