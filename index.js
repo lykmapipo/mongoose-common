@@ -29,7 +29,7 @@
 
 /* dependencies */
 const _ = require('lodash');
-const async = require('async');
+const { waterfall } = require('async');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -168,7 +168,7 @@ exports.clear = function clear(...modelNames) {
   deletes = _.compact([...deletes]);
 
   // delete
-  async.waterfall(deletes, _done);
+  waterfall(deletes, _done);
 
 };
 
@@ -264,6 +264,7 @@ exports.model = function model(modelName, schema) {
  * callback is passed the pathName, parentPath and schemaType as arguments on 
  * each iteration.
  * @see {@link https://mongoosejs.com/docs/api.html#schema_Schema-eachPath}
+ * @author lally elias <lallyelias87@mail.com>
  * @since 0.1.0
  * @version 0.1.0
  * @public
@@ -282,11 +283,10 @@ exports.eachPath = function eachPath(schema, iteratee) {
 
     // iterate over sub schema
     if (isSchema) {
-      schemaType
-        .schema
-        .eachPath(function iterateSubSchema(_pathName, _schemaType) {
-          iterateRecursive(_pathName, _schemaType, _path);
-        });
+      const { schema: subSchema } = schemaType;
+      subSchema.eachPath(function iterateSubSchema(_pathName, _schemaType) {
+        iterateRecursive(_pathName, _schemaType, _path);
+      });
     }
 
     // invoke iteratee

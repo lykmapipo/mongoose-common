@@ -22,10 +22,10 @@ const {
 } = include(__dirname, '..');
 
 
-describe('mongoose-common', () => {
+describe('common', () => {
 
   const MONGODB_URI = 'mongodb://localhost/mongoose-common';
-
+  
   beforeEach(done => disconnect(done));
   afterEach(done => drop(done));
 
