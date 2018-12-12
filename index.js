@@ -5,16 +5,18 @@
  * @module mongoose-common
  * @description Re-usable helpers for mongoose
  * @author lally elias <lallyelias87@mail.com>
+ * @license MIT
  * @since  0.1.0
  * @version 0.1.0
- * @license MIT
+ * @public
  * @example
  * const {
  *   connect,
  *   clear, 
  *   drop, 
  *   disconnect,
- *   model 
+ *   model,
+ *   eachPath 
  * } = require('@lykmapipo/mongoose-common');
  *
  * connect((error) => { ... });
@@ -24,6 +26,7 @@
  * const User = model('User');
  * const User = model('User', schema);
  * const randomModel = model(schema);
+ * eachPath(schema, (path, schemaType) => { ... });
  */
 
 
@@ -45,6 +48,7 @@ _.merge(exports, Schema.Types);
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.1.0
  * @version 0.1.0
+ * @public
  */
 exports.SCHEMA_OPTIONS = ({
   timestamps: true,
@@ -58,6 +62,7 @@ exports.SCHEMA_OPTIONS = ({
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.1.0
  * @version 0.1.0
+ * @public
  */
 exports.SUB_SCHEMA_OPTIONS = ({
   _id: false,
@@ -77,6 +82,7 @@ exports.SUB_SCHEMA_OPTIONS = ({
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.1.0
  * @version 0.1.0
+ * @public
  * @example
  * connect(done);
  * connect(<url>, done);
@@ -107,6 +113,7 @@ exports.connect = function connect(url, done) {
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.1.0
  * @version 0.1.0
+ * @public
  * @example
  * disconnect(done);
  */
@@ -124,6 +131,7 @@ exports.disconnect = function disconnect(done) {
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.1.0
  * @version 0.1.0
+ * @public
  * @example
  * clear(done);
  * clear('User', done);
@@ -182,6 +190,7 @@ exports.clear = function clear(...modelNames) {
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.1.0
  * @version 0.1.0
+ * @public
  * @example
  * drop(done);
  */
@@ -218,6 +227,7 @@ exports.drop = function drop(done) {
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.1.0
  * @version 0.1.0
+ * @public
  * @example
  * const User = model('User');
  * const User = model('User', Schema);
@@ -268,6 +278,8 @@ exports.model = function model(modelName, schema) {
  * @since 0.1.0
  * @version 0.1.0
  * @public
+ * @example
+ * eachPath(schema, (path, schemaType) => { ... });
  */
 exports.eachPath = function eachPath(schema, iteratee) {
 
