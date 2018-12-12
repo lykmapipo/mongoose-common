@@ -11,7 +11,10 @@
     "clear",
     "disconnect",
     "drop",
-    "model"
+    "model",
+    "path",
+    "eachPath",
+    "jsonschema"
   ],
   "main": "index.js",
   "scripts": {

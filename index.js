@@ -39,6 +39,17 @@ const Schema = mongoose.Schema;
 
 
 /**
+ * @description register jsonschema schema plugin
+ * @since 0.1.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * const jsonSchema = User.jsonSchema();
+ */
+require('mongoose-schema-jsonschema')(mongoose);
+
+
+/**
  * @description register path schema plugin
  * @since 0.1.0
  * @version 0.1.0
@@ -47,6 +58,15 @@ const Schema = mongoose.Schema;
  * const name = User.path('name');
  */
 mongoose.plugin(include(__dirname, 'lib', 'path.plugin'));
+
+
+/**
+ * @description unique error handler schema plugin
+ * @since 0.1.0
+ * @version 0.1.0
+ * @public
+ */
+mongoose.plugin(include(__dirname, 'lib', 'error.plugin'));
 
 
 /* expose shortcuts */

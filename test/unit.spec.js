@@ -274,4 +274,25 @@ describe('common', () => {
     expect(country).to.be.an.instanceof(Types.String);
   });
 
+  it('should able to get jsonschema of a model', () => {
+    const schema = new Schema({ name: String });
+    const User = model(schema);
+
+    expect(User).to.exist;
+    expect(User.jsonSchema).to.exist;
+    expect(User.jsonSchema).to.be.a('function');
+
+    const jsonSchema = User.jsonSchema();
+    expect(jsonSchema).to.exist;
+    expect(jsonSchema).to.be.eql({
+      title: User.modelName,
+      type: 'object',
+      properties: {
+        name: { type: 'string' },
+        _id: { type: 'string', pattern: '^[0-9a-fA-F]{24}$' },
+        __v: { type: 'number' }
+      }
+    });
+  });
+
 });
