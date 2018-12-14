@@ -10,10 +10,12 @@ const mongoose = require('mongoose');
 const { include } = require('@lykmapipo/include');
 const { expect } = require('chai');
 const {
-  Schema,
-  Types,
   SCHEMA_OPTIONS,
   SUB_SCHEMA_OPTIONS,
+  Schema,
+  SchemaTypes,
+  MongooseTypes,
+  isObjectId,
   connect,
   disconnect,
   clear,
@@ -32,7 +34,8 @@ describe('common', () => {
 
   it('should expose shortcuts', () => {
     expect(Schema).to.exist;
-    expect(Types).to.exist;
+    expect(SchemaTypes).to.exist;
+    expect(MongooseTypes).to.exist;
   });
 
   it('should provide default schema options', () => {
@@ -53,6 +56,19 @@ describe('common', () => {
       timestamps: false,
       emitIndexErrors: true
     });
+  });
+
+  it('should be able check if value is an ObjectId', () => {
+    expect(isObjectId).to.exist;
+    expect(isObjectId).to.be.a('function');
+    expect(isObjectId).to.have.length(1);
+
+    let val = '12345';
+    expect(isObjectId(val)).to.be.false;
+
+    val = new MongooseTypes.ObjectId();
+    expect(isObjectId(val)).to.be.true;
+
   });
 
   it('should be able to connect', () => {
@@ -223,7 +239,7 @@ describe('common', () => {
     const name = User.path('name');
     expect(name).to.exist;
     expect(name).to.be.an.instanceof(mongoose.SchemaType);
-    expect(name).to.be.an.instanceof(Types.String);
+    expect(name).to.be.an.instanceof(SchemaTypes.String);
   });
 
   it('should be able to get model schema path', () => {
@@ -233,7 +249,7 @@ describe('common', () => {
     const interest = User.path('profile.interest');
     expect(interest).to.exist;
     expect(interest).to.be.an.instanceof(mongoose.SchemaType);
-    expect(interest).to.be.an.instanceof(Types.String);
+    expect(interest).to.be.an.instanceof(SchemaTypes.String);
   });
 
   it('should be able to get model schema path', () => {
@@ -243,7 +259,7 @@ describe('common', () => {
     const interest = User.path('profile.interest');
     expect(interest).to.exist;
     expect(interest).to.be.an.instanceof(mongoose.SchemaType);
-    expect(interest).to.be.an.instanceof(Types.String);
+    expect(interest).to.be.an.instanceof(SchemaTypes.String);
   });
 
   it('should be able to get model schema path', () => {
@@ -255,7 +271,7 @@ describe('common', () => {
     const country = User.path('address.street.city.country');
     expect(country).to.exist;
     expect(country).to.be.an.instanceof(mongoose.SchemaType);
-    expect(country).to.be.an.instanceof(Types.String);
+    expect(country).to.be.an.instanceof(SchemaTypes.String);
   });
 
   it('should be able to get model schema path', () => {
@@ -271,7 +287,7 @@ describe('common', () => {
     const country = User.path('address.street.city.country');
     expect(country).to.exist;
     expect(country).to.be.an.instanceof(mongoose.SchemaType);
-    expect(country).to.be.an.instanceof(Types.String);
+    expect(country).to.be.an.instanceof(SchemaTypes.String);
   });
 
   it('should able to get jsonschema of a model', () => {

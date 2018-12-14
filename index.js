@@ -71,7 +71,8 @@ mongoose.plugin(include(__dirname, 'lib', 'error.plugin'));
 
 /* expose shortcuts */
 exports.Schema = Schema;
-exports.Types = Schema.Types;
+exports.SchemaTypes = Schema.Types;
+exports.MongooseTypes = mongoose.Types;
 
 
 /**
@@ -102,6 +103,24 @@ exports.SUB_SCHEMA_OPTIONS = ({
   timestamps: false,
   emitIndexErrors: true
 });
+
+
+/**
+ * @function isObjectId
+ * @name isObjectId
+ * @description Check if provided value is an instance ObjectId
+ * @param {Mixed} val value to check if its an ObjectId
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.2.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * isObjectId(<val>);
+ */
+exports.isObjectId = function isObjectId(val) {
+  const _isObjectId = (val instanceof mongoose.Types.ObjectId);
+  return _isObjectId;
+};
 
 
 /**
