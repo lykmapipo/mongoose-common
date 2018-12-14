@@ -16,6 +16,7 @@ const {
   SchemaTypes,
   MongooseTypes,
   isObjectId,
+  isMap,
   connect,
   disconnect,
   clear,
@@ -68,7 +69,18 @@ describe('common', () => {
 
     val = new MongooseTypes.ObjectId();
     expect(isObjectId(val)).to.be.true;
+  });
 
+  it('should be able check if value is a Map', () => {
+    expect(isMap).to.exist;
+    expect(isMap).to.be.a('function');
+    expect(isMap).to.have.length(1);
+
+    let val = '12345';
+    expect(isMap(val)).to.be.false;
+
+    val = new MongooseTypes.Map();
+    expect(isMap(val)).to.be.true;
   });
 
   it('should be able to connect', () => {

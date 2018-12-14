@@ -124,6 +124,24 @@ exports.isObjectId = function isObjectId(val) {
 
 
 /**
+ * @function isMap
+ * @name isMap
+ * @description Check if provided value is an instance Map
+ * @param {Mixed} val value to check if its a Map
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.2.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * isMap(<val>);
+ */
+exports.isMap = function isMap(val) {
+  const _isMap = (val instanceof mongoose.Types.Map);
+  return _isMap;
+};
+
+
+/**
  * @function connect
  * @name connect
  * @description Opens the default mongoose connection
