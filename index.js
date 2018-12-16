@@ -34,7 +34,7 @@
 const _ = require('lodash');
 const { waterfall } = require('async');
 const { include } = require('@lykmapipo/include');
-const mongoose = require('mongoose');
+const mongoose = require('mongoose-valid8');
 const Schema = mongoose.Schema;
 
 
@@ -82,6 +82,8 @@ exports.MongooseTypes = mongoose.Types;
  * @since 0.1.0
  * @version 0.1.0
  * @public
+ * @example
+ * const { SCHEMA_OPTIONS } = require('@lykmapipo/mongoose-common'); 
  */
 exports.SCHEMA_OPTIONS = ({
   timestamps: true,
@@ -96,6 +98,8 @@ exports.SCHEMA_OPTIONS = ({
  * @since 0.1.0
  * @version 0.1.0
  * @public
+ * @example
+ * const { SUB_SCHEMA_OPTIONS } = require('@lykmapipo/mongoose-common'); 
  */
 exports.SUB_SCHEMA_OPTIONS = ({
   _id: false,
@@ -115,7 +119,7 @@ exports.SUB_SCHEMA_OPTIONS = ({
  * @version 0.1.0
  * @public
  * @example
- * isObjectId(<val>);
+ * const _isObjectId = isObjectId(<val>);
  */
 exports.isObjectId = function isObjectId(val) {
   const _isObjectId = (val instanceof mongoose.Types.ObjectId);
@@ -133,11 +137,57 @@ exports.isObjectId = function isObjectId(val) {
  * @version 0.1.0
  * @public
  * @example
- * isMap(<val>);
+ * const _isMap = isMap(<val>);
  */
 exports.isMap = function isMap(val) {
   const _isMap = (val instanceof mongoose.Types.Map);
   return _isMap;
+};
+
+
+/**
+ * @function isInstance
+ * @name isInstance
+ * @description check if object is valid mongoose model instance
+ * @param {Object} value valid object
+ * @returns {Boolean} whether object is valid model instance
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.4.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * const _isInstance = isInstance(<val>);
+ */
+exports.isInstance = function isInstance(value) {
+  if (value) {
+    const _isInstance = _.isFunction(_.get(value, 'toObject', undefined));
+    return _isInstance;
+  }
+  return false;
+};
+
+
+/**
+ * @name copyInstance
+ * @description copy and return plain object of mongoose model instance
+ * @param {Object} value valid object
+ * @returns {Object} plain object from mongoose model instance
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.4.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * const instance = copyInstance(<val>);
+ */
+exports.copyInstance = function copyInstance(value) {
+  if (value) {
+    return (
+      exports.isInstance(value) ?
+      _.merge({}, value.toObject()) :
+      _.merge({}, value)
+    );
+  }
+  return {};
 };
 
 

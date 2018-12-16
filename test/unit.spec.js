@@ -17,6 +17,8 @@ const {
   MongooseTypes,
   isObjectId,
   isMap,
+  isInstance,
+  copyInstance,
   connect,
   disconnect,
   clear,
@@ -59,7 +61,7 @@ describe('common', () => {
     });
   });
 
-  it('should be able check if value is an ObjectId', () => {
+  it('should be able to check if value is an ObjectId', () => {
     expect(isObjectId).to.exist;
     expect(isObjectId).to.be.a('function');
     expect(isObjectId).to.have.length(1);
@@ -71,7 +73,7 @@ describe('common', () => {
     expect(isObjectId(val)).to.be.true;
   });
 
-  it('should be able check if value is a Map', () => {
+  it('should be able to check if value is a Map', () => {
     expect(isMap).to.exist;
     expect(isMap).to.be.a('function');
     expect(isMap).to.have.length(1);
@@ -81,6 +83,32 @@ describe('common', () => {
 
     val = new MongooseTypes.Map();
     expect(isMap(val)).to.be.true;
+  });
+
+  it('should be able to check if value is a model instance', () => {
+    const User = model(new Schema({ name: String }));
+    const user = new User();
+
+    expect(isInstance).to.exist;
+    expect(isInstance).to.be.a('function');
+    expect(isInstance).to.have.length(1);
+
+    expect(user).to.exist;
+    expect(isInstance(user)).to.be.true;
+  });
+
+  it('should be able to copy model instance to plain object', () => {
+    const User = model(new Schema({ name: String }));
+    const user = new User();
+
+    expect(copyInstance).to.exist;
+    expect(copyInstance).to.be.a('function');
+    expect(copyInstance).to.have.length(1);
+
+    const copy = copyInstance(user);
+
+    expect(copy).to.exist;
+    expect(isInstance(copy)).to.be.false;
   });
 
   it('should be able to connect', () => {

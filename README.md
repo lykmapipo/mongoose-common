@@ -100,6 +100,38 @@ User.path('name.given');
 User.path('name.surname');
 ```
 
+### `isObjectId(value: Any)`
+Check if provided value is an instance ObjectId
+
+Example
+```js
+const _isObjectId = isObjectId(value);
+```
+
+### `isMap(value: Any)`
+Check if provided value is an instance MongooseMap
+
+Example
+```js
+const _isMap = isMap(value);
+```
+
+### `isInstance(value: Any)`
+Check if provided value is an mongoose model instance
+
+Example
+```js
+const _isInstance = isInstance(value);
+```
+
+### `copyInstance(value: Any)`
+Copy and return plain object of mongoose model instance
+
+Example
+```js
+const copyOfInstance = copyInstance(value);
+```
+
 
 ## Testing
 * Clone this repository
