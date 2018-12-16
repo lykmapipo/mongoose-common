@@ -97,6 +97,19 @@ describe('common', () => {
     expect(isInstance(user)).to.be.true;
   });
 
+  it('should be able to check if value is a model instance', () => {
+    const User = model(new Schema({ tags: [String] }));
+    const user = new User();
+
+    expect(isInstance).to.exist;
+    expect(isInstance).to.be.a('function');
+    expect(isInstance).to.have.length(1);
+
+    expect(user).to.exist;
+    expect(isInstance(user)).to.be.true;
+    expect(isInstance(user.tags)).to.false;
+  });
+
   it('should be able to copy model instance to plain object', () => {
     const User = model(new Schema({ name: String }));
     const user = new User();

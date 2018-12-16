@@ -153,14 +153,17 @@ exports.isMap = function isMap(val) {
  * @returns {Boolean} whether object is valid model instance
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.4.0
- * @version 0.1.0
+ * @version 0.2.0
  * @public
  * @example
  * const _isInstance = isInstance(<val>);
  */
 exports.isInstance = function isInstance(value) {
   if (value) {
-    const _isInstance = _.isFunction(_.get(value, 'toObject', undefined));
+    const _isInstance = (
+      _.isFunction(_.get(value, 'toObject', null)) &&
+      !_.isNull(_.get(value, '$__', null))
+    );
     return _isInstance;
   }
   return false;
