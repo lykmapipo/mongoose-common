@@ -38,6 +38,10 @@ const mongoose = require('mongoose-valid8');
 const Schema = mongoose.Schema;
 
 
+// set global mongoose promise
+mongoose.Promise = global.Promise;
+
+
 /**
  * @description register jsonschema schema plugin
  * @since 0.1.0
@@ -72,7 +76,28 @@ mongoose.plugin(include(__dirname, 'lib', 'error.plugin'));
 /* expose shortcuts */
 exports.Schema = Schema;
 exports.SchemaTypes = Schema.Types;
-exports.MongooseTypes = mongoose.Types;
+exports.SchemaType = mongoose.SchemaType;
+exports.VirtualType = mongoose.VirtualType;
+exports.Types = exports.MongooseTypes = mongoose.Types;
+exports.Error = exports.MongooseError = mongoose.Error;
+exports.CastError = mongoose.CastError;
+exports.STATES = mongoose.STATES;
+exports.modelNames = mongoose.modelNames;
+
+
+/* schema types shortcuts*/
+exports.String = exports.SchemaString = Schema.Types.String;
+exports.Number = exports.SchemaNumber = Schema.Types.Number;
+exports.Boolean = exports.SchemaBoolean = Schema.Types.Boolean;
+exports.DocumentArray = exports.SchemaDocumentArray = Schema.Types.DocumentArray;
+exports.Embedded = exports.SchemaEmbedded = Schema.Types.Embedded;
+exports.Array = exports.SchemaArray = Schema.Types.Array;
+exports.Buffer = exports.SchemaBuffer = Schema.Types.Buffer;
+exports.Date = exports.SchemaDate = Schema.Types.Date;
+exports.ObjectId = exports.SchemaObjectId = Schema.Types.ObjectId;
+exports.Mixed = exports.SchemaMixed = Schema.Types.Mixed;
+exports.Decimal = exports.SchemaDecimal = Schema.Types.Decimal;
+exports.Map = exports.SchemaMap = Schema.Types.Map;
 
 
 /**

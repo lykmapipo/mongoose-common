@@ -9,6 +9,7 @@ process.env.NODE_ENV = 'test';
 const mongoose = require('mongoose');
 const { include } = require('@lykmapipo/include');
 const { expect } = require('chai');
+const MongooseCommon = include(__dirname, '..');
 const {
   SCHEMA_OPTIONS,
   SUB_SCHEMA_OPTIONS,
@@ -25,10 +26,10 @@ const {
   drop,
   model,
   eachPath
-} = include(__dirname, '..');
+} = MongooseCommon;
 
 
-describe('common', () => {
+describe('mongoose common', () => {
 
   const MONGODB_URI = 'mongodb://localhost/mongoose-common';
 
@@ -36,9 +37,55 @@ describe('common', () => {
   afterEach(done => drop(done));
 
   it('should expose shortcuts', () => {
-    expect(Schema).to.exist;
-    expect(SchemaTypes).to.exist;
-    expect(MongooseTypes).to.exist;
+    expect(MongooseCommon.Schema).to.exist;
+    expect(MongooseCommon.SchemaTypes).to.exist;
+    expect(MongooseCommon.SchemaType).to.exist;
+    expect(MongooseCommon.VirtualType).to.exist;
+    expect(MongooseCommon.MongooseTypes).to.exist;
+    expect(MongooseCommon.Types).to.exist;
+    expect(MongooseCommon.MongooseError).to.exist;
+    expect(MongooseCommon.Error).to.exist;
+    expect(MongooseCommon.CastError).to.exist;
+    expect(MongooseCommon.STATES).to.exist;
+    expect(MongooseCommon.modelNames).to.exist;
+  });
+
+  it('should schema types expose shortcuts', () => {
+    expect(MongooseCommon.String).to.exist;
+    expect(MongooseCommon.SchemaString).to.exist;
+
+    expect(MongooseCommon.Number).to.exist;
+    expect(MongooseCommon.SchemaNumber).to.exist;
+
+    expect(MongooseCommon.Boolean).to.exist;
+    expect(MongooseCommon.SchemaBoolean).to.exist;
+
+    expect(MongooseCommon.DocumentArray).to.exist;
+    expect(MongooseCommon.SchemaDocumentArray).to.exist;
+
+    expect(MongooseCommon.Embedded).to.exist;
+    expect(MongooseCommon.SchemaEmbedded).to.exist;
+
+    expect(MongooseCommon.SchemaArray).to.exist;
+    expect(MongooseCommon.SchemaArray).to.exist;
+
+    expect(MongooseCommon.SchemaBuffer).to.exist;
+    expect(MongooseCommon.SchemaBuffer).to.exist;
+
+    expect(MongooseCommon.Date).to.exist;
+    expect(MongooseCommon.SchemaDate).to.exist;
+
+    expect(MongooseCommon.ObjectId).to.exist;
+    expect(MongooseCommon.SchemaObjectId).to.exist;
+
+    expect(MongooseCommon.Mixed).to.exist;
+    expect(MongooseCommon.SchemaMixed).to.exist;
+
+    expect(MongooseCommon.Decimal).to.exist;
+    expect(MongooseCommon.SchemaDecimal).to.exist;
+
+    expect(MongooseCommon.Map).to.exist;
+    expect(MongooseCommon.SchemaMap).to.exist;
   });
 
   it('should provide default schema options', () => {

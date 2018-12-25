@@ -1,6 +1,6 @@
 {
   "name": "@lykmapipo/mongoose-common",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "Re-usable helpers for mongoose",
   "keywords": [
     "lykmapipo",
@@ -54,10 +54,10 @@
     "mongoose": ">=5.4.0"
   },
   "dependencies": {
-    "@lykmapipo/include": ">=0.1.0",
+    "@lykmapipo/include": ">=0.1.1",
     "async": ">=2.6.1",
     "lodash": ">=4.17.11",
     "mongoose-schema-jsonschema": ">=1.2.1",
-    "mongoose-valid8": ">=1.4.0"
+    "mongoose-valid8": ">=1.4.1"
   }
 }
