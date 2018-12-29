@@ -72,14 +72,15 @@ Example
 disconnect((error) => { ... });
 ```
 
-### `model([name: String], [schema: Schema])`
-Try to obtain existing model or register new model safely.
+### `model([name: String], [schema: Schema], [connection: Connection])`
+Try to obtain existing model or register new model safely. If `connection` not provided default mongoose connection will be used.
 
 Example
 ```js
 const User = model('User'); // get safely
 const User = model('User', schema); // get or register safely
 const random = model(schema); // register random model safely
+const User = model('User', schema, connection); // get or register safely
 ```
 
 ### `eachPath(schema: Schema, iteratee: Function)`
