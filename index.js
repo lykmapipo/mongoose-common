@@ -329,11 +329,13 @@ exports.disconnect = function disconnect(connection, done) {
  * @function clear
  * @name clear
  * @description Clear provided collection or all if none give
- * @param {String[]|String} modelNames name of models to clear
+ * @param {Connection} [connection] valid mongoose database connection. If not 
+ * provide default connection will be used. 
+ * @param {String[]|String|...String} modelNames name of models to clear
  * @param {Function} done a callback to invoke on success or failure
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.1.0
- * @version 0.1.0
+ * @version 0.2.0
  * @public
  * @example
  * clear(done);
@@ -346,14 +348,18 @@ exports.clear = function clear(...modelNames) {
   let _modelNames = [].concat(...modelNames);
 
   // obtain callback
+  let _connection = _.first(_.filter([..._modelNames], function (v) {
+    return isConnection(v);
+  }));
+  _connection = (_connection || mongoose.connection);
   const _done = _.last(_.filter([..._modelNames], _.isFunction));
 
   // collect actual model names
   _modelNames = _.filter([..._modelNames], _.isString);
 
-  // collect from mongoose.modelNames();
+  // collect from connection.modelNames();
   if (_.isEmpty(_modelNames)) {
-    _modelNames = [...modelNames].concat(mongoose.modelNames());
+    _modelNames = [...modelNames].concat(_connection.modelNames());
   }
 
   // compact and ensure unique model names
@@ -361,10 +367,10 @@ exports.clear = function clear(...modelNames) {
 
   // map modelNames to deleteMany
   const connected =
-    (mongoose.connection && mongoose.connection.readyState === 1);
+    (_connection && _connection.readyState === 1);
   let deletes = _.map([..._modelNames], function (modelName) {
     // obtain model
-    const Model = exports.model(modelName);
+    const Model = exports.model(modelName, _connection);
     // prepare cleaner
     if (connected && Model && Model.deleteMany) {
       return function clear(next) {
@@ -416,13 +422,13 @@ exports.drop = function drop(connection, done) {
       }
       // disconnect 
       else {
-        exports.disconnect(connection, _done);
+        exports.disconnect(_connection, _done);
       }
     });
   }
   // continue to disconnect
   else {
-    exports.disconnect(connection, _done);
+    exports.disconnect(_connection, _done);
   }
 
 };
@@ -455,8 +461,9 @@ exports.model = function model(modelName, schema, connection) {
   const _schema = (isSchema(modelName) ? modelName : schema);
 
   // ensure connection or use default connection
-  const _connection =
-    (isConnection(connection) ? connection : mongoose.connection);
+  let _connection = (isConnection(modelName) ? modelName : schema);
+  _connection = (isConnection(_connection) ? _connection : connection);
+  _connection = (isConnection(_connection) ? _connection : mongoose.connection);
 
   // check if modelName already registered
   const modelExists = _.includes(_connection.modelNames(), _modelName);

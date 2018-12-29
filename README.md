@@ -46,8 +46,8 @@ Example:
 connect((error) => { ... });
 ```
 
-### `clear([...modelNames: String], done: Function)`
-Clear data of specified `modelNames`. If none provided all models will be cleared.
+### `clear([connection:Connection], [...modelNames: String], done: Function)`
+Clear data of specified `modelNames`. If none provided all models will be cleared. If `connection` not provided default mongoose connection will be used.
 
 Example
 ```js
