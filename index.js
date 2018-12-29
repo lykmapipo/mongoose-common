@@ -32,6 +32,7 @@
 
 /* dependencies */
 const _ = require('lodash');
+const { getString } = require('@lykmapipo/env');
 const { waterfall } = require('async');
 const { include } = require('@lykmapipo/include');
 const mongoose = require('mongoose-valid8');
@@ -225,11 +226,12 @@ exports.copyInstance = function copyInstance(value) {
  * @name connect
  * @description Opens the default mongoose connection
  * @param {String} [url] valid mongodb conenction string. if not provided it 
- * will be obtained from process.env.MONGODB_URI
+ * will be obtained from process.env.MONGODB_URI or package name prefixed with 
+ * current execution environment name
  * @param {Function} done a callback to invoke on success or failure
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.1.0
- * @version 0.1.0
+ * @version 0.2.0
  * @public
  * @example
  * connect(done);
@@ -237,8 +239,14 @@ exports.copyInstance = function copyInstance(value) {
  */
 exports.connect = function connect(url, done) {
 
-  // ensure test database
-  const MONGODB_URI = process.env.MONGODB_URI;
+  // ensure database name
+  const NODE_ENV = getString('NODE_ENV', 'development');
+  let DB_NAME = _.get(include('@cwd/package.json'), 'name', NODE_ENV);
+  DB_NAME = _.toLower(_.last(_.split(DB_NAME, '/')));
+  DB_NAME = ((DB_NAME === NODE_ENV) ? DB_NAME : `${DB_NAME} ${NODE_ENV}`);
+  DB_NAME = _.kebabCase(DB_NAME);
+  DB_NAME = `mongodb://localhost/${DB_NAME}`;
+  const MONGODB_URI = getString('MONGODB_URI', DB_NAME);
 
   // normalize arguments
   const _url = _.isFunction(url) ? MONGODB_URI : url;
