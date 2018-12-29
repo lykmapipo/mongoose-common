@@ -310,8 +310,18 @@ exports.connect = function connect(url, done) {
  * @example
  * disconnect(done);
  */
-exports.disconnect = function disconnect(done) {
-  mongoose.disconnect(done);
+exports.disconnect = function disconnect(connection, done) {
+  // normalize arguments
+  const _connection =
+    (isConnection(connection) ? connection : undefined);
+  const _done = (!isConnection(connection) ? connection : done);
+
+  // disconnect
+  if (_connection) {
+    _connection.close(_done);
+  } else {
+    mongoose.disconnect(_done);
+  }
 };
 
 
@@ -379,10 +389,12 @@ exports.clear = function clear(...modelNames) {
  * @name drop
  * @description Deletes the given database, including all collections, 
  * documents, and indexes
+ * @param {Connection} [connection] valid mongoose database connection. If not 
+ * provide default connection will be used. 
  * @param {Function} done a callback to invoke on success or failure
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.1.0
- * @version 0.1.0
+ * @version 0.2.0
  * @public
  * @example
  * drop(done);
@@ -391,7 +403,7 @@ exports.drop = function drop(connection, done) {
   // normalize arguments
   const _connection =
     (isConnection(connection) ? connection : mongoose.connection);
-  const _done = !isConnection(connection) ? connection : done;
+  const _done = (!isConnection(connection) ? connection : done);
 
   // drop database if connection available
   let canDrop = (_connection && _connection.readyState === 1);
@@ -404,13 +416,13 @@ exports.drop = function drop(connection, done) {
       }
       // disconnect 
       else {
-        exports.disconnect(_done);
+        exports.disconnect(connection, _done);
       }
     });
   }
   // continue to disconnect
   else {
-    exports.disconnect(_done);
+    exports.disconnect(connection, _done);
   }
 
 };

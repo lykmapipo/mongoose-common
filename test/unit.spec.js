@@ -183,7 +183,7 @@ describe('mongoose common', () => {
     expect(disconnect).to.exist;
     expect(disconnect).to.be.a('function');
     expect(disconnect.name).to.be.equal('disconnect');
-    expect(disconnect.length).to.be.equal(1);
+    expect(disconnect.length).to.be.equal(2);
   });
 
   it('should be able to clear', () => {

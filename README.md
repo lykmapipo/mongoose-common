@@ -65,12 +65,13 @@ drop((error) => { ... });
 drop(connection, (error) => { ... });
 ```
 
-### `disconnect(done: Function)`
-Close all connection used in test
+### `disconnect([connection: Connection], done: Function)`
+Close all connections or provided connection
 
 Example
 ```js
-disconnect((error) => { ... });
+disconnect((error) => { ... }); //close all
+disconnect(connection, (error) => { ... }); //close provided
 ```
 
 ### `model([name: String], [schema: Schema], [connection: Connection])`
