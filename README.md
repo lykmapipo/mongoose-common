@@ -56,12 +56,13 @@ clear('User', (error) => { ... });
 clear('User', 'Profile', (error) => { ... });
 ```
 
-### `drop(done: Function)`
-Deletes the test database, including all collections, documents, and indexes.
+### `drop([connection: Connection], done: Function)`
+Deletes the test database, including all collections, documents, and indexes. If `connection` not provided default mongoose connection will be used.
 
 Example
 ```js
 drop((error) => { ... });
+drop(connection, (error) => { ... });
 ```
 
 ### `disconnect(done: Function)`

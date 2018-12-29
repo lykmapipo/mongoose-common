@@ -36,10 +36,16 @@ const { getString } = require('@lykmapipo/env');
 const { waterfall } = require('async');
 const { include } = require('@lykmapipo/include');
 const mongoose = require('mongoose-valid8');
-const Schema = mongoose.Schema;
+const { Schema, Connection } = mongoose;
 
 
-// set global mongoose promise
+/* local helpers */
+function isConnection(conn) { return conn instanceof Connection; }
+
+function isSchema(schema) { return schema instanceof Schema; }
+
+
+/* set global mongoose promise */
 mongoose.Promise = global.Promise;
 
 
@@ -85,6 +91,7 @@ exports.CastError = mongoose.CastError;
 exports.STATES = mongoose.STATES;
 exports.modelNames = mongoose.modelNames;
 exports.GridFSBucket = mongoose.mongo.GridFSBucket;
+exports.Connection = Connection;
 
 
 /* schema types shortcuts*/
@@ -137,9 +144,39 @@ exports.SUB_SCHEMA_OPTIONS = ({
 
 
 /**
+ * @function isConnection
+ * @name isConnection
+ * @description Check if provided value is an instance of mongoose connection
+ * @param {Mixed} val value to check if its a Connection
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.6.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * const _isConnection = isConnection(conn);
+ */
+exports.isConnection = isConnection;
+
+
+/**
+ * @function isSchema
+ * @name isSchema
+ * @description Check if provided value is an instance of mongoose schema
+ * @param {Mixed} val value to check if its a Schema
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.6.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * const _isSchema = isSchema(conn);
+ */
+exports.isSchema = isSchema;
+
+
+/**
  * @function isObjectId
  * @name isObjectId
- * @description Check if provided value is an instance ObjectId
+ * @description Check if provided value is an instance of ObjectId
  * @param {Mixed} val value to check if its an ObjectId
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.2.0
@@ -157,7 +194,7 @@ exports.isObjectId = function isObjectId(val) {
 /**
  * @function isMap
  * @name isMap
- * @description Check if provided value is an instance Map
+ * @description Check if provided value is an instance of Map
  * @param {Mixed} val value to check if its a Map
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.2.0
@@ -350,27 +387,30 @@ exports.clear = function clear(...modelNames) {
  * @example
  * drop(done);
  */
-exports.drop = function drop(done) {
+exports.drop = function drop(connection, done) {
+  // normalize arguments
+  const _connection =
+    (isConnection(connection) ? connection : mongoose.connection);
+  const _done = !isConnection(connection) ? connection : done;
 
   // drop database if connection available
-  const canDrop =
-    (mongoose.connection && mongoose.connection.readyState === 1);
-  if (canDrop && mongoose.connection.dropDatabase) {
-    mongoose.connection.dropDatabase(function afterDropDatabase(error) {
+  let canDrop = (_connection && _connection.readyState === 1);
+  canDrop = (canDrop && _connection.dropDatabase);
+  if (canDrop) {
+    _connection.dropDatabase(function afterDropDatabase(error) {
       // back-off on error
       if (error) {
-        done(error);
+        _done(error);
       }
       // disconnect 
       else {
-        exports.disconnect(done);
+        exports.disconnect(_done);
       }
     });
   }
-  // continue
+  // continue to disconnect
   else {
-    // disconnect
-    exports.disconnect(done);
+    exports.disconnect(_done);
   }
 
 };
@@ -393,16 +433,18 @@ exports.drop = function drop(done) {
  * const User = model('User', Schema);
  */
 exports.model = function model(modelName, schema, connection) {
+  // normalize arguments
 
   // obtain modelName or obtain random name
   let _modelName = new mongoose.Types.ObjectId().toString();
   _modelName = (_.isString(modelName) ? modelName : _modelName);
 
-  // ensure connection or use default connection
-  const _connection = (connection || mongoose.connection);
-
   // obtain schema
-  const _schema = ((modelName instanceof Schema) ? modelName : schema);
+  const _schema = (isSchema(modelName) ? modelName : schema);
+
+  // ensure connection or use default connection
+  const _connection =
+    (isConnection(connection) ? connection : mongoose.connection);
 
   // check if modelName already registered
   const modelExists = _.includes(_connection.modelNames(), _modelName);

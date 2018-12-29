@@ -234,7 +234,7 @@ describe('mongoose common', () => {
     expect(drop).to.exist;
     expect(drop).to.be.a('function');
     expect(drop.name).to.be.equal('drop');
-    expect(drop.length).to.be.equal(1);
+    expect(drop.length).to.be.equal(2);
   });
 
   it('should be able to connect on given url', (done) => {
