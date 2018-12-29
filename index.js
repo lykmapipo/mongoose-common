@@ -32,8 +32,8 @@
 
 /* dependencies */
 const _ = require('lodash');
-const { getString } = require('@lykmapipo/env');
 const { waterfall } = require('async');
+const { getString } = require('@lykmapipo/env');
 const { include } = require('@lykmapipo/include');
 const mongoose = require('mongoose-valid8');
 const { Schema, Connection } = mongoose;
