@@ -380,32 +380,39 @@ exports.drop = function drop(done) {
  * @function model
  * @name model
  * @description Try obtain already registered or register new model safely.
+ * @param {String} [modelName] valid model name
+ * @param {Schema} [schema] valid mongoose schema instance
+ * @param {Connection} [connection] valid mongoose database connection. If not 
+ * provide default connection will be used.
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.1.0
- * @version 0.1.0
+ * @version 0.2.0
  * @public
  * @example
  * const User = model('User');
  * const User = model('User', Schema);
  */
-exports.model = function model(modelName, schema) {
+exports.model = function model(modelName, schema, connection) {
 
   // obtain modelName or obtain random name
   let _modelName = new mongoose.Types.ObjectId().toString();
   _modelName = (_.isString(modelName) ? modelName : _modelName);
 
+  // ensure connection or use default connection
+  const _connection = (connection || mongoose.connection);
+
   // obtain schema
   const _schema = ((modelName instanceof Schema) ? modelName : schema);
 
   // check if modelName already registered
-  const modelExists = _.includes(mongoose.modelNames(), _modelName);
+  const modelExists = _.includes(_connection.modelNames(), _modelName);
 
   // try obtain model or new register model
   try {
     const Model = (
       modelExists ?
-      mongoose.model(_modelName) :
-      mongoose.model(_modelName, _schema)
+      _connection.model(_modelName) :
+      _connection.model(_modelName, _schema)
     );
     return Model;
   }

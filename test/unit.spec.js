@@ -197,7 +197,7 @@ describe('mongoose common', () => {
     expect(model).to.exist;
     expect(model).to.be.a('function');
     expect(model.name).to.be.equal('model');
-    expect(model.length).to.be.equal(2);
+    expect(model.length).to.be.equal(3);
   });
 
   it('should be able to register model', () => {
