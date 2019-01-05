@@ -135,6 +135,30 @@ Example
 const copyOfInstance = copyInstance(value);
 ```
 
+### `isSchema(value: Any)`
+Check if provided value is an mongoose schema instance
+
+Example
+```js
+const _isSchema = isSchema(value);
+```
+
+### `isConnection(value: Any)`
+Check if provided value is an mongoose connection instance
+
+Example
+```js
+const _isConnection = isConnection(value);
+```
+
+### `isConnected(connection: Connection)`
+Check state of provided mongoose connection if is `connected`.
+
+Example:
+```js
+const connected = isConnected(conn);
+```
+
 
 ## Testing
 * Clone this repository
