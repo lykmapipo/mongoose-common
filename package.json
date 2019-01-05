@@ -1,6 +1,6 @@
 {
   "name": "@lykmapipo/mongoose-common",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Re-usable helpers for mongoose",
   "keywords": [
     "lykmapipo",
@@ -48,10 +48,10 @@
     "grunt-mocha-test": "^0.13.3",
     "jshint-stylish": "^2.2.1",
     "mocha": "^5.2.0",
-    "mongoose": ">=5.4.1"
+    "mongoose": ">=5.4.2"
   },
   "peerDependencies": {
-    "mongoose": ">=5.4.1"
+    "mongoose": ">=5.4.2"
   },
   "dependencies": {
     "@lykmapipo/env": ">=0.3.3",

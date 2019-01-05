@@ -44,6 +44,11 @@ function isConnection(conn) { return conn instanceof Connection; }
 
 function isSchema(schema) { return schema instanceof Schema; }
 
+function isConnected(conn) {
+  return (isConnection(conn) && (conn.readyState === 1));
+}
+
+
 
 /* set global mongoose promise */
 mongoose.Promise = global.Promise;
@@ -159,6 +164,21 @@ exports.isConnection = isConnection;
 
 
 /**
+ * @function isConnected
+ * @name isConnected
+ * @description Check if provided mongoose connection is connected
+ * @param {Connection} val valid mongoose connection to check it state
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.6.1
+ * @version 0.1.0
+ * @public
+ * @example
+ * const _isConnected = isConnected(conn);
+ */
+exports.isConnected = isConnected;
+
+
+/**
  * @function isSchema
  * @name isSchema
  * @description Check if provided value is an instance of mongoose schema
@@ -256,6 +276,11 @@ exports.copyInstance = function copyInstance(value) {
   }
   return {};
 };
+
+
+// TODO return default connection
+// TODO return created connection
+// TODO create new connection
 
 
 /**
@@ -366,8 +391,7 @@ exports.clear = function clear(...modelNames) {
   _modelNames = _.uniq(_.compact([..._modelNames]));
 
   // map modelNames to deleteMany
-  const connected =
-    (_connection && _connection.readyState === 1);
+  const connected = isConnected(_connection);
   let deletes = _.map([..._modelNames], function (modelName) {
     // obtain model
     const Model = exports.model(modelName, _connection);
@@ -412,7 +436,7 @@ exports.drop = function drop(connection, done) {
   const _done = (!isConnection(connection) ? connection : done);
 
   // drop database if connection available
-  let canDrop = (_connection && _connection.readyState === 1);
+  let canDrop = isConnected(_connection);
   canDrop = (canDrop && _connection.dropDatabase);
   if (canDrop) {
     _connection.dropDatabase(function afterDropDatabase(error) {

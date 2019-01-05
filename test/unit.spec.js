@@ -16,6 +16,8 @@ const {
   Schema,
   SchemaTypes,
   MongooseTypes,
+  isConnection,
+  isConnected,
   isObjectId,
   isMap,
   isInstance,
@@ -107,6 +109,15 @@ describe('mongoose common', () => {
       timestamps: false,
       emitIndexErrors: true
     });
+  });
+
+  it('should be able to check if value is a Connection', () => {
+    expect(isConnection).to.exist;
+    expect(isConnection).to.be.a('function');
+    expect(isConnection).to.have.length(1);
+
+    let val = '12345';
+    expect(isConnection(val)).to.be.false;
   });
 
   it('should be able to check if value is an ObjectId', () => {
@@ -241,6 +252,8 @@ describe('mongoose common', () => {
     connect(MONGODB_URI, (error, instance) => {
       expect(error).to.not.exist;
       expect(instance).to.exist;
+      expect(isConnection(instance)).to.be.true;
+      expect(isConnected(instance)).to.be.true;
       expect(instance.readyState).to.be.equal(1);
       expect(instance.name).to.be.equal('mongoose-common');
       done(error, instance);
@@ -252,6 +265,8 @@ describe('mongoose common', () => {
     connect((error, instance) => {
       expect(error).to.not.exist;
       expect(instance).to.exist;
+      expect(isConnection(instance)).to.be.true;
+      expect(isConnected(instance)).to.be.true;
       expect(instance.readyState).to.be.equal(1);
       expect(instance.name).to.be.equal('mongoose-common');
       delete process.env.MONGODB_URI;
