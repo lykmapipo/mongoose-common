@@ -18,6 +18,7 @@ const {
   MongooseTypes,
   isConnection,
   isConnected,
+  toCollectionName,
   isObjectId,
   isMap,
   isInstance,
@@ -109,6 +110,18 @@ describe('mongoose common', () => {
       timestamps: false,
       emitIndexErrors: true
     });
+  });
+
+  it('should be able to provide collection name from model name', () => {
+    expect(toCollectionName).to.exist;
+    expect(toCollectionName).to.be.a('function');
+    expect(toCollectionName).to.have.length(1);
+
+    expect(toCollectionName('User')).to.be.equal('users');
+    expect(toCollectionName('File')).to.be.equal('files');
+    expect(toCollectionName('fs')).to.be.equal('fs');
+    expect(toCollectionName('country')).to.be.equal('countries');
+    expect(toCollectionName('Person')).to.be.equal('people');
   });
 
   it('should be able to check if value is a Connection', () => {

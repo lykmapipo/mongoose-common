@@ -159,6 +159,14 @@ Example:
 const connected = isConnected(conn);
 ```
 
+### `toCollectionName(modelName: String)`
+Produces a collection name of provided model name.
+
+Example:
+```js
+const collectionName = toCollectionName('User'); // => users
+```
+
 
 ## Testing
 * Clone this repository

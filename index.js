@@ -194,6 +194,26 @@ exports.isSchema = isSchema;
 
 
 /**
+ * @function toCollectionName
+ * @name toCollectionName
+ * @description Produces a collection name of provided model name
+ * @param {String} modelName a model name
+ * @return {String} a collection name
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.8.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * const collectionName = toCollectionName('User'); // => users
+ */
+exports.toCollectionName = function toCollectionName(modelName) {
+  const collectionName =
+    (!_.isEmpty(modelName) ? mongoose.pluralize()(modelName) : modelName);
+  return collectionName;
+};
+
+
+/**
  * @function isObjectId
  * @name isObjectId
  * @description Check if provided value is an instance of ObjectId
