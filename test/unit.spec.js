@@ -28,7 +28,8 @@ const {
   clear,
   drop,
   model,
-  eachPath
+  eachPath,
+  jsonSchema
 } = MongooseCommon;
 
 
@@ -431,6 +432,24 @@ describe('mongoose common', () => {
     expect(jsonSchema).to.exist;
     expect(jsonSchema).to.be.eql({
       title: User.modelName,
+      type: 'object',
+      properties: {
+        name: { type: 'string' },
+        _id: { type: 'string', pattern: '^[0-9a-fA-F]{24}$' },
+        __v: { type: 'number' }
+      }
+    });
+  });
+
+  it('should able to get connection models jsonschema', () => {
+    const schema = new Schema({ name: String });
+    const Task = model('Task', schema);
+
+    const jsonSchemas = jsonSchema();
+    expect(jsonSchemas).to.exist;
+    expect(jsonSchemas).to.be.an('object');
+    expect(jsonSchemas.Task).to.be.eql({
+      title: Task.modelName,
       type: 'object',
       properties: {
         name: { type: 'string' },

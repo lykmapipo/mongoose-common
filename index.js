@@ -581,3 +581,34 @@ exports.eachPath = function eachPath(schema, iteratee) {
   });
 
 };
+
+
+/**
+ * @function jsonSchema
+ * @name jsonSchema
+ * @description Produces valid json schema of all available models
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.8.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * const jsonSchema = jsonSchema(); 
+ *   // => {"user": {title: "User", type: "object", properties: {..} } }
+ */
+exports.jsonSchema = function jsonSchema() {
+  // initialize schemas dictionary
+  let schemas = {};
+  // get model names
+  const modelNames = mongoose.modelNames();
+  // loop model names to get schemas
+  _.forEach(modelNames, function getJsonSchema(modelName) {
+    // get model
+    const Model = exports.model(modelName);
+    // collect model json schema
+    if (Model && _.isFunction(Model.jsonSchema)) {
+      schemas[modelName] = Model.jsonSchema();
+    }
+  });
+  //return available schemas
+  return schemas;
+};
