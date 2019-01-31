@@ -94,7 +94,7 @@ exports.Types = exports.MongooseTypes = mongoose.Types;
 exports.Error = exports.MongooseError = mongoose.Error;
 exports.CastError = mongoose.CastError;
 exports.STATES = mongoose.STATES;
-exports.modelNames = mongoose.modelNames;
+exports.modelNames = () => mongoose.modelNames();
 exports.GridFSBucket = mongoose.mongo.GridFSBucket;
 exports.Connection = Connection;
 

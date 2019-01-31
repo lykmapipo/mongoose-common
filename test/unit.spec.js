@@ -29,7 +29,8 @@ const {
   drop,
   model,
   eachPath,
-  jsonSchema
+  jsonSchema,
+  modelNames
 } = MongooseCommon;
 
 
@@ -195,6 +196,15 @@ describe('mongoose common', () => {
 
     expect(copy).to.exist;
     expect(isInstance(copy)).to.be.false;
+  });
+
+  it('should be able get model names', () => {
+    model('Edge', new Schema({ name: String }));
+
+    expect(modelNames).to.exist;
+    expect(modelNames).to.be.a('function');
+    expect(modelNames).to.have.length(0);
+    expect(modelNames()).to.include('Edge');
   });
 
   it('should be able to connect', () => {
