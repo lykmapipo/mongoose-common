@@ -1,3 +1,9 @@
+#### 0.10.0 (2019-02-13)
+
+##### New Features
+
+*  add isString & isNumber to check for string and number schema types ([0159409b](https://github.com/lykmapipo/mongoose-common/commit/0159409bc30274e7b558d9459dba3fc9e0774a69))
+
 #### 0.9.2 (2019-02-13)
 
 ##### Chores
