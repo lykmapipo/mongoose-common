@@ -1,3 +1,9 @@
+#### 0.11.0 (2019-02-13)
+
+##### New Features
+
+*  add isStringArray & isNumberArray to string & number schema array ([43b91685](https://github.com/lykmapipo/mongoose-common/commit/43b91685ab64eaab45dd5299556611a2280a1ec7))
+
 #### 0.10.0 (2019-02-13)
 
 ##### New Features
