@@ -21,6 +21,8 @@ const {
   toCollectionName,
   isObjectId,
   isMap,
+  isString,
+  isNumber,
   isInstance,
   copyInstance,
   connect,
@@ -157,6 +159,34 @@ describe('mongoose common', () => {
 
     val = new MongooseTypes.Map();
     expect(isMap(val)).to.be.true;
+  });
+
+  it('should be able to check if value is a string schema type', () => {
+    expect(isString).to.exist;
+    expect(isString).to.be.a('function');
+    expect(isString).to.have.length(1);
+
+    const schema =
+      new Schema({ name: { type: String }, age: { type: Number } });
+    let val = schema.path('age');
+    expect(isString(val)).to.be.false;
+
+    val = schema.path('name');
+    expect(isString(val)).to.be.true;
+  });
+
+  it('should be able to check if value is a number schema type', () => {
+    expect(isNumber).to.exist;
+    expect(isNumber).to.be.a('function');
+    expect(isNumber).to.have.length(1);
+
+    const schema =
+      new Schema({ name: { type: String }, age: { type: Number } });
+    let val = schema.path('name');
+    expect(isNumber(val)).to.be.false;
+
+    val = schema.path('age');
+    expect(isNumber(val)).to.be.true;
   });
 
   it('should be able to check if value is a model instance', () => {

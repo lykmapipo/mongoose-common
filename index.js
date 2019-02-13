@@ -250,6 +250,42 @@ exports.isMap = function isMap(val) {
 
 
 /**
+ * @function isString
+ * @name isString
+ * @description Check if provided value is an instance of String schema type
+ * @param {Mixed} val value to check if its a String schema type
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.10.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * const _isString = isString(<val>);
+ */
+exports.isString = function isString(val) {
+  const _isString = (val instanceof Schema.Types.String);
+  return _isString;
+};
+
+
+/**
+ * @function isNumber
+ * @name isNumber
+ * @description Check if provided value is an instance of Number schema type
+ * @param {Mixed} val value to check if its a Number schema type
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.10.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * const _isNumber = isNumber(<val>);
+ */
+exports.isNumber = function isNumber(val) {
+  const _isNumber = (val instanceof Schema.Types.Number);
+  return _isNumber;
+};
+
+
+/**
  * @function isInstance
  * @name isInstance
  * @description check if object is valid mongoose model instance
