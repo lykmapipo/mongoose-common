@@ -1,3 +1,9 @@
+#### 0.9.2 (2019-02-13)
+
+##### Chores
+
+*  force latest dependencies ([b230b0f6](https://github.com/lykmapipo/mongoose-common/commit/b230b0f614977e02477a01fecf7f6ab0f052d4a2))
+
 #### 0.9.1 (2019-01-31)
 
 ##### Refactors
