@@ -268,6 +268,29 @@ exports.isString = function isString(val) {
 
 
 /**
+ * @function isStringArray
+ * @name isStringArray
+ * @description Check if provided value is an instance of StringArray 
+ * schema type
+ * @param {Mixed} val value to check if its a StringArray schema type
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.11.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * const _isStringArray = isStringArray(<val>);
+ */
+exports.isStringArray = function isStringArray(val) {
+  const _isStringArray = (
+    val &&
+    (val instanceof Schema.Types.Array) &&
+    (val.caster instanceof Schema.Types.String)
+  );
+  return _isStringArray;
+};
+
+
+/**
  * @function isNumber
  * @name isNumber
  * @description Check if provided value is an instance of Number schema type
@@ -282,6 +305,29 @@ exports.isString = function isString(val) {
 exports.isNumber = function isNumber(val) {
   const _isNumber = (val instanceof Schema.Types.Number);
   return _isNumber;
+};
+
+
+/**
+ * @function isNumberArray
+ * @name isNumberArray
+ * @description Check if provided value is an instance of NumberArray 
+ * schema type
+ * @param {Mixed} val value to check if its a NumberArray schema type
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.11.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * const _isNumberArray = isNumberArray(<val>);
+ */
+exports.isNumberArray = function isNumberArray(val) {
+  const _isNumberArray = (
+    val &&
+    (val instanceof Schema.Types.Array) &&
+    (val.caster instanceof Schema.Types.Number)
+  );
+  return _isNumberArray;
 };
 
 

@@ -22,7 +22,9 @@ const {
   isObjectId,
   isMap,
   isString,
+  isStringArray,
   isNumber,
+  isNumberArray,
   isInstance,
   copyInstance,
   connect,
@@ -58,7 +60,7 @@ describe('mongoose common', () => {
     expect(MongooseCommon.GridFSBucket).to.exist;
   });
 
-  it('should schema types expose shortcuts', () => {
+  it('should expose schema types shortcuts', () => {
     expect(MongooseCommon.String).to.exist;
     expect(MongooseCommon.SchemaString).to.exist;
 
@@ -116,7 +118,7 @@ describe('mongoose common', () => {
     });
   });
 
-  it('should be able to provide collection name from model name', () => {
+  it('should provide collection name from model name', () => {
     expect(toCollectionName).to.exist;
     expect(toCollectionName).to.be.a('function');
     expect(toCollectionName).to.have.length(1);
@@ -128,7 +130,7 @@ describe('mongoose common', () => {
     expect(toCollectionName('Person')).to.be.equal('people');
   });
 
-  it('should be able to check if value is a Connection', () => {
+  it('should check if value is a Connection', () => {
     expect(isConnection).to.exist;
     expect(isConnection).to.be.a('function');
     expect(isConnection).to.have.length(1);
@@ -137,7 +139,7 @@ describe('mongoose common', () => {
     expect(isConnection(val)).to.be.false;
   });
 
-  it('should be able to check if value is an ObjectId', () => {
+  it('should check if value is an ObjectId', () => {
     expect(isObjectId).to.exist;
     expect(isObjectId).to.be.a('function');
     expect(isObjectId).to.have.length(1);
@@ -149,7 +151,7 @@ describe('mongoose common', () => {
     expect(isObjectId(val)).to.be.true;
   });
 
-  it('should be able to check if value is a Map', () => {
+  it('should check if value is a Map', () => {
     expect(isMap).to.exist;
     expect(isMap).to.be.a('function');
     expect(isMap).to.have.length(1);
@@ -161,7 +163,7 @@ describe('mongoose common', () => {
     expect(isMap(val)).to.be.true;
   });
 
-  it('should be able to check if value is a string schema type', () => {
+  it('should check if value is a string schema type', () => {
     expect(isString).to.exist;
     expect(isString).to.be.a('function');
     expect(isString).to.have.length(1);
@@ -175,7 +177,27 @@ describe('mongoose common', () => {
     expect(isString(val)).to.be.true;
   });
 
-  it('should be able to check if value is a number schema type', () => {
+  it('should check if value is a string array schema type', () => {
+    expect(isStringArray).to.exist;
+    expect(isStringArray).to.be.a('function');
+    expect(isStringArray).to.have.length(1);
+
+    const schema = new Schema({
+      name: { type: [String] },
+      tags: [String],
+      levels: { type: [Number] }
+    });
+    let val = isStringArray(schema.path('name'));
+    expect(val).to.be.true;
+
+    val = isStringArray(schema.path('tags'));
+    expect(val).to.be.true;
+
+    val = isStringArray(schema.path('levels'));
+    expect(val).to.be.false;
+  });
+
+  it('should check if value is a number schema type', () => {
     expect(isNumber).to.exist;
     expect(isNumber).to.be.a('function');
     expect(isNumber).to.have.length(1);
@@ -189,7 +211,27 @@ describe('mongoose common', () => {
     expect(isNumber(val)).to.be.true;
   });
 
-  it('should be able to check if value is a model instance', () => {
+  it('should check if value is a number array schema type', () => {
+    expect(isNumberArray).to.exist;
+    expect(isNumberArray).to.be.a('function');
+    expect(isNumberArray).to.have.length(1);
+
+    const schema = new Schema({
+      name: { type: [String] },
+      stages: [Number],
+      levels: { type: [Number] }
+    });
+    let val = isNumberArray(schema.path('stages'));
+    expect(val).to.be.true;
+
+    val = isNumberArray(schema.path('levels'));
+    expect(val).to.be.true;
+
+    val = isNumberArray(schema.path('name'));
+    expect(val).to.be.false;
+  });
+
+  it('should check if value is a model instance', () => {
     const User = model(new Schema({ name: String }));
     const user = new User();
 
@@ -201,7 +243,7 @@ describe('mongoose common', () => {
     expect(isInstance(user)).to.be.true;
   });
 
-  it('should be able to check if value is a model instance', () => {
+  it('should check if value is a model instance', () => {
     const User = model(new Schema({ tags: [String] }));
     const user = new User();
 
@@ -214,7 +256,7 @@ describe('mongoose common', () => {
     expect(isInstance(user.tags)).to.false;
   });
 
-  it('should be able to copy model instance to plain object', () => {
+  it('should copy model instance to plain object', () => {
     const User = model(new Schema({ name: String }));
     const user = new User();
 
@@ -271,24 +313,24 @@ describe('mongoose common', () => {
     expect(User.modelName).to.be.equal('User');
   });
 
-  it('should be able to return already registered model', () => {
+  it('should return already registered model', () => {
     const User = model('User');
     expect(User).to.exist;
     expect(User.modelName).to.be.equal('User');
   });
 
-  it('should be able to return already registered model', () => {
+  it('should return already registered model', () => {
     const User = model('User', new Schema({ name: String }));
     expect(User).to.exist;
     expect(User.modelName).to.be.equal('User');
   });
 
-  it('should be able to get no existing model silent', () => {
+  it('should get non existing model silent', () => {
     const Profile = model('Profile');
     expect(Profile).to.not.exist;
   });
 
-  it('should be able to register random model', () => {
+  it('should register a random model', () => {
     const User = model(new Schema({ name: String }));
     expect(User).to.exist;
     expect(User.modelName).to.exist;
