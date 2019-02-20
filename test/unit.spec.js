@@ -17,6 +17,7 @@ const {
   SchemaTypes,
   MongooseTypes,
   isConnection,
+  isQuery,
   isConnected,
   toCollectionName,
   isObjectId,
@@ -137,6 +138,16 @@ describe('mongoose common', () => {
 
     let val = '12345';
     expect(isConnection(val)).to.be.false;
+  });
+
+  it('should check if value is a Query', () => {
+    expect(isQuery).to.exist;
+    expect(isQuery).to.be.a('function');
+    expect(isQuery).to.have.length(1);
+
+    let val = model(new Schema({ name: String })).find();
+    expect(isQuery(val)).to.be.true;
+    expect(isQuery('124')).to.be.false;
   });
 
   it('should check if value is an ObjectId', () => {
