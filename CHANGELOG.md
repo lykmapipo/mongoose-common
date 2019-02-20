@@ -1,3 +1,9 @@
+#### 0.12.0 (2019-02-20)
+
+##### New Features
+
+*  add isQuery to check if value is query instance ([785d312c](https://github.com/lykmapipo/mongoose-common/commit/785d312cb9914ee45ebd0875830d032e51138d0f))
+
 #### 0.11.0 (2019-02-13)
 
 ##### New Features
