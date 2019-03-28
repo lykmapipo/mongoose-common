@@ -1,3 +1,13 @@
+#### 0.13.0 (2019-03-28)
+
+##### Chores
+
+*  force latest dependencies ([cb7ae2df](https://github.com/lykmapipo/mongoose-common/commit/cb7ae2df8eaae683011e6d2bda2522c39994a685))
+
+##### New Features
+
+*  expose common aggregation lookup fields ([38ed8880](https://github.com/lykmapipo/mongoose-common/commit/38ed88805c5e3f43b6d1fdfa5717ade82643341e))
+
 #### 0.12.0 (2019-02-20)
 
 ##### New Features
