@@ -11,6 +11,7 @@ const { include } = require('@lykmapipo/include');
 const { expect } = require('chai');
 const MongooseCommon = include(__dirname, '..');
 const {
+  LOOKUP_FIELDS,
   SCHEMA_OPTIONS,
   SUB_SCHEMA_OPTIONS,
   Schema,
@@ -97,6 +98,15 @@ describe('mongoose common', () => {
 
     expect(MongooseCommon.Map).to.exist;
     expect(MongooseCommon.SchemaMap).to.exist;
+  });
+
+  it('should provide lookup fields options', () => {
+    expect(LOOKUP_FIELDS).to.exist;
+    expect(LOOKUP_FIELDS).to.be.an('array');
+    expect(LOOKUP_FIELDS).to.be.eql([
+      'from', 'localField',
+      'foreignField', 'as'
+    ]);
   });
 
   it('should provide default schema options', () => {

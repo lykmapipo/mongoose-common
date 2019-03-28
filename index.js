@@ -115,6 +115,18 @@ exports.Mixed = exports.SchemaMixed = Schema.Types.Mixed;
 exports.Decimal = exports.SchemaDecimal = Schema.Types.Decimal;
 exports.Map = exports.SchemaMap = Schema.Types.Map;
 
+/**
+ * @name LOOKUP_FIELDS
+ * @description Common lookup fields used in aggregation
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.13.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * const { LOOKUP_FIELDS } = require('@lykmapipo/mongoose-common'); 
+ */
+exports.LOOKUP_FIELDS = ['from', 'localField', 'foreignField', 'as'];
+
 
 /**
  * @name SCHEMA_OPTIONS
