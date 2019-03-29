@@ -1,3 +1,14 @@
+#### 0.16.0 (2019-03-29)
+
+##### New Features
+
+*  add shortcut to get collection name of model ([8a0f9ae9](https://github.com/lykmapipo/mongoose-common/commit/8a0f9ae9088402136007d3082cd5fc32988d0feb))
+*  add shortcut to check for array schema type ([6803ef0a](https://github.com/lykmapipo/mongoose-common/commit/6803ef0a2845b2a9edf1ef85b6160c2b3fdfbe96))
+
+##### Code Style Changes
+
+*  improve isArraySchemaType jsdocs ([9f1cc285](https://github.com/lykmapipo/mongoose-common/commit/9f1cc285b7b4503148d3912de9c62148cbd3882c))
+
 #### 0.15.0 (2019-03-29)
 
 ##### New Features
