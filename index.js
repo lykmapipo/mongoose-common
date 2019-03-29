@@ -304,9 +304,10 @@ exports.isString = function isString(val) {
  * @description check if schema type is array
  * @param {SchemaType} val valid mongoose schema type
  * @return {Boolean} whether schema type is array
+ * @author lally elias <lallyelias87@mail.com>
  * @since 0.16.0
  * @version 0.1.0
- * @private
+ * @public
  * @example
  * 
  * const isArray = isArraySchemaType(schemaType)
