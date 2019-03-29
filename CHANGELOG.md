@@ -1,3 +1,9 @@
+#### 0.15.0 (2019-03-29)
+
+##### New Features
+
+*  expose mongoose aggregation builder ([254d2fb4](https://github.com/lykmapipo/mongoose-common/commit/254d2fb49b70357c1fc7aca0565da7966c7965e1))
+
 #### 0.14.0 (2019-03-29)
 
 ##### New Features
