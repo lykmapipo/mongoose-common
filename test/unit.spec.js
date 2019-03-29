@@ -29,6 +29,7 @@ const {
   isNumberArray,
   isInstance,
   copyInstance,
+  schemaTypeOptionOf,
   connect,
   disconnect,
   clear,
@@ -289,6 +290,18 @@ describe('mongoose common', () => {
 
     expect(copy).to.exist;
     expect(isInstance(copy)).to.be.false;
+  });
+
+  it('should get schema type options', () => {
+    expect(schemaTypeOptionOf).to.exist;
+    expect(schemaTypeOptionOf).to.be.a('function');
+
+    const schema = new Schema({ name: { type: String, trim: true } });
+    const schemaType = schema.path('name');
+
+    const options = schemaTypeOptionOf(schemaType);
+    expect(options).to.exist;
+    expect(options.trim).to.be.true;
   });
 
   it('should be able get model names', () => {

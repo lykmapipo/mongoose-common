@@ -33,6 +33,7 @@
 /* dependencies */
 const _ = require('lodash');
 const { waterfall } = require('async');
+const { mergeObjects } = require('@lykmapipo/common');
 const { getString } = require('@lykmapipo/env');
 const { include } = require('@lykmapipo/include');
 const mongoose = require('mongoose-valid8');
@@ -406,6 +407,34 @@ exports.copyInstance = function copyInstance(value) {
     );
   }
   return {};
+};
+
+
+/**
+ * @function schemaTypeOptionOf
+ * @name schemaTypeOptionOf
+ * @description obtain schema type options
+ * @param {SchemaType} schemaType valid mongoose schema type
+ * @return {Object} schema type options
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.14.0
+ * @version 0.1.0
+ * @private
+ * @example
+ * 
+ * const options = schemaTypeOptionOf(schemaType)
+ * //=> { trim: true, ... }
+ */
+exports.schemaTypeOptionOf = (schemaType = {}) => {
+  // grab options
+  const options = mergeObjects(
+    // grub schema caster options
+    _.get(schemaType, 'caster.options'),
+    // grab direct schema options
+    _.get(schemaType, 'options')
+  );
+  // return options
+  return options;
 };
 
 
