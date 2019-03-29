@@ -100,6 +100,7 @@ exports.STATES = mongoose.STATES;
 exports.modelNames = () => mongoose.modelNames();
 exports.GridFSBucket = mongoose.mongo.GridFSBucket;
 exports.Connection = Connection;
+exports.Aggregate = mongoose.Aggregate;
 
 
 /* schema types shortcuts*/

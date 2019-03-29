@@ -61,6 +61,7 @@ describe('mongoose common', () => {
     expect(MongooseCommon.STATES).to.exist;
     expect(MongooseCommon.modelNames).to.exist;
     expect(MongooseCommon.GridFSBucket).to.exist;
+    expect(MongooseCommon.Aggregate).to.exist;
   });
 
   it('should expose schema types shortcuts', () => {
