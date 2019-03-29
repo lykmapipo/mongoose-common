@@ -24,6 +24,7 @@ const {
   isObjectId,
   isMap,
   isString,
+  isArraySchemaType,
   isStringArray,
   isNumber,
   isNumberArray,
@@ -198,6 +199,25 @@ describe('mongoose common', () => {
 
     val = schema.path('name');
     expect(isString(val)).to.be.true;
+  });
+
+  it('should check if value is array schema type', () => {
+    expect(isArraySchemaType).to.exist;
+    expect(isArraySchemaType).to.be.a('function');
+
+    const schema = new Schema({
+      tags: { type: [String] },
+      groups: [{ type: String }],
+      age: { type: Number }
+    });
+    let val = schema.path('age');
+    expect(isArraySchemaType(val)).to.be.false;
+
+    val = schema.path('tags');
+    expect(isArraySchemaType(val)).to.be.true;
+
+    val = schema.path('groups');
+    expect(isArraySchemaType(val)).to.be.true;
   });
 
   it('should check if value is a string array schema type', () => {

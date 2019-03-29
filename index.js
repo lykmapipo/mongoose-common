@@ -299,6 +299,31 @@ exports.isString = function isString(val) {
 
 
 /**
+ * @function isArraySchemaType
+ * @name isArraySchemaType
+ * @description check if schema type is array
+ * @param {SchemaType} val valid mongoose schema type
+ * @return {Boolean} whether schema type is array
+ * @since 0.16.0
+ * @version 0.1.0
+ * @private
+ * @example
+ * 
+ * const isArray = isArraySchemaType(schemaType)
+ * //=> true
+ */
+exports.isArraySchemaType = (val = {}) => {
+  const { $isMongooseArray = false, instance } = val;
+  const isArray = (
+    val instanceof Schema.Types.Array ||
+    $isMongooseArray ||
+    instance === 'Array'
+  );
+  return isArray;
+};
+
+
+/**
  * @function isStringArray
  * @name isStringArray
  * @description Check if provided value is an instance of StringArray 
