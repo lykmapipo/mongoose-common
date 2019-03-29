@@ -31,6 +31,7 @@ const {
   isInstance,
   copyInstance,
   schemaTypeOptionOf,
+  collectionNameOf,
   connect,
   disconnect,
   clear,
@@ -323,6 +324,15 @@ describe('mongoose common', () => {
     const options = schemaTypeOptionOf(schemaType);
     expect(options).to.exist;
     expect(options.trim).to.be.true;
+  });
+
+  it('should be able collection name of registered model', () => {
+    model('Edge', new Schema({ name: String }));
+    expect(collectionNameOf('Edge')).to.be.equal('edges');
+  });
+
+  it('should be able collection name of non registered model', () => {
+    expect(collectionNameOf('Pet')).to.be.equal('pets');
   });
 
   it('should be able get model names', () => {

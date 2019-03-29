@@ -465,6 +465,42 @@ exports.schemaTypeOptionOf = (schemaType = {}) => {
 };
 
 
+/**
+ * @function collectionNameOf
+ * @name collectionNameOf
+ * @description obtain collection name of provided model name
+ * @param {String} modelName valid model name
+ * @return {String} underlying collection of the model
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.16.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * 
+ * const collectionName = collectionNameOf('User');
+ * //=> 'users'
+ * 
+ */
+exports.collectionNameOf = modelName => {
+  // derive collection name from model
+  const Ref = exports.model(modelName);
+  let collectionName = (
+    _.get(Ref, 'collection.name') ||
+    _.get(Ref, 'collection.collectionName')
+  );
+
+  // derive collection from model name
+  collectionName = (
+    !_.isEmpty(collectionName) ?
+    collectionName :
+    exports.toCollectionName(modelName)
+  );
+
+  // return collection name
+  return collectionName;
+};
+
+
 // TODO return default connection
 // TODO return created connection
 // TODO create new connection
