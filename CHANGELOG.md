@@ -1,3 +1,9 @@
+#### 0.14.0 (2019-03-29)
+
+##### New Features
+
+*  add helper to get schema type options ([28fa8aed](https://github.com/lykmapipo/mongoose-common/commit/28fa8aedfd91741a9fb998ef711ceb8282df4f42))
+
 #### 0.13.0 (2019-03-28)
 
 ##### Chores
