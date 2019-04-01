@@ -1,3 +1,9 @@
+#### 0.16.1 (2019-04-01)
+
+##### Chores
+
+*  force latest dependencies ([cbae9d9d](https://github.com/lykmapipo/mongoose-common/commit/cbae9d9db58f1ec2be647a9efb7f4d0e688ee050))
+
 #### 0.16.0 (2019-03-29)
 
 ##### New Features
