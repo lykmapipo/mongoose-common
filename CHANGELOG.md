@@ -1,3 +1,13 @@
+#### 0.16.2 (2019-04-16)
+
+##### Chores
+
+*  force latest dependencies ([44abc966](https://github.com/lykmapipo/mongoose-common/commit/44abc966db7495b5fe06a94a8ebeefdd87e262dc))
+
+##### Documentation Changes
+
+*  add code of conduct & contributing guide ([8ec442f8](https://github.com/lykmapipo/mongoose-common/commit/8ec442f8f8cde1c8f3f6e1d919b87a36f4514647))
+
 #### 0.16.1 (2019-04-01)
 
 ##### Chores
