@@ -454,6 +454,14 @@ describe('mongoose common', () => {
     });
   });
 
+  it('should be able to clear provided models', (done) => {
+    const User = model('User', new Schema({ name: String }));
+    clear(User, (error) => {
+      expect(error).to.not.exist;
+      done(error);
+    });
+  });
+
   it('should be able to clear models', (done) => {
     clear((error) => {
       expect(error).to.not.exist;

@@ -620,7 +620,9 @@ exports.clear = function clear(...modelNames) {
   const _done = _.last(_.filter([..._modelNames], _.isFunction));
 
   // collect actual model names
-  _modelNames = _.filter([..._modelNames], _.isString);
+  _modelNames = _.filter([..._modelNames], function (v) {
+    return _.isString(v) || isModel(v);
+  });
 
   // collect from connection.modelNames();
   if (_.isEmpty(_modelNames)) {
@@ -634,7 +636,11 @@ exports.clear = function clear(...modelNames) {
   const connected = isConnected(_connection);
   let deletes = _.map([..._modelNames], function (modelName) {
     // obtain model
-    const Model = exports.model(modelName, _connection);
+    const Model = (
+      isModel(modelName) ?
+      modelName :
+      exports.model(modelName, _connection)
+    );
     // prepare cleaner
     if (connected && Model && Model.deleteMany) {
       return function clear(next) {
