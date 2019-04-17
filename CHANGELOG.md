@@ -1,3 +1,14 @@
+#### 0.17.0 (2019-04-17)
+
+##### Chores
+
+*  force latest dependencies ([8c4ff7f1](https://github.com/lykmapipo/mongoose-common/commit/8c4ff7f137cd348f2058a3c01b0d80b0b5b721cf))
+
+##### New Features
+
+*  allow clear by passing model instance ([98e1cba6](https://github.com/lykmapipo/mongoose-common/commit/98e1cba643246ff317451b671d1a66cf9438bb27))
+*  add isModel check helper ([c172598a](https://github.com/lykmapipo/mongoose-common/commit/c172598af562e1a61ba370948200961c1d3c078f))
+
 #### 0.16.2 (2019-04-16)
 
 ##### Chores
