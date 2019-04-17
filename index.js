@@ -37,13 +37,15 @@ const { mergeObjects } = require('@lykmapipo/common');
 const { getString } = require('@lykmapipo/env');
 const { include } = require('@lykmapipo/include');
 const mongoose = require('mongoose-valid8');
-const { Schema, Connection, Query } = mongoose;
+const { Schema, Model, Connection, Query } = mongoose;
 
 
 /* local helpers */
 function isConnection(conn) { return conn instanceof Connection; }
 
 function isSchema(schema) { return schema instanceof Schema; }
+
+function isModel(model) { return model && model.prototype instanceof Model; }
 
 function isQuery(query) { return query instanceof Query; }
 
@@ -207,6 +209,21 @@ exports.isConnected = isConnected;
  * const _isSchema = isSchema(conn);
  */
 exports.isSchema = isSchema;
+
+
+/**
+ * @function isModel
+ * @name isModel
+ * @description Check if provided value is valid of mongoose model
+ * @param {Mixed} val value to check if its a mongoose model
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.17.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * const _isModel = isModel(model);
+ */
+exports.isModel = isModel;
 
 
 /**

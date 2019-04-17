@@ -18,6 +18,7 @@ const {
   SchemaTypes,
   MongooseTypes,
   isConnection,
+  isModel,
   isQuery,
   isConnected,
   toCollectionName,
@@ -162,6 +163,17 @@ describe('mongoose common', () => {
     let val = model(new Schema({ name: String })).find();
     expect(isQuery(val)).to.be.true;
     expect(isQuery('124')).to.be.false;
+  });
+
+  it('should check if value is a Model', () => {
+    expect(isModel).to.exist;
+    expect(isModel).to.be.a('function');
+    expect(isModel).to.have.length(1);
+
+    let val = model(new Schema({ name: String }));
+    expect(isModel(val)).to.be.true;
+    expect(isModel(new Schema({ name: String }))).to.be.false;
+    expect(isModel('124')).to.be.false;
   });
 
   it('should check if value is an ObjectId', () => {
