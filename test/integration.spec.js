@@ -6,7 +6,6 @@ process.env.NODE_ENV = 'test';
 
 
 /* dependencies */
-// const { waterfall } = require('async');
 const { include } = require('@lykmapipo/include');
 const { expect } = require('chai');
 const {
@@ -42,6 +41,7 @@ describe('common', () => {
         expect(error.errors.name).to.exist;
         expect(error.errors.name.kind).to.exist;
         expect(error.errors.name.kind).to.be.equal('unique');
+        expect(error.errors.name.value).to.be.equal(user.name);
         done();
       });
     });
@@ -65,6 +65,7 @@ describe('common', () => {
         expect(error.errors.name).to.exist;
         expect(error.errors.name.kind).to.exist;
         expect(error.errors.name.kind).to.be.equal('unique');
+        expect(error.errors.name.value).to.be.equal(user.name);
         done();
       });
     });
@@ -90,10 +91,14 @@ describe('common', () => {
         expect(error.errors.firstName.kind).to.exist;
         expect(error.errors.firstName.kind)
           .to.be.equal('unique');
+        expect(error.errors.firstName.value)
+          .to.be.equal(user.firstName);
         expect(error.errors.lastName).to.exist;
         expect(error.errors.lastName.kind).to.exist;
         expect(error.errors.lastName.kind)
           .to.be.equal('unique');
+        expect(error.errors.lastName.value)
+          .to.be.equal(user.lastName);
         done();
       });
     });
@@ -119,10 +124,14 @@ describe('common', () => {
         expect(error.errors.firstName.kind).to.exist;
         expect(error.errors.firstName.kind)
           .to.be.equal('unique');
+        expect(error.errors.firstName.value)
+          .to.be.equal(user.firstName);
         expect(error.errors.lastName).to.exist;
         expect(error.errors.lastName.kind).to.exist;
         expect(error.errors.lastName.kind)
           .to.be.equal('unique');
+        expect(error.errors.lastName.value)
+          .to.be.equal(user.lastName);
         done();
       });
     });
