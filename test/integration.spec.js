@@ -19,12 +19,12 @@ const {
 
 describe('common', () => {
 
-  const MONGODB_URI = 'mongodb://localhost/mongoose-common';
+  const MONGODB_URI = 'mongodb://localhost/test';
 
   before(done => connect(MONGODB_URI, done));
   after(done => drop(done));
 
-  it('should be able to beautify unique error message', done => {
+  it('should beautify unique error message on create', done => {
     const schema = new Schema({ name: { type: String, unique: true } });
     const User = model(schema);
     const user = { name: 'John Doe' };
@@ -49,7 +49,7 @@ describe('common', () => {
     });
   });
 
-  it('should be able to beautify unique error message', done => {
+  it('should beautify compaund unique error message on create', done => {
     const schema = new Schema({ firstName: String, lastName: String });
     schema.index({ firstName: 1, lastName: 1 }, { unique: true });
     const User = model(schema);

@@ -46,7 +46,7 @@ const {
 
 describe('mongoose common', () => {
 
-  const MONGODB_URI = 'mongodb://localhost/mongoose-common';
+  const MONGODB_URI = 'mongodb://localhost/test';
 
   beforeEach(done => disconnect(done));
   afterEach(done => drop(done));
@@ -428,7 +428,7 @@ describe('mongoose common', () => {
       expect(isConnection(instance)).to.be.true;
       expect(isConnected(instance)).to.be.true;
       expect(instance.readyState).to.be.equal(1);
-      expect(instance.name).to.be.equal('mongoose-common');
+      expect(instance.name).to.be.equal('test');
       done(error, instance);
     });
   });
@@ -441,7 +441,7 @@ describe('mongoose common', () => {
       expect(isConnection(instance)).to.be.true;
       expect(isConnected(instance)).to.be.true;
       expect(instance.readyState).to.be.equal(1);
-      expect(instance.name).to.be.equal('mongoose-common');
+      expect(instance.name).to.be.equal('test');
       delete process.env.MONGODB_URI;
       done(error, instance);
     });
