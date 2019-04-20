@@ -24,7 +24,7 @@ describe('common', () => {
   before(done => connect(MONGODB_URI, done));
   after(done => drop(done));
 
-  it('should be able to beautify unique error message', (done) => {
+  it('should be able to beautify unique error message', done => {
     const schema = new Schema({ name: { type: String, unique: true } });
     const User = model(schema);
     const user = { name: 'John Doe' };
@@ -32,9 +32,9 @@ describe('common', () => {
     // wait index
     User.on('index', () => {
       waterfall([
-        (next) => User.create(user, (error) => next(error)),
-        (next) => User.create(user, (error) => next(error))
-      ], (error) => {
+        next => User.create(user, error => next(error)),
+        next => User.create(user, error => next(error))
+      ], error => {
         expect(error).to.exist;
         expect(error.status).to.exist;
         expect(error.name).to.exist;
@@ -49,7 +49,7 @@ describe('common', () => {
     });
   });
 
-  it('should be able to beautify unique error message', (done) => {
+  it('should be able to beautify unique error message', done => {
     const schema = new Schema({ firstName: String, lastName: String });
     schema.index({ firstName: 1, lastName: 1 }, { unique: true });
     const User = model(schema);
@@ -58,9 +58,9 @@ describe('common', () => {
     // wait index
     User.on('index', () => {
       waterfall([
-        (next) => User.create(user, (error) => next(error)),
-        (next) => User.create(user, (error) => next(error))
-      ], (error) => {
+        next => User.create(user, error => next(error)),
+        next => User.create(user, error => next(error))
+      ], error => {
         expect(error).to.exist;
         expect(error.status).to.exist;
         expect(error.name).to.exist;
