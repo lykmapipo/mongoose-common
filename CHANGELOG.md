@@ -1,3 +1,13 @@
+#### 0.18.1 (2019-04-20)
+
+##### Chores
+
+*  force latest node on travis ([78edfd9c](https://github.com/lykmapipo/mongoose-common/commit/78edfd9c351a889e9b555098027d0c13e122955f))
+
+##### Refactors
+
+*  improve regex to extract unique path & value ([c2a0eb38](https://github.com/lykmapipo/mongoose-common/commit/c2a0eb385fca62bdeb683b7c391d5f1919a31b1c))
+
 #### 0.18.0 (2019-04-20)
 
 ##### New Features
