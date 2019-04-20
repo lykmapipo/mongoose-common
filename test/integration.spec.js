@@ -49,7 +49,7 @@ describe('common', () => {
     });
   });
 
-  it('should beautify compaund unique error message on create', done => {
+  it('should beautify compound unique error message on create', done => {
     const schema = new Schema({ firstName: String, lastName: String });
     schema.index({ firstName: 1, lastName: 1 }, { unique: true });
     const User = model(schema);
