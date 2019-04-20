@@ -1,3 +1,27 @@
+#### 0.18.0 (2019-04-20)
+
+##### New Features
+
+*  add additonal hooks to error middleware ([53c655fb](https://github.com/lykmapipo/mongoose-common/commit/53c655fbf16c0b730c57b763a6b9a9ce10feb2a6))
+*  parse path value from unique error ([bc6bfc60](https://github.com/lykmapipo/mongoose-common/commit/bc6bfc6002f51e5fd8df1a7c7ac146f80c997f7c))
+
+##### Refactors
+
+* **path plugin:**
+  *  use functional expression & arrow ([a1f6e2f2](https://github.com/lykmapipo/mongoose-common/commit/a1f6e2f22105bf9d41397b42ca8dcae20fd1b0a9))
+  *  use functional expression & arrow ([7669fa11](https://github.com/lykmapipo/mongoose-common/commit/7669fa1161d7321f3aa11d18b9ac0d3e98105eea))
+*  use functional expression & arrow ([a173ecbc](https://github.com/lykmapipo/mongoose-common/commit/a173ecbc17e20dd385aab0cb4ca660ee260199d0))
+
+##### Code Style Changes
+
+*  fix typos ([068205cd](https://github.com/lykmapipo/mongoose-common/commit/068205cd01ea5aeb0b75ce35e33442ce5d94d085))
+
+##### Tests
+
+*  use test dd and improve specs title ([a41f53fb](https://github.com/lykmapipo/mongoose-common/commit/a41f53fbe28e9986fd22ca7bb3df76159429dff9))
+* **unit:**  improve test readability ([92487d1f](https://github.com/lykmapipo/mongoose-common/commit/92487d1fcee1a17b1764a7af8e9cb20650648ed5))
+* **integration:**  improve test readability ([722b8b71](https://github.com/lykmapipo/mongoose-common/commit/722b8b71ca9ea625db733f2610a4975e222d501d))
+
 #### 0.17.0 (2019-04-17)
 
 ##### Chores
