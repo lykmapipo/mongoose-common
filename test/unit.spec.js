@@ -44,7 +44,7 @@ const {
 } = MongooseCommon;
 
 
-describe('mongoose common', () => {
+describe('unit', () => {
 
   const MONGODB_URI = 'mongodb://localhost/test';
 

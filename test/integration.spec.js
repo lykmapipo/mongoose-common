@@ -16,11 +16,9 @@ const {
 } = include(__dirname, '..');
 
 
-describe('common', () => {
+describe('integration', () => {
 
-  const MONGODB_URI = 'mongodb://localhost/test';
-
-  before(done => connect(MONGODB_URI, done));
+  before(done => connect(done));
   after(done => drop(done));
 
   it('should beautify unique error message on create', done => {
