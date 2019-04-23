@@ -1,3 +1,24 @@
+#### 0.19.0 (2019-04-23)
+
+##### Chores
+
+* **dependencies:**  force latest dependencies ([a0393029](https://github.com/lykmapipo/mongoose-common/commit/a0393029ab204fd801fea6db048fde4a25043875))
+
+##### New Features
+
+*  handle ObjectId unique errors and normalize ([a3525477](https://github.com/lykmapipo/mongoose-common/commit/a3525477a5b001083b7f4596f914e32110413d34))
+
+##### Refactors
+
+*  parse values from object id unique error ([ed49209f](https://github.com/lykmapipo/mongoose-common/commit/ed49209f761813d44fd1f12c6c913dc5186d9f11))
+*  extract value parsing from error ([4135e0d5](https://github.com/lykmapipo/mongoose-common/commit/4135e0d55688f2bb869c8e3b539b1a84e4c8a29a))
+*  extract unique paths parsing ([d5570788](https://github.com/lykmapipo/mongoose-common/commit/d557078875fef08508c4bc6b2f6775ba7b253543))
+
+##### Tests
+
+* **integration:**  handle object id compaund unique index ([d71a9fee](https://github.com/lykmapipo/mongoose-common/commit/d71a9fee6f5bba7756ba6835dc7d98aa88d6de16))
+*  improve spec describes & compact integration spec ([f29b071f](https://github.com/lykmapipo/mongoose-common/commit/f29b071f443ef2aac252ec72381d87c848ff5313))
+
 #### 0.18.1 (2019-04-20)
 
 ##### Chores
