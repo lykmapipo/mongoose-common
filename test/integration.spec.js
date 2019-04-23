@@ -21,7 +21,7 @@ describe('integration', () => {
   before(done => connect(done));
   after(done => drop(done));
 
-  it.only('should beautify unique error message on create', done => {
+  it('should beautify unique error message on create', done => {
     const schema = new Schema({ name: { type: String, unique: true } });
     const User = model(schema);
     const user = { name: 'John Doe' };
@@ -135,7 +135,7 @@ describe('integration', () => {
     });
   });
 
-  it.only('should beautify ObjectId unique error message on create', done => {
+  it('should beautify ObjectId unique error message on create', done => {
     const schema = new Schema({ name: { type: String } });
     const User = model(schema);
     const user = new User({ name: 'John Doe' }).toObject();
