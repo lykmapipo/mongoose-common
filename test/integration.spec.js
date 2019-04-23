@@ -21,7 +21,7 @@ describe('integration', () => {
   before(done => connect(done));
   after(done => drop(done));
 
-  it('should beautify unique error message on create', done => {
+  it('should beautify unique error on create', done => {
     const schema = new Schema({ name: { type: String, unique: true } });
     const User = model(schema);
     const user = { name: 'John Doe' };
@@ -45,7 +45,7 @@ describe('integration', () => {
     });
   });
 
-  it('should beautify unique error message on insertMany', done => {
+  it('should beautify unique error on insertMany', done => {
     const schema = new Schema({ name: { type: String, unique: true } });
     const User = model(schema);
     const user = { name: 'John Doe' };
@@ -69,7 +69,7 @@ describe('integration', () => {
     });
   });
 
-  it('should beautify compound unique error message on create', done => {
+  it('should beautify compound unique error on create', done => {
     const schema = new Schema({ firstName: String, lastName: String });
     schema.index({ firstName: 1, lastName: 1 }, { unique: true });
     const User = model(schema);
@@ -102,7 +102,7 @@ describe('integration', () => {
     });
   });
 
-  it('should beautify compound unique error message on insertMany', done => {
+  it('should beautify compound unique error on insertMany', done => {
     const schema = new Schema({ firstName: String, lastName: String });
     schema.index({ firstName: 1, lastName: 1 }, { unique: true });
     const User = model(schema);
@@ -135,10 +135,35 @@ describe('integration', () => {
     });
   });
 
-  it('should beautify ObjectId unique error message on create', done => {
+  it('should beautify ObjectId unique error on create', done => {
     const schema = new Schema({ name: { type: String } });
     const User = model(schema);
     const user = new User({ name: 'John Doe' }).toObject();
+
+    // wait index
+    User.on('index', () => {
+      User.create([user, user], error => {
+        expect(error).to.exist;
+        expect(error.status).to.exist;
+        expect(error.name).to.exist;
+        expect(error.name).to.be.equal('ValidationError');
+        expect(error._message).to.exist;
+        expect(error.message).to.exist;
+        expect(error.errors).to.exist;
+        expect(error.errors._id).to.exist;
+        expect(error.errors._id.kind).to.exist;
+        expect(error.errors._id.kind).to.be.equal('unique');
+        expect(error.errors._id.value).to.be.equal(user._id.toString());
+        done();
+      });
+    });
+  });
+
+  it('should beautify ObjectId compound unique error on create', done => {
+    const schema = new Schema({ firstName: String, lastName: String });
+    schema.index({ _id: 1, firstName: 1, lastName: 1 }, { unique: true });
+    const User = model(schema);
+    const user = new User({ firstName: 'John', lastName: 'Doe' }).toObject();
 
     // wait index
     User.on('index', () => {
