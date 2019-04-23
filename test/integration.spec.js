@@ -135,4 +135,29 @@ describe('integration', () => {
     });
   });
 
+  it('should beautify ObjectId unique error message on create', done => {
+    const schema = new Schema({ name: { type: String } });
+    const User = model(schema);
+    const user = new User({ name: 'John Doe' }).toObject();
+
+    // wait index
+    User.on('index', () => {
+      User.create([user, user], error => {
+        console.log(error);
+        expect(error).to.exist;
+        expect(error.status).to.exist;
+        expect(error.name).to.exist;
+        expect(error.name).to.be.equal('ValidationError');
+        expect(error._message).to.exist;
+        expect(error.message).to.exist;
+        expect(error.errors).to.exist;
+        expect(error.errors._id).to.exist;
+        expect(error.errors._id.kind).to.exist;
+        expect(error.errors._id.kind).to.be.equal('unique');
+        expect(error.errors._id.value).to.be.equal(user.name);
+        done();
+      });
+    });
+  });
+
 });
