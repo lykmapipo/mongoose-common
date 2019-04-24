@@ -1,3 +1,17 @@
+#### 0.19.1 (2019-04-24)
+
+##### Chores
+
+* **dependencies:**  force latest common version ([fc530699](https://github.com/lykmapipo/mongoose-common/commit/fc53069909d6d863a00d4d7527e7624c1f11bb43))
+
+##### New Features
+
+*  add index on validator error ([a36e4c25](https://github.com/lykmapipo/mongoose-common/commit/a36e4c25ef645a7d21fa9647dd80cc0d10c79bf2))
+
+##### Bug Fixes
+
+*  correct order of parsing values from compaund indexes ([c99ff93e](https://github.com/lykmapipo/mongoose-common/commit/c99ff93e14243027bbe0b5429555fa1c71d0fd67))
+
 #### 0.19.0 (2019-04-23)
 
 ##### Chores
