@@ -10,6 +10,7 @@ const { include } = require('@lykmapipo/include');
 const { expect } = require('chai');
 const {
   Schema,
+  ObjectId,
   model,
   connect,
   drop
@@ -160,10 +161,12 @@ describe('integration', () => {
   });
 
   it('should beautify ObjectId compound unique error on create', done => {
-    const schema = new Schema({ firstName: String, lastName: String });
-    schema.index({ _id: 1, firstName: 1, lastName: 1 }, { unique: true });
+    const schema =
+      new Schema({ firstName: String, lastName: String, profile: ObjectId });
+    schema.index({ profile: 1, firstName: 1, lastName: 1 }, { unique: true });
     const User = model(schema);
-    const user = new User({ firstName: 'John', lastName: 'Doe' }).toObject();
+    const user =
+      ({ firstName: 'John', lastName: 'Doe', profile: new User()._id });
 
     // wait index
     User.on('index', () => {
@@ -175,10 +178,23 @@ describe('integration', () => {
         expect(error._message).to.exist;
         expect(error.message).to.exist;
         expect(error.errors).to.exist;
-        expect(error.errors._id).to.exist;
-        expect(error.errors._id.kind).to.exist;
-        expect(error.errors._id.kind).to.be.equal('unique');
-        expect(error.errors._id.value).to.be.equal(user._id.toString());
+        expect(error.errors.profile).to.exist;
+        expect(error.errors.profile.kind).to.exist;
+        expect(error.errors.profile.kind).to.be.equal('unique');
+        expect(error.errors.profile.value).to.be.equal(user.profile
+          .toString());
+        expect(error.errors.firstName).to.exist;
+        expect(error.errors.firstName.kind).to.exist;
+        expect(error.errors.firstName.kind)
+          .to.be.equal('unique');
+        expect(error.errors.firstName.value)
+          .to.be.equal(user.firstName);
+        expect(error.errors.lastName).to.exist;
+        expect(error.errors.lastName.kind).to.exist;
+        expect(error.errors.lastName.kind)
+          .to.be.equal('unique');
+        expect(error.errors.lastName.value)
+          .to.be.equal(user.lastName);
         done();
       });
     });
