@@ -178,23 +178,32 @@ describe('integration', () => {
         expect(error._message).to.exist;
         expect(error.message).to.exist;
         expect(error.errors).to.exist;
+
         expect(error.errors.profile).to.exist;
         expect(error.errors.profile.kind).to.exist;
         expect(error.errors.profile.kind).to.be.equal('unique');
         expect(error.errors.profile.value).to.be.equal(user.profile
           .toString());
+        expect(error.errors.profile.index)
+          .to.equal('profile_1_firstName_1_lastName_1');
+
         expect(error.errors.firstName).to.exist;
         expect(error.errors.firstName.kind).to.exist;
         expect(error.errors.firstName.kind)
           .to.be.equal('unique');
         expect(error.errors.firstName.value)
           .to.be.equal(user.firstName);
+        expect(error.errors.firstName.index)
+          .to.equal('profile_1_firstName_1_lastName_1');
+
         expect(error.errors.lastName).to.exist;
         expect(error.errors.lastName.kind).to.exist;
         expect(error.errors.lastName.kind)
           .to.be.equal('unique');
         expect(error.errors.lastName.value)
           .to.be.equal(user.lastName);
+        expect(error.errors.lastName.index)
+          .to.equal('profile_1_firstName_1_lastName_1');
         done();
       });
     });
