@@ -627,7 +627,7 @@ exports.collectionNameOf = modelName => {
  * connect(url, done);
  * 
  */
-exports.connect = function connect(url, done) {
+exports.connect = (url, done) => {
 
   // ensure database name
   const NODE_ENV = getString('NODE_ENV', 'development');
