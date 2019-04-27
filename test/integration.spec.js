@@ -6,6 +6,8 @@ process.env.NODE_ENV = 'test';
 
 
 /* dependencies */
+const _ = require('lodash');
+const { waterfall } = require('async');
 const { include } = require('@lykmapipo/include');
 const { expect } = require('chai');
 const {
@@ -13,7 +15,8 @@ const {
   ObjectId,
   model,
   connect,
-  drop
+  drop,
+  syncIndexes
 } = include(__dirname, '..');
 
 
@@ -28,7 +31,7 @@ describe('integration', () => {
     const user = { name: 'John Doe' };
 
     // wait index
-    User.on('index', () => {
+    User.once('index', () => {
       User.create([user, user], error => {
         expect(error).to.exist;
         expect(error.status).to.exist;
@@ -52,7 +55,7 @@ describe('integration', () => {
     const user = { name: 'John Doe' };
 
     // wait index
-    User.on('index', () => {
+    User.once('index', () => {
       User.insertMany([user, user], error => {
         expect(error).to.exist;
         expect(error.status).to.exist;
@@ -77,7 +80,7 @@ describe('integration', () => {
     const user = { firstName: 'John', lastName: 'Doe' };
 
     // wait index
-    User.on('index', () => {
+    User.once('index', () => {
       User.create([user, user], error => {
         expect(error).to.exist;
         expect(error.status).to.exist;
@@ -110,7 +113,7 @@ describe('integration', () => {
     const user = { firstName: 'John', lastName: 'Doe' };
 
     // wait index
-    User.on('index', () => {
+    User.once('index', () => {
       User.insertMany([user, user], error => {
         expect(error).to.exist;
         expect(error.status).to.exist;
@@ -142,7 +145,7 @@ describe('integration', () => {
     const user = new User({ name: 'John Doe' }).toObject();
 
     // wait index
-    User.on('index', () => {
+    User.once('index', () => {
       User.create([user, user], error => {
         expect(error).to.exist;
         expect(error.status).to.exist;
@@ -169,7 +172,7 @@ describe('integration', () => {
       ({ firstName: 'John', lastName: 'Doe', profile: new User()._id });
 
     // wait index
-    User.on('index', () => {
+    User.once('index', () => {
       User.create([user, user], error => {
         expect(error).to.exist;
         expect(error.status).to.exist;
@@ -206,6 +209,27 @@ describe('integration', () => {
           .to.equal('profile_1_firstName_1_lastName_1');
         done();
       });
+    });
+  });
+
+  it('should sync indexes', done => {
+    const User = model(new Schema({
+      name: { type: String, index: true }
+    }, { autoIndex: false }));
+
+    waterfall([
+      next => User.createCollection(error => next(error)),
+      next => User.listIndexes((error, indexes) => {
+        expect(_.find(indexes, { name: 'name_1' })).to.not.exist;
+        next(error);
+      }),
+      next => syncIndexes(error => next(error)),
+      next => User.listIndexes(next),
+    ], (error, indexes) => {
+      expect(error).to.not.exist;
+      expect(indexes).to.exist;
+      expect(_.find(indexes, { name: 'name_1' })).to.exist;
+      done(error, indexes);
     });
   });
 

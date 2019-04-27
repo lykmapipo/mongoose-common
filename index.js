@@ -29,7 +29,7 @@
 
 /* dependencies */
 const _ = require('lodash');
-const { waterfall } = require('async');
+const { parallel, waterfall } = require('async');
 const { mergeObjects } = require('@lykmapipo/common');
 const { getString } = require('@lykmapipo/env');
 const { include } = require('@lykmapipo/include');
@@ -935,4 +935,44 @@ exports.jsonSchema = () => {
   });
   //return available schemas
   return schemas;
+};
+
+
+/**
+ * @function syncIndexes
+ * @name syncIndexes
+ * @description Sync indexes in MongoDB to match, indexes defined in schemas
+ * @param {Function} done a callback to invoke on success or failure
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.20.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * 
+ * syncIndexes(done);
+ * 
+ */
+exports.syncIndexes = done => {
+  // ensure connection before sync
+  const canSync = isConnected(mongoose.connection);
+  if (!canSync) { return done(); }
+
+  // obtain available models
+  const Models = _.map(exports.modelNames(), modelName => {
+    return exports.model(modelName);
+  });
+
+  // build indexes sync tasks
+  let syncs = _.map(Models, Model => {
+    if (Model && Model.syncIndexes) {
+      const syncIndexOf = next => {
+        Model.syncIndexes(error => next(error));
+      };
+      return syncIndexOf;
+    }
+  });
+
+  // do syncing
+  syncs = _.compact([...syncs]);
+  return parallel(syncs, error => done(error));
 };
