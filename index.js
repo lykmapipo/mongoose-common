@@ -500,7 +500,7 @@ exports.isNumberArray = val => {
  * //=> true
  * 
  */
-exports.isInstance = function isInstance(value) {
+exports.isInstance = value => {
   if (value) {
     const _isInstance = (
       _.isFunction(_.get(value, 'toObject', null)) &&
