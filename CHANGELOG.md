@@ -1,3 +1,43 @@
+#### 0.20.0 (2019-04-27)
+
+##### Chores
+
+* **dependencies:**  force latest versions ([7806a558](https://github.com/lykmapipo/mongoose-common/commit/7806a558f07baa5f2d4a0581a0f3d678089143e2))
+
+##### Documentation Changes
+
+*  write syncIndexes usage ([7bd5a141](https://github.com/lykmapipo/mongoose-common/commit/7bd5a141339f95f9545fc597eac4283fd5d40640))
+
+##### New Features
+
+* **syncIndexes:**  add helpers to keep db and schema indexes in sync ([83868ffd](https://github.com/lykmapipo/mongoose-common/commit/83868ffd1370fce003d6fd6a47538e9a1958e30c))
+*  add disable debug helper ([c794c6d8](https://github.com/lykmapipo/mongoose-common/commit/c794c6d860ff7c7f124342513c0c02e917023dad))
+*  add enable debug helper ([85b66fa9](https://github.com/lykmapipo/mongoose-common/commit/85b66fa94bb6bf055db40e8783525f0195c82302))
+
+##### Refactors
+
+* ***:**  use function expression ([ce6e96c1](https://github.com/lykmapipo/mongoose-common/commit/ce6e96c19612657159a4f11d205aff23ba1adde6))
+* **jsonSchema:**  use function expression ([956f533b](https://github.com/lykmapipo/mongoose-common/commit/956f533b8269310c5fc96b719d370eee49713db6))
+* **eachPath:**  use function expression ([62e6115b](https://github.com/lykmapipo/mongoose-common/commit/62e6115b8bd02320d8794ead8ebb6f2a6e027311))
+* **model:**  use function expression ([8280c6bc](https://github.com/lykmapipo/mongoose-common/commit/8280c6bc163dda67fab56e98a8f02094b4063b73))
+* **drop:**  use function expression ([bd8575e0](https://github.com/lykmapipo/mongoose-common/commit/bd8575e06179ed0390d2cbd9fc46414498d936d5))
+* **clear:**  use function expression ([e7829e46](https://github.com/lykmapipo/mongoose-common/commit/e7829e46a055b3234c70788abe918c7a6cc2597d))
+* **disconnect:**  use function expression ([79ddf817](https://github.com/lykmapipo/mongoose-common/commit/79ddf817b9502ceea9e7e4f598cc68b37b0134f5))
+* **connect:**  use function expression ([5be74ec5](https://github.com/lykmapipo/mongoose-common/commit/5be74ec57c75f5f629b2445bb0226844e705a3d7))
+* **copyInstance:**  use function expression ([78216e8a](https://github.com/lykmapipo/mongoose-common/commit/78216e8ac473b121bd70134a61f7b38a33e8ee1b))
+* **isInstance:**  use function expression ([cd709c30](https://github.com/lykmapipo/mongoose-common/commit/cd709c30f7ebb8dd69ae982f6f5cb2f7e8f750ba))
+* **isNumberArray:**  use function expression ([8b104338](https://github.com/lykmapipo/mongoose-common/commit/8b104338e9cfdd17caa2ae37ff3486365aad2192))
+* **isNumber:**  use function expression ([34579468](https://github.com/lykmapipo/mongoose-common/commit/3457946804a56f85657ea9ff065836b5632f2aaa))
+* **isStringArray:**  use function expression ([75fce7d6](https://github.com/lykmapipo/mongoose-common/commit/75fce7d6605f55fc52b24c842af9115eb32a4960))
+* **isString:**  use function expression ([2ad21fca](https://github.com/lykmapipo/mongoose-common/commit/2ad21fca6d149fc7f7da645ca5cdc14988c602c9))
+* **isMap:**  use function expression ([3305a949](https://github.com/lykmapipo/mongoose-common/commit/3305a949ee373b294067defe8f7fbb5efa452f33))
+* **isObjectId:**  use function expression ([1bd29845](https://github.com/lykmapipo/mongoose-common/commit/1bd298450554ccecdca1f3d201133a5c1f038804))
+* **toCollectionName:**  use function expression ([c5ed14af](https://github.com/lykmapipo/mongoose-common/commit/c5ed14af7c933b4f6b7ea4924c9c543b54e140bc))
+
+##### Code Style Changes
+
+*  improve examples ([c17d4420](https://github.com/lykmapipo/mongoose-common/commit/c17d44207a778602cbc4dbdfb534fc68e40449eb))
+
 #### 0.19.1 (2019-04-24)
 
 ##### Chores
