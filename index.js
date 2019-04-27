@@ -378,7 +378,7 @@ exports.isMap = val => {
  * isString(val);
  * //=> true
  */
-exports.isString = function isString(val) {
+exports.isString = val => {
   const _isString = (val instanceof Schema.Types.String);
   return _isString;
 };
