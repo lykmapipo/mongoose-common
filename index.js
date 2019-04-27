@@ -699,7 +699,7 @@ exports.disconnect = (connection, done) => {
  * clear('User', 'Profile', done);
  * 
  */
-exports.clear = function clear(...modelNames) {
+exports.clear = (...modelNames) => {
 
   // collect provided model names
   let _modelNames = [].concat(...modelNames);
