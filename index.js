@@ -769,7 +769,7 @@ exports.clear = (...modelNames) => {
  * drop(done);
  * 
  */
-exports.drop = function drop(connection, done) {
+exports.drop = (connection, done) => {
   // normalize arguments
   const _connection =
     (isConnection(connection) ? connection : mongoose.connection);
