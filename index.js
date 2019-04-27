@@ -427,7 +427,7 @@ exports.isArraySchemaType = (val = {}) => {
  * //=> true
  * 
  */
-exports.isStringArray = function isStringArray(val) {
+exports.isStringArray = val => {
   const _isStringArray = (
     val &&
     (val instanceof Schema.Types.Array) &&
