@@ -921,7 +921,7 @@ exports.eachPath = (schema, iteratee) => {
  * //=> {"user": {title: "User", type: "object", properties: {..} } }
  *   
  */
-exports.jsonSchema = function jsonSchema() {
+exports.jsonSchema = () => {
   // initialize schemas dictionary
   let schemas = {};
   // get model names
