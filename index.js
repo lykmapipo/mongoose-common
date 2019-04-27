@@ -358,7 +358,7 @@ exports.isObjectId = val => {
  * //=> true
  * 
  */
-exports.isMap = function isMap(val) {
+exports.isMap = val => {
   const _isMap = (val instanceof mongoose.Types.Map);
   return _isMap;
 };
