@@ -527,7 +527,7 @@ exports.isInstance = value => {
  * //=> { ... }
  * 
  */
-exports.copyInstance = function copyInstance(value) {
+exports.copyInstance = value => {
   if (value) {
     return (
       exports.isInstance(value) ?
