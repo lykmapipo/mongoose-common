@@ -474,7 +474,7 @@ exports.isNumber = val => {
  * //=> true
  * 
  */
-exports.isNumberArray = function isNumberArray(val) {
+exports.isNumberArray = val => {
   const _isNumberArray = (
     val &&
     (val instanceof Schema.Types.Array) &&
