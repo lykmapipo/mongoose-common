@@ -452,7 +452,7 @@ exports.isStringArray = val => {
  * //=> true
  * 
  */
-exports.isNumber = function isNumber(val) {
+exports.isNumber = val => {
   const _isNumber = (val instanceof Schema.Types.Number);
   return _isNumber;
 };
