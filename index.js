@@ -315,7 +315,7 @@ exports.disableDebug = () => mongoose.set('debug', false);
  * //=> users
  * 
  */
-exports.toCollectionName = function toCollectionName(modelName) {
+exports.toCollectionName = modelName => {
   const collectionName =
     (!_.isEmpty(modelName) ? mongoose.pluralize()(modelName) : modelName);
   return collectionName;
