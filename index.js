@@ -816,7 +816,7 @@ exports.drop = (connection, done) => {
  * const User = model('User', Schema);
  * 
  */
-exports.model = function model(modelName, schema, connection) {
+exports.model = (modelName, schema, connection) => {
   // normalize arguments
 
   // obtain modelName or obtain random name
