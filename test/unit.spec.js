@@ -21,6 +21,7 @@ const {
   SchemaTypes,
   MongooseTypes,
   enableDebug,
+  disableDebug,
   isConnection,
   isModel,
   isQuery,
@@ -637,6 +638,17 @@ describe('unit', () => {
 
     expect(set).to.have.been.calledOnce;
     expect(set).to.have.been.calledWith('debug', true);
+
+    set.restore();
+  });
+
+  it('should enable mongoose degugging', () => {
+    const set = sinon.spy(mongoose, 'set');
+
+    disableDebug();
+
+    expect(set).to.have.been.calledOnce;
+    expect(set).to.have.been.calledWith('debug', false);
 
     set.restore();
   });
