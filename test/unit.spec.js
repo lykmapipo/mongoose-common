@@ -364,28 +364,24 @@ describe('unit', () => {
   it('should be able to connect', () => {
     expect(connect).to.exist;
     expect(connect).to.be.a('function');
-    expect(connect.name).to.be.equal('connect');
     expect(connect.length).to.be.equal(2);
   });
 
   it('should be able to disconnect', () => {
     expect(disconnect).to.exist;
     expect(disconnect).to.be.a('function');
-    expect(disconnect.name).to.be.equal('disconnect');
     expect(disconnect.length).to.be.equal(2);
   });
 
   it('should be able to clear', () => {
     expect(clear).to.exist;
     expect(clear).to.be.a('function');
-    expect(clear.name).to.be.equal('clear');
     expect(clear.length).to.be.equal(0);
   });
 
   it('should be able to get model silent', () => {
     expect(model).to.exist;
     expect(model).to.be.a('function');
-    expect(model.name).to.be.equal('model');
     expect(model.length).to.be.equal(3);
   });
 
@@ -422,7 +418,6 @@ describe('unit', () => {
   it('should be able to drop', () => {
     expect(drop).to.exist;
     expect(drop).to.be.a('function');
-    expect(drop.name).to.be.equal('drop');
     expect(drop.length).to.be.equal(2);
   });
 

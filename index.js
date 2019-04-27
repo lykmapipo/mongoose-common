@@ -38,17 +38,15 @@ const { Schema, Model, Connection, Query } = mongoose;
 
 
 /* local helpers */
-function isConnection(conn) { return conn instanceof Connection; }
+const isConnection = conn => conn instanceof Connection;
 
-function isSchema(schema) { return schema instanceof Schema; }
+const isSchema = schema => schema instanceof Schema;
 
-function isModel(model) { return model && model.prototype instanceof Model; }
+const isModel = model => model && model.prototype instanceof Model;
 
-function isQuery(query) { return query instanceof Query; }
+const isQuery = query => query instanceof Query;
 
-function isConnected(conn) {
-  return (isConnection(conn) && (conn.readyState === 1));
-}
+const isConnected = conn => (isConnection(conn) && (conn.readyState === 1));
 
 
 
