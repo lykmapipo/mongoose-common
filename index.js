@@ -665,7 +665,7 @@ exports.connect = (url, done) => {
  * disconnect(done);
  * 
  */
-exports.disconnect = function disconnect(connection, done) {
+exports.disconnect = (connection, done) => {
   // normalize arguments
   const _connection =
     (isConnection(connection) ? connection : undefined);
