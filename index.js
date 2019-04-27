@@ -873,7 +873,7 @@ exports.model = (modelName, schema, connection) => {
  * eachPath(schema, (path, schemaType) => { ... });
  * 
  */
-exports.eachPath = function eachPath(schema, iteratee) {
+exports.eachPath = (schema, iteratee) => {
 
 
   function iterateRecursive(pathName, schemaType, parentPath) {
