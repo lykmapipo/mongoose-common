@@ -3,6 +3,7 @@
 
 /**
  * @module mongoose-common
+ * @name mongoose-common
  * @description Re-usable helpers for mongoose
  * @author lally elias <lallyelias87@mail.com>
  * @license MIT
@@ -10,23 +11,19 @@
  * @version 0.1.0
  * @public
  * @example
+ * 
  * const {
  *   connect,
  *   clear, 
  *   drop, 
  *   disconnect,
- *   model,
- *   eachPath 
  * } = require('@lykmapipo/mongoose-common');
  *
  * connect((error) => { ... });
  * clear((error) => { ... });
  * drop((error) => { ... });
- * disconnect((error) => { ... });
- * const User = model('User');
- * const User = model('User', schema);
- * const randomModel = model(schema);
- * eachPath(schema, (path, schemaType) => { ... });
+ * disconnect((error) => { ... }); 
+ * 
  */
 
 
@@ -65,23 +62,29 @@ mongoose.Promise = global.Promise;
  * @version 0.1.0
  * @public
  * @example
+ * 
  * const jsonSchema = User.jsonSchema();
  */
 require('mongoose-schema-jsonschema')(mongoose);
 
 
 /**
+ * @name path
  * @description register path schema plugin
  * @since 0.1.0
  * @version 0.1.0
  * @public
  * @example
+ * 
  * const name = User.path('name');
+ * //=> SchemaString { path: 'name', instance: 'String', ... }
+ *  
  */
 mongoose.plugin(include(__dirname, 'lib', 'path.plugin'));
 
 
 /**
+ * @name error
  * @description unique error handler schema plugin
  * @since 0.1.0
  * @version 0.1.0
@@ -127,7 +130,10 @@ exports.Map = exports.SchemaMap = Schema.Types.Map;
  * @version 0.1.0
  * @public
  * @example
- * const { LOOKUP_FIELDS } = require('@lykmapipo/mongoose-common'); 
+ * 
+ * const { LOOKUP_FIELDS } = require('@lykmapipo/mongoose-common');
+ * //=> ['from', 'localField', 'foreignField', 'as']
+ *   
  */
 exports.LOOKUP_FIELDS = ['from', 'localField', 'foreignField', 'as'];
 
@@ -140,7 +146,10 @@ exports.LOOKUP_FIELDS = ['from', 'localField', 'foreignField', 'as'];
  * @version 0.1.0
  * @public
  * @example
- * const { SCHEMA_OPTIONS } = require('@lykmapipo/mongoose-common'); 
+ * 
+ * const { SCHEMA_OPTIONS } = require('@lykmapipo/mongoose-common');
+ * //=> { timestamps: true, ... } 
+ * 
  */
 exports.SCHEMA_OPTIONS = ({
   timestamps: true,
@@ -156,7 +165,9 @@ exports.SCHEMA_OPTIONS = ({
  * @version 0.1.0
  * @public
  * @example
+ * 
  * const { SUB_SCHEMA_OPTIONS } = require('@lykmapipo/mongoose-common'); 
+ * //=> { timestamps: false, ... } 
  */
 exports.SUB_SCHEMA_OPTIONS = ({
   _id: false,
@@ -176,7 +187,10 @@ exports.SUB_SCHEMA_OPTIONS = ({
  * @version 0.1.0
  * @public
  * @example
- * const _isConnection = isConnection(conn);
+ * 
+ * isConnection(conn);
+ * //=> true
+ * 
  */
 exports.isConnection = isConnection;
 
@@ -191,7 +205,10 @@ exports.isConnection = isConnection;
  * @version 0.1.0
  * @public
  * @example
- * const _isConnected = isConnected(conn);
+ * 
+ * isConnected(conn);
+ * //=> true
+ * 
  */
 exports.isConnected = isConnected;
 
@@ -206,7 +223,10 @@ exports.isConnected = isConnected;
  * @version 0.1.0
  * @public
  * @example
- * const _isSchema = isSchema(conn);
+ * 
+ * isSchema(schema);
+ * //=> true
+ *  
  */
 exports.isSchema = isSchema;
 
@@ -221,7 +241,10 @@ exports.isSchema = isSchema;
  * @version 0.1.0
  * @public
  * @example
- * const _isModel = isModel(model);
+ * 
+ * isModel(model);
+ * //=> true
+ * 
  */
 exports.isModel = isModel;
 
@@ -236,7 +259,10 @@ exports.isModel = isModel;
  * @version 0.1.0
  * @public
  * @example
- * const _isQuery = isQuery(query);
+ * 
+ * isQuery(query);
+ * //=> true
+ * 
  */
 exports.isQuery = isQuery;
 
@@ -252,7 +278,10 @@ exports.isQuery = isQuery;
  * @version 0.1.0
  * @public
  * @example
- * const collectionName = toCollectionName('User'); // => users
+ * 
+ * const collectionName = toCollectionName('User'); 
+ * //=> users
+ * 
  */
 exports.toCollectionName = function toCollectionName(modelName) {
   const collectionName =
@@ -271,7 +300,10 @@ exports.toCollectionName = function toCollectionName(modelName) {
  * @version 0.1.0
  * @public
  * @example
- * const _isObjectId = isObjectId(<val>);
+ * 
+ * isObjectId(val);
+ * //=> true
+ * 
  */
 exports.isObjectId = function isObjectId(val) {
   const _isObjectId = (val instanceof mongoose.Types.ObjectId);
@@ -289,7 +321,10 @@ exports.isObjectId = function isObjectId(val) {
  * @version 0.1.0
  * @public
  * @example
- * const _isMap = isMap(<val>);
+ * 
+ * isMap(val);
+ * //=> true
+ * 
  */
 exports.isMap = function isMap(val) {
   const _isMap = (val instanceof mongoose.Types.Map);
@@ -307,7 +342,9 @@ exports.isMap = function isMap(val) {
  * @version 0.1.0
  * @public
  * @example
- * const _isString = isString(<val>);
+ * 
+ * isString(val);
+ * //=> true
  */
 exports.isString = function isString(val) {
   const _isString = (val instanceof Schema.Types.String);
@@ -327,8 +364,9 @@ exports.isString = function isString(val) {
  * @public
  * @example
  * 
- * const isArray = isArraySchemaType(schemaType)
+ * isArraySchemaType(val)
  * //=> true
+ * 
  */
 exports.isArraySchemaType = (val = {}) => {
   const { $isMongooseArray = false, instance } = val;
@@ -352,7 +390,10 @@ exports.isArraySchemaType = (val = {}) => {
  * @version 0.1.0
  * @public
  * @example
- * const _isStringArray = isStringArray(<val>);
+ * 
+ * isStringArray(val);
+ * //=> true
+ * 
  */
 exports.isStringArray = function isStringArray(val) {
   const _isStringArray = (
@@ -374,7 +415,10 @@ exports.isStringArray = function isStringArray(val) {
  * @version 0.1.0
  * @public
  * @example
- * const _isNumber = isNumber(<val>);
+ * 
+ * isNumber(<val>);
+ * //=> true
+ * 
  */
 exports.isNumber = function isNumber(val) {
   const _isNumber = (val instanceof Schema.Types.Number);
@@ -393,7 +437,10 @@ exports.isNumber = function isNumber(val) {
  * @version 0.1.0
  * @public
  * @example
- * const _isNumberArray = isNumberArray(<val>);
+ * 
+ * isNumberArray(val);
+ * //=> true
+ * 
  */
 exports.isNumberArray = function isNumberArray(val) {
   const _isNumberArray = (
@@ -416,7 +463,10 @@ exports.isNumberArray = function isNumberArray(val) {
  * @version 0.2.0
  * @public
  * @example
- * const _isInstance = isInstance(<val>);
+ * 
+ * isInstance(val);
+ * //=> true
+ * 
  */
 exports.isInstance = function isInstance(value) {
   if (value) {
@@ -440,7 +490,10 @@ exports.isInstance = function isInstance(value) {
  * @version 0.1.0
  * @public
  * @example
- * const instance = copyInstance(<val>);
+ * 
+ * const instance = copyInstance(val);
+ * //=> { ... }
+ * 
  */
 exports.copyInstance = function copyInstance(value) {
   if (value) {
@@ -468,6 +521,7 @@ exports.copyInstance = function copyInstance(value) {
  * 
  * const options = schemaTypeOptionOf(schemaType)
  * //=> { trim: true, ... }
+ * 
  */
 exports.schemaTypeOptionOf = (schemaType = {}) => {
   // grab options
@@ -536,8 +590,10 @@ exports.collectionNameOf = modelName => {
  * @version 0.2.0
  * @public
  * @example
+ * 
  * connect(done);
- * connect(<url>, done);
+ * connect(url, done);
+ * 
  */
 exports.connect = function connect(url, done) {
 
@@ -573,7 +629,9 @@ exports.connect = function connect(url, done) {
  * @version 0.1.0
  * @public
  * @example
+ * 
  * disconnect(done);
+ * 
  */
 exports.disconnect = function disconnect(connection, done) {
   // normalize arguments
@@ -603,9 +661,11 @@ exports.disconnect = function disconnect(connection, done) {
  * @version 0.2.0
  * @public
  * @example
+ * 
  * clear(done);
  * clear('User', done);
  * clear('User', 'Profile', done);
+ * 
  */
 exports.clear = function clear(...modelNames) {
 
@@ -673,7 +733,9 @@ exports.clear = function clear(...modelNames) {
  * @version 0.2.0
  * @public
  * @example
+ * 
  * drop(done);
+ * 
  */
 exports.drop = function drop(connection, done) {
   // normalize arguments
@@ -717,8 +779,10 @@ exports.drop = function drop(connection, done) {
  * @version 0.2.0
  * @public
  * @example
+ * 
  * const User = model('User');
  * const User = model('User', Schema);
+ * 
  */
 exports.model = function model(modelName, schema, connection) {
   // normalize arguments
@@ -773,7 +837,9 @@ exports.model = function model(modelName, schema, connection) {
  * @version 0.1.0
  * @public
  * @example
+ * 
  * eachPath(schema, (path, schemaType) => { ... });
+ * 
  */
 exports.eachPath = function eachPath(schema, iteratee) {
 
@@ -818,8 +884,10 @@ exports.eachPath = function eachPath(schema, iteratee) {
  * @version 0.1.0
  * @public
  * @example
+ * 
  * const jsonSchema = jsonSchema(); 
- *   // => {"user": {title: "User", type: "object", properties: {..} } }
+ * //=> {"user": {title: "User", type: "object", properties: {..} } }
+ *   
  */
 exports.jsonSchema = function jsonSchema() {
   // initialize schemas dictionary
