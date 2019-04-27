@@ -7,8 +7,11 @@ process.env.NODE_ENV = 'test';
 
 /* dependencies */
 const mongoose = require('mongoose');
+const sinon = require('sinon');
 const { include } = require('@lykmapipo/include');
-const { expect } = require('chai');
+const chai = require('chai');
+chai.use(require('sinon-chai'));
+const { expect } = chai;
 const MongooseCommon = include(__dirname, '..');
 const {
   LOOKUP_FIELDS,
@@ -17,6 +20,7 @@ const {
   Schema,
   SchemaTypes,
   MongooseTypes,
+  enableDebug,
   isConnection,
   isModel,
   isQuery,
@@ -624,6 +628,17 @@ describe('unit', () => {
         __v: { type: 'number' }
       }
     });
+  });
+
+  it('should enable mongoose degugging', () => {
+    const set = sinon.spy(mongoose, 'set');
+
+    enableDebug();
+
+    expect(set).to.have.been.calledOnce;
+    expect(set).to.have.been.calledWith('debug', true);
+
+    set.restore();
   });
 
 });

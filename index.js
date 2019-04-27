@@ -266,6 +266,21 @@ exports.isModel = isModel;
  */
 exports.isQuery = isQuery;
 
+/**
+ * @function enableDebug
+ * @name enableDebug
+ * @description Enable internal mongoose debug option
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.20.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * 
+ * enableDebug();
+ * 
+ */
+exports.enableDebug = () => mongoose.set('debug', true);
+
 
 /**
  * @function toCollectionName
