@@ -20,17 +20,20 @@ $ npm install --save mongoose @lykmapipo/mongoose-common
 const {
   connect,
   clear,
+  syncIndexes,
   disconnect,
   drop
 } = require('@lykmapipo/mongoose-common');
 
-connect((error) => { ... });
+connect(error => { ... });
 
-clear((error) => { ... });
+clear(error => { ... });
 
-drop((error) => { ... });
+syncIndexes(error => { ... });
 
-disconnect((error) => { ... });
+drop(error => { ... });
+
+disconnect(error => { ... });
 
 ...
 
