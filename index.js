@@ -337,7 +337,7 @@ exports.toCollectionName = modelName => {
  * //=> true
  * 
  */
-exports.isObjectId = function isObjectId(val) {
+exports.isObjectId = val => {
   const _isObjectId = (val instanceof mongoose.Types.ObjectId);
   return _isObjectId;
 };
