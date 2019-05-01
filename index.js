@@ -91,6 +91,16 @@ mongoose.plugin(include(__dirname, 'lib', 'path.plugin'));
 mongoose.plugin(include(__dirname, 'lib', 'error.plugin'));
 
 
+/**
+ * @name seed
+ * @description data seed schema plugin
+ * @since 0.21.0
+ * @version 0.1.0
+ * @public
+ */
+mongoose.plugin(include(__dirname, 'lib', 'seed.plugin'));
+
+
 /* expose shortcuts */
 exports.Schema = Schema;
 exports.SchemaTypes = Schema.Types;
