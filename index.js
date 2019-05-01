@@ -979,6 +979,33 @@ exports.syncIndexes = done => {
 
 
 /**
+ * @function createSubSchema
+ * @name createSubSchema
+ * @description Create mongoose sub schema with no id and timestamp
+ * @param {Object} schema valid model schema definition
+ * @return {Schema} valid mongoose sub schema
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.21.0
+ * @version 0.2.0
+ * @public
+ * @example
+ * 
+ * const User = createSubSchema({ name: { type: String } });
+ * 
+ */
+exports.createSubSchema = schema => {
+  // ensure schema definition
+  const schemaDefinition = mergeObjects(schema);
+
+  // create sub schema
+  const subSchema = new Schema(schemaDefinition, exports.SUB_SCHEMA_OPTIONS);
+
+  // return created model
+  return subSchema;
+};
+
+
+/**
  * @function createModel
  * @name createModel
  * @description Create and register mongoose model
@@ -988,6 +1015,7 @@ exports.syncIndexes = done => {
  * @param {...Function} [plugins] list of valid mongoose plugin to apply
  * @param {Connection} [connection] valid mongoose database connection. If not 
  * provide default connection will be used.
+ * @return {Model} valid mongoose model
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.21.0
  * @version 0.2.0
