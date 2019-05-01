@@ -858,9 +858,9 @@ exports.model = (modelName, schema, connection) => {
  * @description iterate recursively on schema primitive paths and invoke 
  * provided iteratee function.
  * @param {Schema} Schema valid instance of mongoose schema
- * @param {Function} iteratee callback function invoked per each path found. The 
- * callback is passed the pathName, parentPath and schemaType as arguments on 
- * each iteration.
+ * @param {Function} iteratee callback function invoked per each path found. 
+ * The callback is passed the pathName, parentPath and schemaType as arguments 
+ * on each iteration.
  * @see {@link https://mongoosejs.com/docs/api.html#schema_Schema-eachPath}
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.1.0
@@ -975,4 +975,52 @@ exports.syncIndexes = done => {
   // do syncing
   syncs = _.compact([...syncs]);
   return parallel(syncs, error => done(error));
+};
+
+
+/**
+ * @function createModel
+ * @name createModel
+ * @description Create and register mongoose model
+ * @param {Object} schema valid model schema definition
+ * @param {Object} options valid model schema options
+ * @param {String} options.modelName valid model name
+ * @param {...Function} [plugins] list of valid mongoose plugin to apply
+ * @param {Connection} [connection] valid mongoose database connection. If not 
+ * provide default connection will be used.
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.21.0
+ * @version 0.2.0
+ * @public
+ * @example
+ * 
+ * const User = createModel({ name: { type: String } }, { name: 'User' });
+ * const User = createModel(
+ *  { name: { type: String } }, 
+ *  { name: 'User' }, 
+ *  autopopulate, hidden
+ * );
+ * 
+ */
+exports.createModel = (schema, options, ...plugins) => {
+  // ensure model schema definition
+  const schemaDefinition = mergeObjects(schema);
+
+  // ensure model options with timestamps
+  const modelOptions = mergeObjects(options, exports.SCHEMA_OPTIONS);
+
+  // create schema
+  const modelSchema = new Schema(schemaDefinition, modelOptions);
+
+  // apply schema plugins with model options
+  _.forEach([...plugins], plugin => {
+    modelSchema.plugin(plugin, modelOptions);
+  });
+
+  // register model
+  const { modelName } = modelOptions;
+  const model = exports.model(modelName, modelSchema);
+
+  // return created model
+  return model;
 };

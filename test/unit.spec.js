@@ -2,7 +2,7 @@
 
 
 /* dependencies */
-const { sinon, expect } = require('@lykmapipo/test-helpers');
+const { sinon, expect, faker } = require('@lykmapipo/test-helpers');
 const { include } = require('@lykmapipo/include');
 const mongoose = require('mongoose');
 const MongooseCommon = include(__dirname, '..');
@@ -38,7 +38,8 @@ const {
   model,
   eachPath,
   jsonSchema,
-  modelNames
+  modelNames,
+  createModel
 } = MongooseCommon;
 
 
@@ -639,6 +640,28 @@ describe('unit', () => {
     expect(set).to.have.been.calledWith('debug', false);
 
     set.restore();
+  });
+
+  it('should be able to create model', () => {
+    const modelName = faker.random.uuid();
+    const User = createModel({ name: { type: String } }, { modelName });
+    expect(User).to.exist;
+    expect(User.modelName).to.exist.and.be.equal(modelName);
+    expect(User.base).to.exist;
+    expect(User.path('name')).to.exist;
+  });
+
+  it('should be able to create model with plugins', () => {
+    const modelName = faker.random.uuid();
+    const User = createModel({ name: { type: String } }, { modelName },
+      schema => {
+        schema.statics.withTest = function withTest() {};
+      });
+    expect(User).to.exist;
+    expect(User.modelName).to.exist.and.be.equal(modelName);
+    expect(User.base).to.exist;
+    expect(User.path('name')).to.exist;
+    expect(User.withTest).to.exist.and.to.be.a('function');
   });
 
 });
