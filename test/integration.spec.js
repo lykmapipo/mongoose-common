@@ -1,15 +1,11 @@
 'use strict';
 
 
-/* set environment variables */
-process.env.NODE_ENV = 'test';
-
-
 /* dependencies */
 const _ = require('lodash');
+const { expect } = require('@lykmapipo/test-helpers');
 const { waterfall } = require('async');
 const { include } = require('@lykmapipo/include');
-const { expect } = require('chai');
 const {
   Schema,
   ObjectId,

@@ -1,17 +1,10 @@
 'use strict';
 
 
-/* set environment variables */
-process.env.NODE_ENV = 'test';
-
-
 /* dependencies */
-const mongoose = require('mongoose');
-const sinon = require('sinon');
+const { sinon, expect } = require('@lykmapipo/test-helpers');
 const { include } = require('@lykmapipo/include');
-const chai = require('chai');
-chai.use(require('sinon-chai'));
-const { expect } = chai;
+const mongoose = require('mongoose');
 const MongooseCommon = include(__dirname, '..');
 const {
   LOOKUP_FIELDS,
