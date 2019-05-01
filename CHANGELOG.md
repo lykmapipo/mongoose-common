@@ -1,3 +1,10 @@
+#### 0.20.1 (2019-05-01)
+
+##### Chores
+
+* **.npmrc:**  prevent npm version to commit and tag version ([6dfd8014](https://github.com/lykmapipo/mongoose-common/commit/6dfd8014b52893619483438072f28e0f9b198010))
+* **deps:**  force latest version & audit fix ([b755adcc](https://github.com/lykmapipo/mongoose-common/commit/b755adccf66e31acfb89997d1833df88023d5edb))
+
 #### 0.20.0 (2019-04-27)
 
 ##### Chores
