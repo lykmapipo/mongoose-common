@@ -1,3 +1,17 @@
+#### 0.21.0 (2019-05-01)
+
+##### New Features
+
+* **seed:**
+  *  allow merge seeds from path ([56ca5914](https://github.com/lykmapipo/mongoose-common/commit/56ca591404dac1d867c0191639dc085f11c87db0))
+  *  implement deterministic data seeding ([b3490eda](https://github.com/lykmapipo/mongoose-common/commit/b3490edaaaaf9a3021865ce2ee7fb1e2f767c6d0))
+*  implement creatSubSchema to exclude timestamps and _id ([b87b1a9e](https://github.com/lykmapipo/mongoose-common/commit/b87b1a9e2859ecaed70ac352e95056289c4c0f0c))
+*  implement create schema with varargs plugins ([a34ebe38](https://github.com/lykmapipo/mongoose-common/commit/a34ebe385220930b5b48807f936642e44408ce9a))
+
+##### Tests
+
+* **deps:**  migrate to use test helpers ([eb9c6f4d](https://github.com/lykmapipo/mongoose-common/commit/eb9c6f4dce1c888d899d899739922e66836fac80))
+
 #### 0.20.1 (2019-05-01)
 
 ##### Chores
