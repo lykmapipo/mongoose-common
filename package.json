@@ -48,20 +48,20 @@
     "grunt-mocha-test": "^0.13.3",
     "jshint-stylish": "^2.2.1",
     "mocha": "^6.1.4",
-    "mongoose": ">=5.5.4",
+    "mongoose": ">=5.5.5",
     "sinon": "^7.3.2",
     "sinon-chai": "^3.3.0"
   },
   "peerDependencies": {
-    "mongoose": ">=5.5.4"
+    "mongoose": ">=5.5.5"
   },
   "dependencies": {
-    "@lykmapipo/common": ">=0.17.0",
-    "@lykmapipo/env": ">=0.7.3",
-    "@lykmapipo/include": ">=0.2.1",
+    "@lykmapipo/common": ">=0.17.1",
+    "@lykmapipo/env": ">=0.7.4",
+    "@lykmapipo/include": ">=0.2.2",
     "async": ">=2.6.2",
     "lodash": ">=4.17.11",
     "mongoose-schema-jsonschema": ">=1.2.1",
-    "mongoose-valid8": ">=1.5.1"
+    "mongoose-valid8": ">=1.5.2"
   }
 }
