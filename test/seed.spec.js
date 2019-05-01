@@ -2,6 +2,7 @@
 
 
 /* dependencies */
+// const path = require('path');
 const _ = require('lodash');
 const { expect, faker } = require('@lykmapipo/test-helpers');
 const { include } = require('@lykmapipo/include');
@@ -71,6 +72,21 @@ describe('seed', () => {
       expect(_.find(seeded, user)).to.exist;
       done(error, seeded);
     });
+  });
+
+  it('should work using seeds path', done => {
+    process.env.BASE_PATH = __dirname;
+    const User = createModel({ name: { type: String } }, { modelName: 'User' });
+    User.seed((error, seeded) => {
+      expect(error).to.not.exist;
+      expect(seeded).to.length.at.least(1);
+      done(error, seeded);
+    });
+  });
+
+  afterEach(() => {
+    delete process.env.BASE_PATH;
+    delete process.env.SEEDS_PATH;
   });
 
 });
