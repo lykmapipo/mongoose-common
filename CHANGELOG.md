@@ -1,3 +1,10 @@
+#### 0.22.1 (2019-05-05)
+
+##### Bug Fixes
+
+*  resolve seeds paths after join ([92f553a5](https://github.com/lykmapipo/mongoose-common/commit/92f553a5b221bd04c8f629ef03daa4cf65f2ea14))
+* **seed:**  honour existing data when seeding ([05d202e9](https://github.com/lykmapipo/mongoose-common/commit/05d202e92719700b8e39519f91c329427330ff7b))
+
 #### 0.22.0 (2019-05-05)
 
 ##### Chores
