@@ -1,3 +1,13 @@
+#### 0.22.0 (2019-05-05)
+
+##### Chores
+
+* **deps:**  force latest version & audit fixes ([d5ae6d77](https://github.com/lykmapipo/mongoose-common/commit/d5ae6d7782eb3cb37aa5f75fd52d8c71c691db8f))
+
+##### New Features
+
+*  add helper to create sub schema with variable paths ([f52be65d](https://github.com/lykmapipo/mongoose-common/commit/f52be65d90b95eb6e621a94724475a9f3af7fe65))
+
 #### 0.21.0 (2019-05-01)
 
 ##### New Features
