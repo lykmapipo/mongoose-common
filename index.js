@@ -30,7 +30,7 @@
 /* dependencies */
 const _ = require('lodash');
 const { parallel, waterfall } = require('async');
-const { mergeObjects } = require('@lykmapipo/common');
+const { mergeObjects, uniq } = require('@lykmapipo/common');
 const { getString } = require('@lykmapipo/env');
 const { include } = require('@lykmapipo/include');
 const mongoose = require('mongoose-valid8');
@@ -1061,4 +1061,61 @@ exports.createModel = (schema, options, ...plugins) => {
 
   // return created model
   return model;
+};
+
+
+/**
+ * @function createVarySubSchema
+ * @name createVarySubSchema
+ * @description Create sub schema with variable paths
+ * @param {Object} optns valid schema type options
+ * @param {...Object|...String} paths variable paths to include on schema
+ * @return {Schema} valid mongoose schema
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.22.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * 
+ * const locale = createVarySubSchema({ type: String }, 'en', 'sw');
+ * const locale = createVarySubSchema(
+ *  { type: String }, 
+ *  { name: 'en': required: true },
+ *  'sw'
+ * );
+ * 
+ */
+exports.createVarySubSchema = (optns, ...paths) => {
+  // ensure options
+  const defaults = { required: false };
+  const options = mergeObjects(defaults, optns);
+
+  // normalize and collect fields
+  const fields = _.map([...paths], field => {
+    // handle: string field definition
+    if (_.isString(field)) {
+      return { name: field, required: false };
+    }
+    // handle: object field definition
+    else if (_.isPlainObject(field)) {
+      return mergeObjects({ required: false }, field);
+    }
+    // ignore: not valid field definition
+    else {
+      return undefined;
+    }
+  });
+
+  // prepare schema definition
+  const definition = {};
+  _.forEach(uniq([...fields]), field => {
+    definition[field.name] = mergeObjects(options, _.omit(field, 'name'));
+  });
+
+  // build field as sub-schema
+  const schema = exports.createSubSchema(definition);
+
+  // return vary sub-schema
+  return schema;
+
 };

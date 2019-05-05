@@ -41,7 +41,8 @@ const {
   jsonSchema,
   modelNames,
   createSubSchema,
-  createModel
+  createModel,
+  createVarySubSchema
 } = MongooseCommon;
 
 
@@ -674,6 +675,63 @@ describe('unit', () => {
     expect(User.base).to.exist;
     expect(User.path('name')).to.exist;
     expect(User.withTest).to.exist.and.to.be.a('function');
+  });
+
+  it('should create sub schema with variable paths', () => {
+    const schema = createVarySubSchema({ type: String }, 'en', 'sw');
+    expect(schema.constructor).to.exist;
+    expect(schema.constructor.name).to.be.equal('Schema');
+
+    expect(schema.tree.sw).to.exist;
+    expect(schema.tree.en).to.exist;
+
+    const sw = schema.tree.sw;
+    const instance = schema.paths.sw.instance;
+
+    expect(instance).to.be.equal('String');
+    expect(sw).to.exist;
+    expect(sw).to.be.an('object');
+    expect(sw.type).to.be.a('function');
+    expect(sw.type.name).to.be.equal('String');
+  });
+
+  it('should create sub schema with variable paths', () => {
+    const schema = createVarySubSchema({ type: String }, 'en', { name: 'sw' });
+    expect(schema.constructor).to.exist;
+    expect(schema.constructor.name).to.be.equal('Schema');
+
+    expect(schema.tree.sw).to.exist;
+    expect(schema.tree.en).to.exist;
+
+    const sw = schema.tree.sw;
+    const instance = schema.paths.sw.instance;
+
+    expect(instance).to.be.equal('String');
+    expect(sw).to.exist;
+    expect(sw).to.be.an('object');
+    expect(sw.type).to.be.a('function');
+    expect(sw.type.name).to.be.equal('String');
+  });
+
+  it('should create sub schema with variable paths', () => {
+    const schema = createVarySubSchema({ type: String },
+      'en', { name: 'sw', required: true }
+    );
+    expect(schema.constructor).to.exist;
+    expect(schema.constructor.name).to.be.equal('Schema');
+
+    expect(schema.tree.sw).to.exist;
+    expect(schema.tree.en).to.exist;
+
+    const sw = schema.tree.sw;
+    const instance = schema.paths.sw.instance;
+
+    expect(instance).to.be.equal('String');
+    expect(sw).to.exist;
+    expect(sw).to.be.an('object');
+    expect(sw.type).to.be.a('function');
+    expect(sw.type.name).to.be.equal('String');
+    expect(sw.required).to.be.true;
   });
 
 });
