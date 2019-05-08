@@ -667,6 +667,17 @@ describe('unit', () => {
     expect(schema.options.emitIndexErrors).to.be.true;
   });
 
+  it('should be able to create schema with plugins', () => {
+    const schema = createSchema({ name: { type: String } }, {},
+      schema => {
+        schema.statics.withTest = function withTest() {};
+      });
+    expect(schema).to.exist;
+    expect(schema.base).to.exist;
+    expect(schema.path('name')).to.exist;
+    expect(schema.statics.withTest).to.exist.and.to.be.a('function');
+  });
+
   it('should be able to create model', () => {
     const modelName = faker.random.uuid();
     const User = createModel({ name: { type: String } }, { modelName });

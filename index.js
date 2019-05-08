@@ -1026,6 +1026,7 @@ exports.createSubSchema = (definition, optns) => {
  * @description Create mongoose schema with timestamps
  * @param {Object} definition valid model schema definition
  * @param {Object} [optns] valid schema options
+ * @param {...Function} [plugins] list of valid mongoose plugin to apply
  * @return {Schema} valid mongoose schema
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.23.0
@@ -1036,7 +1037,7 @@ exports.createSubSchema = (definition, optns) => {
  * const User = createSchema({ name: { type: String } });
  * 
  */
-exports.createSchema = (definition, optns) => {
+exports.createSchema = (definition, optns, ...plugins) => {
   // ensure schema definition
   const schemaDefinition = mergeObjects(definition);
 
@@ -1045,6 +1046,11 @@ exports.createSchema = (definition, optns) => {
 
   // create schema
   const schema = new Schema(schemaDefinition, schemaOptions);
+
+  // apply schema plugins with model options
+  _.forEach([...plugins], plugin => {
+    schema.plugin(plugin, schemaOptions);
+  });
 
   // return created schema
   return schema;
@@ -1084,12 +1090,8 @@ exports.createModel = (schema, options, ...plugins) => {
   const modelOptions = mergeObjects(options, exports.SCHEMA_OPTIONS);
 
   // create schema
-  const modelSchema = new Schema(schemaDefinition, modelOptions);
-
-  // apply schema plugins with model options
-  _.forEach([...plugins], plugin => {
-    modelSchema.plugin(plugin, modelOptions);
-  });
+  const modelSchema =
+    exports.createSchema(schemaDefinition, modelOptions, ...plugins);
 
   // register model
   const { modelName } = modelOptions;
