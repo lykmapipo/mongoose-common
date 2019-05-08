@@ -41,6 +41,7 @@ const {
   jsonSchema,
   modelNames,
   createSubSchema,
+  createSchema,
   createModel,
   createVarySubSchema
 } = MongooseCommon;
@@ -120,6 +121,7 @@ describe('unit', () => {
     expect(SCHEMA_OPTIONS).to.exist;
     expect(SCHEMA_OPTIONS).to.be.an('object');
     expect(SCHEMA_OPTIONS).to.be.eql({
+      id: false,
       timestamps: true,
       emitIndexErrors: true
     });
@@ -646,13 +648,23 @@ describe('unit', () => {
   });
 
   it('should be able to create sub schema', () => {
-    const SubSchema = createSubSchema({ name: { type: String } });
-    expect(SubSchema).to.exist;
-    expect(isSchema(SubSchema)).to.be.true;
-    expect(SubSchema.options._id).to.be.false;
-    expect(SubSchema.options.id).to.be.false;
-    expect(SubSchema.options.timestamps).to.be.false;
-    expect(SubSchema.options.emitIndexErrors).to.be.true;
+    const subSchema = createSubSchema({ name: { type: String } });
+    expect(subSchema).to.exist;
+    expect(isSchema(subSchema)).to.be.true;
+    expect(subSchema.options._id).to.be.false;
+    expect(subSchema.options.id).to.be.false;
+    expect(subSchema.options.timestamps).to.be.false;
+    expect(subSchema.options.emitIndexErrors).to.be.true;
+  });
+
+  it('should be able to create schema', () => {
+    const schema = createSchema({ name: { type: String } });
+    expect(schema).to.exist;
+    expect(isSchema(schema)).to.be.true;
+    expect(schema.options._id).to.be.true;
+    expect(schema.options.id).to.be.false;
+    expect(schema.options.timestamps).to.be.true;
+    expect(schema.options.emitIndexErrors).to.be.true;
   });
 
   it('should be able to create model', () => {

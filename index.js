@@ -160,6 +160,7 @@ exports.LOOKUP_FIELDS = ['from', 'localField', 'foreignField', 'as'];
  * 
  */
 exports.SCHEMA_OPTIONS = ({
+  id: false,
   timestamps: true,
   emitIndexErrors: true
 });
@@ -992,21 +993,21 @@ exports.syncIndexes = done => {
  * @function createSubSchema
  * @name createSubSchema
  * @description Create mongoose sub schema with no id and timestamp
- * @param {Object} schema valid model schema definition
+ * @param {Object} definition valid model schema definition
  * @param {Object} [optns] valid schema options
  * @return {Schema} valid mongoose sub schema
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.21.0
- * @version 0.2.0
+ * @version 0.3.0
  * @public
  * @example
  * 
  * const User = createSubSchema({ name: { type: String } });
  * 
  */
-exports.createSubSchema = (schema, optns) => {
+exports.createSubSchema = (definition, optns) => {
   // ensure schema definition
-  const schemaDefinition = mergeObjects(schema);
+  const schemaDefinition = mergeObjects(definition);
 
   // ensure schema options
   const schemaOptions = _.merge({}, exports.SUB_SCHEMA_OPTIONS, optns);
@@ -1014,8 +1015,38 @@ exports.createSubSchema = (schema, optns) => {
   // create sub schema
   const subSchema = new Schema(schemaDefinition, schemaOptions);
 
-  // return created model
+  // return created sub schema
   return subSchema;
+};
+
+/**
+ * @function createSchema
+ * @name createSchema
+ * @description Create mongoose schema with timestamps
+ * @param {Object} definition valid model schema definition
+ * @param {Object} [optns] valid schema options
+ * @return {Schema} valid mongoose schema
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.23.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * 
+ * const User = createSchema({ name: { type: String } });
+ * 
+ */
+exports.createSchema = (definition, optns) => {
+  // ensure schema definition
+  const schemaDefinition = mergeObjects(definition);
+
+  // ensure schema options
+  const schemaOptions = _.merge({}, exports.SCHEMA_OPTIONS, optns);
+
+  // create schema
+  const schema = new Schema(schemaDefinition, schemaOptions);
+
+  // return created schema
+  return schema;
 };
 
 
