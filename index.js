@@ -540,8 +540,8 @@ exports.copyInstance = value => {
   if (value) {
     return (
       exports.isInstance(value) ?
-      _.merge({}, value.toObject()) :
-      _.merge({}, value)
+      mergeObjects(value.toObject()) :
+      mergeObjects(value)
     );
   }
   return {};
@@ -1010,7 +1010,7 @@ exports.createSubSchema = (definition, optns) => {
   const schemaDefinition = mergeObjects(definition);
 
   // ensure schema options
-  const schemaOptions = _.merge({}, exports.SUB_SCHEMA_OPTIONS, optns);
+  const schemaOptions = mergeObjects(exports.SUB_SCHEMA_OPTIONS, optns);
 
   // create sub schema
   const subSchema = new Schema(schemaDefinition, schemaOptions);
@@ -1018,6 +1018,7 @@ exports.createSubSchema = (definition, optns) => {
   // return created sub schema
   return subSchema;
 };
+
 
 /**
  * @function createSchema
@@ -1040,7 +1041,7 @@ exports.createSchema = (definition, optns) => {
   const schemaDefinition = mergeObjects(definition);
 
   // ensure schema options
-  const schemaOptions = _.merge({}, exports.SCHEMA_OPTIONS, optns);
+  const schemaOptions = mergeObjects(exports.SCHEMA_OPTIONS, optns);
 
   // create schema
   const schema = new Schema(schemaDefinition, schemaOptions);
