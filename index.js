@@ -993,6 +993,7 @@ exports.syncIndexes = done => {
  * @name createSubSchema
  * @description Create mongoose sub schema with no id and timestamp
  * @param {Object} schema valid model schema definition
+ * @param {Object} [optns] valid schema options
  * @return {Schema} valid mongoose sub schema
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.21.0
@@ -1003,12 +1004,15 @@ exports.syncIndexes = done => {
  * const User = createSubSchema({ name: { type: String } });
  * 
  */
-exports.createSubSchema = schema => {
+exports.createSubSchema = (schema, optns) => {
   // ensure schema definition
   const schemaDefinition = mergeObjects(schema);
 
+  // ensure schema options
+  const schemaOptions = _.merge({}, exports.SUB_SCHEMA_OPTIONS, optns);
+
   // create sub schema
-  const subSchema = new Schema(schemaDefinition, exports.SUB_SCHEMA_OPTIONS);
+  const subSchema = new Schema(schemaDefinition, schemaOptions);
 
   // return created model
   return subSchema;
