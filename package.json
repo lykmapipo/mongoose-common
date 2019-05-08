@@ -49,12 +49,12 @@
     "grunt-mocha-test": "^0.13.3",
     "jshint-stylish": "^2.2.1",
     "mocha": "^6.1.4",
-    "mongoose": ">=5.5.5",
+    "mongoose": ">=5.5.6",
     "sinon": "^7.3.2",
     "sinon-chai": "^3.3.0"
   },
   "peerDependencies": {
-    "mongoose": ">=5.5.5"
+    "mongoose": ">=5.5.6"
   },
   "dependencies": {
     "@lykmapipo/common": ">=0.17.2",
