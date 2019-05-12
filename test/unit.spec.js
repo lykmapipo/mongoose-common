@@ -19,6 +19,7 @@ const {
   isSchema,
   isModel,
   isQuery,
+  isAggregate,
   isConnected,
   toCollectionName,
   isObjectId,
@@ -168,6 +169,16 @@ describe('unit', () => {
     let val = model(new Schema({ name: String })).find();
     expect(isQuery(val)).to.be.true;
     expect(isQuery('124')).to.be.false;
+  });
+
+  it('should check if value is a Aggregate', () => {
+    expect(isAggregate).to.exist;
+    expect(isAggregate).to.be.a('function');
+    expect(isAggregate).to.have.length(1);
+
+    let val = model(new Schema({ name: String })).aggregate();
+    expect(isAggregate(val)).to.be.true;
+    expect(isAggregate('124')).to.be.false;
   });
 
   it('should check if value is a Model', () => {

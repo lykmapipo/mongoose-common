@@ -34,7 +34,7 @@ const { mergeObjects, uniq } = require('@lykmapipo/common');
 const { getString } = require('@lykmapipo/env');
 const { include } = require('@lykmapipo/include');
 const mongoose = require('mongoose-valid8');
-const { Schema, Model, Connection, Query } = mongoose;
+const { Schema, Model, Connection, Query, Aggregate } = mongoose;
 
 
 /* local helpers */
@@ -45,6 +45,8 @@ const isSchema = schema => schema instanceof Schema;
 const isModel = model => model && model.prototype instanceof Model;
 
 const isQuery = query => query instanceof Query;
+
+const isAggregate = query => query instanceof Aggregate;
 
 const isConnected = conn => (isConnection(conn) && (conn.readyState === 1));
 
@@ -114,7 +116,7 @@ exports.modelNames = () => mongoose.modelNames();
 exports.GridFSBucket = mongoose.mongo.GridFSBucket;
 exports.Connection = Connection;
 exports.Query = Query;
-exports.Aggregate = mongoose.Aggregate;
+exports.Aggregate = Aggregate;
 
 
 /* schema types shortcuts*/
@@ -275,6 +277,24 @@ exports.isModel = isModel;
  * 
  */
 exports.isQuery = isQuery;
+
+
+/**
+ * @function isAggregate
+ * @name isAggregate
+ * @description Check if provided value is an instance of mongoose aggregate
+ * @param {Mixed} val value to check if its a aggregate instance
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.23.0
+ * @version 0.1.0
+ * @public
+ * @example
+ * 
+ * isAggregate(query);
+ * //=> true
+ * 
+ */
+exports.isAggregate = isAggregate;
 
 
 /**
