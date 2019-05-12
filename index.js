@@ -113,6 +113,7 @@ exports.STATES = mongoose.STATES;
 exports.modelNames = () => mongoose.modelNames();
 exports.GridFSBucket = mongoose.mongo.GridFSBucket;
 exports.Connection = Connection;
+exports.Query = Query;
 exports.Aggregate = mongoose.Aggregate;
 
 
