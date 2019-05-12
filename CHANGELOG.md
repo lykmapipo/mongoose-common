@@ -1,3 +1,24 @@
+#### 0.23.0 (2019-05-12)
+
+##### Chores
+
+* **deps:**
+  *  force latest version & audit fix ([55b0542e](https://github.com/lykmapipo/mongoose-common/commit/55b0542e7acf0cb173335062ce5ec4c5c38be7b7))
+  *  force latest version & audit fix ([dea05cdc](https://github.com/lykmapipo/mongoose-common/commit/dea05cdca29cbb48c6c0a0359c809786b2f126a7))
+
+##### New Features
+
+*  add isAggregate helper to check is value is Aggregate instance ([413ef216](https://github.com/lykmapipo/mongoose-common/commit/413ef21646f2a71ea9a138c09d2c6990be5fe43f))
+*  export Query ([882fc613](https://github.com/lykmapipo/mongoose-common/commit/882fc6136c0341617a476a23c2f6128f1635d549))
+*  allow varargs plugins on createSchema ([b7abfc3d](https://github.com/lykmapipo/mongoose-common/commit/b7abfc3dfcffcc164c5d639fdb7232db0e1b7ef1))
+*  implement initial createSchema ([cf49283b](https://github.com/lykmapipo/mongoose-common/commit/cf49283b701a29a0100314785b18006e794c4ea8))
+*  support options on createSubSchema ([a2e511bb](https://github.com/lykmapipo/mongoose-common/commit/a2e511bb526aafccd06aa4303eb7d92e3473b964))
+
+##### Refactors
+
+*  migrate to use mergeObjects than _.merge ([5d04a3c3](https://github.com/lykmapipo/mongoose-common/commit/5d04a3c3cc3d8177ed1f9d3c5d5d8b5df214a6fe))
+
+
 #### 0.22.1 (2019-05-05)
 
 ##### Bug Fixes
