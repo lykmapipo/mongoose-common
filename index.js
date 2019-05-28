@@ -669,13 +669,14 @@ exports.connect = (url, done) => {
   const MONGODB_URI = getString('MONGODB_URI', DB_NAME);
 
   // normalize arguments
-  const _url = _.isFunction(url) ? MONGODB_URI : url;
+  let _url = _.isFunction(url) ? MONGODB_URI : url;
   const _done = _.isFunction(url) ? url : done;
 
   // connection options
   const _options = { useNewUrlParser: true };
 
   // establish mongoose connection
+  _url = _.trim(_url) || MONGODB_URI;
   mongoose.connect(_url, _options, _done);
 
 };
