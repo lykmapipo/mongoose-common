@@ -57,8 +57,8 @@
     "mongoose": ">=5.5.11"
   },
   "dependencies": {
-    "@lykmapipo/common": ">=0.17.5",
-    "@lykmapipo/env": ">=0.7.7",
+    "@lykmapipo/common": ">=0.17.6",
+    "@lykmapipo/env": ">=0.7.8",
     "@lykmapipo/include": ">=0.2.4",
     "async": ">=3.0.1",
     "lodash": ">=4.17.11",
