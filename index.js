@@ -51,7 +51,6 @@ const isAggregate = query => query instanceof Aggregate;
 const isConnected = conn => (isConnection(conn) && (conn.readyState === 1));
 
 
-
 /* set global mongoose promise */
 mongoose.Promise = global.Promise;
 
@@ -214,7 +213,7 @@ exports.isConnection = isConnection;
  * @param {Connection} val valid mongoose connection to check it state
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.6.1
- * @version 0.1.0
+ * @version 0.2.0
  * @public
  * @example
  * 
@@ -222,7 +221,7 @@ exports.isConnection = isConnection;
  * //=> true
  * 
  */
-exports.isConnected = isConnected;
+exports.isConnected = (conn = mongoose.connection) => isConnected(conn);
 
 
 /**

@@ -16,11 +16,11 @@ const {
   enableDebug,
   disableDebug,
   isConnection,
+  isConnected,
   isSchema,
   isModel,
   isQuery,
   isAggregate,
-  isConnected,
   toCollectionName,
   isObjectId,
   isMap,
@@ -440,6 +440,18 @@ describe('unit', () => {
       expect(isConnected(instance)).to.be.true;
       expect(instance.readyState).to.be.equal(1);
       expect(instance.name).to.be.equal('test');
+      done(error, instance);
+    });
+  });
+
+  it('should check if connected', done => {
+    expect(isConnected()).to.be.false;
+    expect(isConnected('connection')).to.be.false;
+    connect(MONGODB_URI, (error, instance) => {
+      expect(error).to.not.exist;
+      expect(instance).to.exist;
+      expect(isConnected(instance)).to.be.true;
+      expect(isConnected()).to.be.true;
       done(error, instance);
     });
   });
