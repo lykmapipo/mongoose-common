@@ -658,26 +658,29 @@ exports.collectionNameOf = modelName => {
  * 
  */
 exports.connect = (url, done) => {
-
-  // ensure database name
+  // obtain current node runtime environment
   const NODE_ENV = getString('NODE_ENV', 'development');
+
+  // ensure database name using environment and package
   let DB_NAME = _.get(include('@cwd/package.json'), 'name', NODE_ENV);
   DB_NAME = _.toLower(_.last(_.split(DB_NAME, '/')));
   DB_NAME = ((DB_NAME === NODE_ENV) ? DB_NAME : `${DB_NAME} ${NODE_ENV}`);
   DB_NAME = _.kebabCase(DB_NAME);
   DB_NAME = `mongodb://localhost/${DB_NAME}`;
-  const MONGODB_URI = getString('MONGODB_URI', DB_NAME);
+
+  // ensure database uri from environment
+  const MONGODB_URI = _.trim(getString('MONGODB_URI', DB_NAME)) || DB_NAME;
 
   // normalize arguments
-  let _url = _.isFunction(url) ? MONGODB_URI : url;
+  let uri = _.isFunction(url) ? MONGODB_URI : url;
   const _done = _.isFunction(url) ? url : done;
 
   // connection options
   const _options = { useNewUrlParser: true };
 
   // establish mongoose connection
-  _url = _.trim(_url) || MONGODB_URI;
-  mongoose.connect(_url, _options, _done);
+  uri = _.trim(uri) || MONGODB_URI;
+  mongoose.connect(uri, _options, _done);
 
 };
 
