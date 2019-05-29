@@ -1,3 +1,9 @@
+#### 0.23.4 (2019-05-29)
+
+##### New Features
+
+*  allow isConnected to use default connection or passed connection ([1f103bb0](https://github.com/lykmapipo/mongoose-common/commit/1f103bb09c9baff6ec16392a9d4404d296100910))
+
 #### 0.23.3 (2019-05-29)
 
 ##### Chores
