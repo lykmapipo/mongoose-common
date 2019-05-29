@@ -1,3 +1,13 @@
+#### 0.23.3 (2019-05-29)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([022796d1](https://github.com/lykmapipo/mongoose-common/commit/022796d1a57b6c964bbc01c0f433310b29d13278))
+
+##### Bug Fixes
+
+*  ensure connection uri for undefine MONGODB_URI env variable ([bfa9848f](https://github.com/lykmapipo/mongoose-common/commit/bfa9848fe0af017672d41400de06674a489c2833))
+
 #### 0.23.2 (2019-05-28)
 
 ##### Chores
