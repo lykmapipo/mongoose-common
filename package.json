@@ -49,15 +49,15 @@
     "grunt-mocha-test": "^0.13.3",
     "jshint-stylish": "^2.2.1",
     "mocha": "^6.1.4",
-    "mongoose": ">=5.5.11",
+    "mongoose": ">=5.5.12",
     "sinon": "^7.3.2",
     "sinon-chai": "^3.3.0"
   },
   "peerDependencies": {
-    "mongoose": ">=5.5.11"
+    "mongoose": ">=5.5.12"
   },
   "dependencies": {
-    "@lykmapipo/common": ">=0.17.6",
+    "@lykmapipo/common": ">=0.19.0",
     "@lykmapipo/env": ">=0.7.8",
     "@lykmapipo/include": ">=0.2.4",
     "async": ">=3.0.1",
