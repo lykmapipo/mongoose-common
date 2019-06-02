@@ -1,3 +1,13 @@
+#### 0.23.5 (2019-06-02)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([adf71c54](https://github.com/lykmapipo/mongoose-common/commit/adf71c549caaf9c80190e554556383e749e8f22f))
+
+##### Bug Fixes
+
+*  enable useCreateIndex instead of deprecated ensureIndex ([02ec8feb](https://github.com/lykmapipo/mongoose-common/commit/02ec8febf18e13dbae25b4f4e8061724d967e9b9))
+
 #### 0.23.4 (2019-05-29)
 
 ##### New Features
