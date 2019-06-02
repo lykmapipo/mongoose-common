@@ -675,7 +675,7 @@ exports.connect = (url, done) => {
   const _done = _.isFunction(url) ? url : done;
 
   // connection options
-  const _options = { useNewUrlParser: true };
+  const _options = { useNewUrlParser: true, useCreateIndex: true };
 
   // establish mongoose connection
   uri = _.trim(uri) || MONGODB_URI;
