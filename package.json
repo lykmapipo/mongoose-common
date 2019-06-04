@@ -1,6 +1,6 @@
 {
   "name": "@lykmapipo/mongoose-common",
-  "version": "0.23.7",
+  "version": "0.24.0",
   "description": "Re-usable helpers for mongoose",
   "keywords": [
     "lykmapipo",
@@ -18,7 +18,8 @@
   ],
   "main": "index.js",
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "docs": "doxdox 'index.js' -p package.json -l markdown -o DOCUMENTATION.md"
   },
   "repository": {
     "type": "git",
@@ -43,6 +44,7 @@
   "devDependencies": {
     "@lykmapipo/test-helpers": "^0.2.5",
     "chai": "^4.2.0",
+    "doxdox": "^3.0.0",
     "grunt": "^1.0.4",
     "grunt-contrib-jshint": "^2.1.0",
     "grunt-contrib-watch": "^1.1.0",

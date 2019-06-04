@@ -782,7 +782,7 @@ describe('unit', () => {
     expect(sw.required).to.be.true;
   });
 
-  it.only('should create validation error', () => {
+  it('should create validation error', () => {
     let error = validationErrorFor();
     expect(error).to.exist;
     expect(error.name).to.be.equal('ValidationError');

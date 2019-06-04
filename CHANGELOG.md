@@ -1,3 +1,9 @@
+#### 0.24.0 (2019-06-04)
+
+##### New Features
+
+*  implement validationErrorFor helper to construct mongoose validation errors ([bcd55713](https://github.com/lykmapipo/mongoose-common/commit/bcd557138f5e0db853c9cf32dea68460775a7526))
+
 #### 0.23.7 (2019-06-04)
 
 ##### Chores
