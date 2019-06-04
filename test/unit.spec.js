@@ -44,7 +44,8 @@ const {
   createSubSchema,
   createSchema,
   createModel,
-  createVarySubSchema
+  createVarySubSchema,
+  validationErrorFor
 } = MongooseCommon;
 
 
@@ -779,6 +780,42 @@ describe('unit', () => {
     expect(sw.type).to.be.a('function');
     expect(sw.type.name).to.be.equal('String');
     expect(sw.required).to.be.true;
+  });
+
+  it.only('should create validation error', () => {
+    let error = validationErrorFor();
+    expect(error).to.exist;
+    expect(error.name).to.be.equal('ValidationError');
+    expect(error.status).to.be.equal(400);
+    expect(error.code).to.be.equal(400);
+    expect(error.message).to.be.equal('Validation failed');
+    expect(error.errors).to.be.eql({});
+
+    let paths = {
+      name: {
+        type: 'required',
+        path: 'name',
+        value: undefined,
+        reason: 'Not provided',
+        message: 'Path `{PATH}` is required.'
+      }
+    };
+    error = validationErrorFor({ paths });
+    expect(error).to.exist;
+    expect(error.name).to.be.equal('ValidationError');
+    expect(error.status).to.be.equal(400);
+    expect(error.code).to.be.equal(400);
+    expect(error.message).to.be.equal('Validation failed');
+    expect(error.errors).to.exist;
+
+    expect(error.errors.name).to.exist;
+    expect(error.errors.name.name).to.be.equal('ValidatorError');
+    expect(error.errors.name.kind).to.be.equal('required');
+    expect(error.errors.name.path).to.be.equal('name');
+    expect(error.errors.name.value).to.be.equal(undefined);
+    expect(error.errors.name.reason).to.be.equal('Not provided');
+    expect(error.errors.name.message)
+      .to.be.equal('Path `name` is required.');
   });
 
 });

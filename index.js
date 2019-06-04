@@ -1181,3 +1181,50 @@ exports.createVarySubSchema = (optns, ...paths) => {
   return schema;
 
 };
+
+/**
+ * @function validationErrorFor
+ * @name validationErrorFor
+ * @description Create mongoose validation error for specified options
+ * @param {Object} optns valid error options
+ * @param {Number|String} [optns.status] valid error status
+ * @param {Number|String} [optns.code] valid error code
+ * @param {Object} [optns.paths] paths with validator error properties
+ * @return {ValidationError} valid instance of mongoose validation error
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.24.0
+ * @version 0.1.0
+ * @public
+ * @example
+ *
+ * const status = 400;
+ * const paths = { 
+ *   name: { type: 'required', path:'name', value: ..., message: ...  } 
+ * };
+ * const error = validationErrorFor({ status, paths });
+ * //=> error
+ * 
+ */
+exports.validationErrorFor = optns => {
+  // obtain options
+  const { status = 400, code = 400, paths = {} } = mergeObjects(optns);
+
+  // create mongoose validation error
+  const error = new mongoose.Error.ValidationError();
+  error.status = status;
+  error.code = code || status;
+
+  // attach path validator error
+  if (!_.isEmpty(paths)) {
+    const errors = {};
+    _.forEach(paths, (props, path) => {
+      let pathError = mergeObjects({ path }, props);
+      pathError = new mongoose.Error.ValidatorError(pathError);
+      errors[path] = pathError;
+    });
+    error.errors = errors;
+  }
+
+  // return validation error
+  return error;
+};
