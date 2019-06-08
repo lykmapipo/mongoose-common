@@ -51,12 +51,12 @@
     "grunt-mocha-test": "^0.13.3",
     "jshint-stylish": "^2.2.1",
     "mocha": "^6.1.4",
-    "mongoose": ">=5.5.12",
+    "mongoose": ">=5.5.13",
     "sinon": "^7.3.2",
     "sinon-chai": "^3.3.0"
   },
   "peerDependencies": {
-    "mongoose": ">=5.5.12"
+    "mongoose": ">=5.5.13"
   },
   "dependencies": {
     "@lykmapipo/common": ">=0.19.1",
