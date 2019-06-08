@@ -79,6 +79,18 @@ describe('seed', () => {
     });
   });
 
+  it('should ignore path seeds if seed provided', done => {
+    process.env.BASE_PATH = __dirname;
+    const User = createModel({ name: { type: String } }, { modelName: 'User' });
+    const user = { name: faker.name.findName() };
+    User.seed([user], (error, seeded) => {
+      expect(error).to.not.exist;
+      expect(seeded).to.have.length(1);
+      expect(_.first(seeded).name).to.be.equal(user.name);
+      done(error, seeded);
+    });
+  });
+
   it('should work with refs', done => {
     const Parent = createModel({ name: { type: String } });
     const Child = createModel({
