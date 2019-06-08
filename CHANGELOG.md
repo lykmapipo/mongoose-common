@@ -1,3 +1,25 @@
+#### 0.25.0 (2019-06-08)
+
+##### Chores
+
+* **deps:**
+  *  force latest version & audit fix ([0dc5d285](https://github.com/lykmapipo/mongoose-common/commit/0dc5d2854cb31f7576f5199ca8c92939d4e83eb4))
+  *  force latest version & audit fix ([38e95f1b](https://github.com/lykmapipo/mongoose-common/commit/38e95f1b3a4cd7a5754092692ffbc8375487d2be))
+
+##### New Features
+
+*  add clearAndSeed model static method ([02a94a4f](https://github.com/lykmapipo/mongoose-common/commit/02a94a4f086ad72717948636aee3b009997c9dd6))
+*  ignore path seeds if args seed provided ([f2b9ca9a](https://github.com/lykmapipo/mongoose-common/commit/f2b9ca9a426ebaf20a3cb803321858b93f3bdc7e))
+
+##### Code Style Changes
+
+*  fix prettifier errors ([fa411761](https://github.com/lykmapipo/mongoose-common/commit/fa4117616d6007fa64ab675a31b2926bee76cc27))
+*  prettify codes ([fe521cc5](https://github.com/lykmapipo/mongoose-common/commit/fe521cc5400d9b634f84060bd6306a1d5523888e))
+
+##### Tests
+
+*  implement refs seeds ([648451d6](https://github.com/lykmapipo/mongoose-common/commit/648451d66b285064ec6b5e4651394582515f03eb))
+
 #### 0.24.0 (2019-06-04)
 
 ##### New Features
