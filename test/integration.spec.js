@@ -1,23 +1,16 @@
 'use strict';
 
-
 /* dependencies */
 const _ = require('lodash');
 const { expect } = require('@lykmapipo/test-helpers');
 const { waterfall } = require('async');
 const { include } = require('@lykmapipo/include');
-const {
-  Schema,
-  ObjectId,
-  model,
-  connect,
-  drop,
-  syncIndexes
-} = include(__dirname, '..');
-
+const { Schema, ObjectId, model, connect, drop, syncIndexes } = include(
+  __dirname,
+  '..'
+);
 
 describe('integration', () => {
-
   before(done => connect(done));
   after(done => drop(done));
 
@@ -87,16 +80,12 @@ describe('integration', () => {
         expect(error.errors).to.exist;
         expect(error.errors.firstName).to.exist;
         expect(error.errors.firstName.kind).to.exist;
-        expect(error.errors.firstName.kind)
-          .to.be.equal('unique');
-        expect(error.errors.firstName.value)
-          .to.be.equal(user.firstName);
+        expect(error.errors.firstName.kind).to.be.equal('unique');
+        expect(error.errors.firstName.value).to.be.equal(user.firstName);
         expect(error.errors.lastName).to.exist;
         expect(error.errors.lastName.kind).to.exist;
-        expect(error.errors.lastName.kind)
-          .to.be.equal('unique');
-        expect(error.errors.lastName.value)
-          .to.be.equal(user.lastName);
+        expect(error.errors.lastName.kind).to.be.equal('unique');
+        expect(error.errors.lastName.value).to.be.equal(user.lastName);
         done();
       });
     });
@@ -120,16 +109,12 @@ describe('integration', () => {
         expect(error.errors).to.exist;
         expect(error.errors.firstName).to.exist;
         expect(error.errors.firstName.kind).to.exist;
-        expect(error.errors.firstName.kind)
-          .to.be.equal('unique');
-        expect(error.errors.firstName.value)
-          .to.be.equal(user.firstName);
+        expect(error.errors.firstName.kind).to.be.equal('unique');
+        expect(error.errors.firstName.value).to.be.equal(user.firstName);
         expect(error.errors.lastName).to.exist;
         expect(error.errors.lastName.kind).to.exist;
-        expect(error.errors.lastName.kind)
-          .to.be.equal('unique');
-        expect(error.errors.lastName.value)
-          .to.be.equal(user.lastName);
+        expect(error.errors.lastName.kind).to.be.equal('unique');
+        expect(error.errors.lastName.value).to.be.equal(user.lastName);
         done();
       });
     });
@@ -160,12 +145,18 @@ describe('integration', () => {
   });
 
   it('should beautify ObjectId compound unique error on create', done => {
-    const schema =
-      new Schema({ firstName: String, lastName: String, profile: ObjectId });
+    const schema = new Schema({
+      firstName: String,
+      lastName: String,
+      profile: ObjectId,
+    });
     schema.index({ profile: 1, firstName: 1, lastName: 1 }, { unique: true });
     const User = model(schema);
-    const user =
-      ({ firstName: 'John', lastName: 'Doe', profile: new User()._id });
+    const user = {
+      firstName: 'John',
+      lastName: 'Doe',
+      profile: new User()._id,
+    };
 
     // wait index
     User.once('index', () => {
@@ -181,52 +172,58 @@ describe('integration', () => {
         expect(error.errors.profile).to.exist;
         expect(error.errors.profile.kind).to.exist;
         expect(error.errors.profile.kind).to.be.equal('unique');
-        expect(error.errors.profile.value).to.be.equal(user.profile
-          .toString());
-        expect(error.errors.profile.index)
-          .to.equal('profile_1_firstName_1_lastName_1');
+        expect(error.errors.profile.value).to.be.equal(user.profile.toString());
+        expect(error.errors.profile.index).to.equal(
+          'profile_1_firstName_1_lastName_1'
+        );
 
         expect(error.errors.firstName).to.exist;
         expect(error.errors.firstName.kind).to.exist;
-        expect(error.errors.firstName.kind)
-          .to.be.equal('unique');
-        expect(error.errors.firstName.value)
-          .to.be.equal(user.firstName);
-        expect(error.errors.firstName.index)
-          .to.equal('profile_1_firstName_1_lastName_1');
+        expect(error.errors.firstName.kind).to.be.equal('unique');
+        expect(error.errors.firstName.value).to.be.equal(user.firstName);
+        expect(error.errors.firstName.index).to.equal(
+          'profile_1_firstName_1_lastName_1'
+        );
 
         expect(error.errors.lastName).to.exist;
         expect(error.errors.lastName.kind).to.exist;
-        expect(error.errors.lastName.kind)
-          .to.be.equal('unique');
-        expect(error.errors.lastName.value)
-          .to.be.equal(user.lastName);
-        expect(error.errors.lastName.index)
-          .to.equal('profile_1_firstName_1_lastName_1');
+        expect(error.errors.lastName.kind).to.be.equal('unique');
+        expect(error.errors.lastName.value).to.be.equal(user.lastName);
+        expect(error.errors.lastName.index).to.equal(
+          'profile_1_firstName_1_lastName_1'
+        );
         done();
       });
     });
   });
 
   it('should sync indexes', done => {
-    const User = model(new Schema({
-      name: { type: String, index: true }
-    }, { autoIndex: false }));
+    const User = model(
+      new Schema(
+        {
+          name: { type: String, index: true },
+        },
+        { autoIndex: false }
+      )
+    );
 
-    waterfall([
-      next => User.createCollection(error => next(error)),
-      next => User.listIndexes((error, indexes) => {
-        expect(_.find(indexes, { name: 'name_1' })).to.not.exist;
-        next(error);
-      }),
-      next => syncIndexes(error => next(error)),
-      next => User.listIndexes(next),
-    ], (error, indexes) => {
-      expect(error).to.not.exist;
-      expect(indexes).to.exist;
-      expect(_.find(indexes, { name: 'name_1' })).to.exist;
-      done(error, indexes);
-    });
+    waterfall(
+      [
+        next => User.createCollection(error => next(error)),
+        next =>
+          User.listIndexes((error, indexes) => {
+            expect(_.find(indexes, { name: 'name_1' })).to.not.exist;
+            next(error);
+          }),
+        next => syncIndexes(error => next(error)),
+        next => User.listIndexes(next),
+      ],
+      (error, indexes) => {
+        expect(error).to.not.exist;
+        expect(indexes).to.exist;
+        expect(_.find(indexes, { name: 'name_1' })).to.exist;
+        done(error, indexes);
+      }
+    );
   });
-
 });

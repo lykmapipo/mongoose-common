@@ -1,6 +1,5 @@
 'use strict';
 
-
 /* dependencies */
 const { sinon, expect, faker } = require('@lykmapipo/test-helpers');
 const { include } = require('@lykmapipo/include');
@@ -45,12 +44,10 @@ const {
   createSchema,
   createModel,
   createVarySubSchema,
-  validationErrorFor
+  validationErrorFor,
 } = MongooseCommon;
 
-
 describe('unit', () => {
-
   const MONGODB_URI = 'mongodb://localhost/test';
 
   beforeEach(done => disconnect(done));
@@ -115,8 +112,10 @@ describe('unit', () => {
     expect(LOOKUP_FIELDS).to.exist;
     expect(LOOKUP_FIELDS).to.be.an('array');
     expect(LOOKUP_FIELDS).to.be.eql([
-      'from', 'localField',
-      'foreignField', 'as'
+      'from',
+      'localField',
+      'foreignField',
+      'as',
     ]);
   });
 
@@ -126,7 +125,7 @@ describe('unit', () => {
     expect(SCHEMA_OPTIONS).to.be.eql({
       id: false,
       timestamps: true,
-      emitIndexErrors: true
+      emitIndexErrors: true,
     });
   });
 
@@ -137,7 +136,7 @@ describe('unit', () => {
       _id: false,
       id: false,
       timestamps: false,
-      emitIndexErrors: true
+      emitIndexErrors: true,
     });
   });
 
@@ -222,8 +221,10 @@ describe('unit', () => {
     expect(isString).to.be.a('function');
     expect(isString).to.have.length(1);
 
-    const schema =
-      new Schema({ name: { type: String }, age: { type: Number } });
+    const schema = new Schema({
+      name: { type: String },
+      age: { type: Number },
+    });
     let val = schema.path('age');
     expect(isString(val)).to.be.false;
 
@@ -238,7 +239,7 @@ describe('unit', () => {
     const schema = new Schema({
       tags: { type: [String] },
       groups: [{ type: String }],
-      age: { type: Number }
+      age: { type: Number },
     });
     let val = schema.path('age');
     expect(isArraySchemaType(val)).to.be.false;
@@ -258,7 +259,7 @@ describe('unit', () => {
     const schema = new Schema({
       name: { type: [String] },
       tags: [String],
-      levels: { type: [Number] }
+      levels: { type: [Number] },
     });
     let val = isStringArray(schema.path('name'));
     expect(val).to.be.true;
@@ -275,8 +276,10 @@ describe('unit', () => {
     expect(isNumber).to.be.a('function');
     expect(isNumber).to.have.length(1);
 
-    const schema =
-      new Schema({ name: { type: String }, age: { type: Number } });
+    const schema = new Schema({
+      name: { type: String },
+      age: { type: Number },
+    });
     let val = schema.path('name');
     expect(isNumber(val)).to.be.false;
 
@@ -292,7 +295,7 @@ describe('unit', () => {
     const schema = new Schema({
       name: { type: [String] },
       stages: [Number],
-      levels: { type: [Number] }
+      levels: { type: [Number] },
     });
     let val = isNumberArray(schema.path('stages'));
     expect(val).to.be.true;
@@ -434,27 +437,33 @@ describe('unit', () => {
   });
 
   it('should be able to connect on given url', done => {
-    connect(MONGODB_URI, (error, instance) => {
-      expect(error).to.not.exist;
-      expect(instance).to.exist;
-      expect(isConnection(instance)).to.be.true;
-      expect(isConnected(instance)).to.be.true;
-      expect(instance.readyState).to.be.equal(1);
-      expect(instance.name).to.be.equal('test');
-      done(error, instance);
-    });
+    connect(
+      MONGODB_URI,
+      (error, instance) => {
+        expect(error).to.not.exist;
+        expect(instance).to.exist;
+        expect(isConnection(instance)).to.be.true;
+        expect(isConnected(instance)).to.be.true;
+        expect(instance.readyState).to.be.equal(1);
+        expect(instance.name).to.be.equal('test');
+        done(error, instance);
+      }
+    );
   });
 
   it('should check if connected', done => {
     expect(isConnected()).to.be.false;
     expect(isConnected('connection')).to.be.false;
-    connect(MONGODB_URI, (error, instance) => {
-      expect(error).to.not.exist;
-      expect(instance).to.exist;
-      expect(isConnected(instance)).to.be.true;
-      expect(isConnected()).to.be.true;
-      done(error, instance);
-    });
+    connect(
+      MONGODB_URI,
+      (error, instance) => {
+        expect(error).to.not.exist;
+        expect(instance).to.exist;
+        expect(isConnected(instance)).to.be.true;
+        expect(isConnected()).to.be.true;
+        done(error, instance);
+      }
+    );
   });
 
   it('should be able to connect from process.env.MONGODB_URI', done => {
@@ -524,10 +533,10 @@ describe('unit', () => {
           name: String,
           city: {
             name: String,
-            country: { name: String }
-          }
-        }
-      }
+            country: { name: String },
+          },
+        },
+      },
     });
     let paths = [];
     eachPath(schema, (path, schemaType) => {
@@ -585,7 +594,7 @@ describe('unit', () => {
 
   it('should be able to get model schema path', () => {
     const schema = new Schema({
-      address: { street: { city: { country: String } } }
+      address: { street: { city: { country: String } } },
     });
     const User = model(schema);
 
@@ -599,9 +608,9 @@ describe('unit', () => {
     const schema = new Schema({
       address: new Schema({
         street: new Schema({
-          city: new Schema({ country: String })
-        })
-      })
+          city: new Schema({ country: String }),
+        }),
+      }),
     });
     const User = model(schema);
 
@@ -627,8 +636,8 @@ describe('unit', () => {
       properties: {
         name: { type: 'string' },
         _id: { type: 'string', pattern: '^[0-9a-fA-F]{24}$' },
-        __v: { type: 'number' }
-      }
+        __v: { type: 'number' },
+      },
     });
   });
 
@@ -645,8 +654,8 @@ describe('unit', () => {
       properties: {
         name: { type: 'string' },
         _id: { type: 'string', pattern: '^[0-9a-fA-F]{24}$' },
-        __v: { type: 'number' }
-      }
+        __v: { type: 'number' },
+      },
     });
   });
 
@@ -693,10 +702,9 @@ describe('unit', () => {
   });
 
   it('should be able to create schema with plugins', () => {
-    const schema = createSchema({ name: { type: String } }, {},
-      schema => {
-        schema.statics.withTest = function withTest() {};
-      });
+    const schema = createSchema({ name: { type: String } }, {}, schema => {
+      schema.statics.withTest = function withTest() {};
+    });
     expect(schema).to.exist;
     expect(schema.base).to.exist;
     expect(schema.path('name')).to.exist;
@@ -714,10 +722,13 @@ describe('unit', () => {
 
   it('should be able to create model with plugins', () => {
     const modelName = faker.random.uuid();
-    const User = createModel({ name: { type: String } }, { modelName },
+    const User = createModel(
+      { name: { type: String } },
+      { modelName },
       schema => {
         schema.statics.withTest = function withTest() {};
-      });
+      }
+    );
     expect(User).to.exist;
     expect(User.modelName).to.exist.and.be.equal(modelName);
     expect(User.base).to.exist;
@@ -762,9 +773,10 @@ describe('unit', () => {
   });
 
   it('should create sub schema with variable paths', () => {
-    const schema = createVarySubSchema({ type: String },
-      'en', { name: 'sw', required: true }
-    );
+    const schema = createVarySubSchema({ type: String }, 'en', {
+      name: 'sw',
+      required: true,
+    });
     expect(schema.constructor).to.exist;
     expect(schema.constructor.name).to.be.equal('Schema');
 
@@ -797,8 +809,8 @@ describe('unit', () => {
         path: 'name',
         value: undefined,
         reason: 'Not provided',
-        message: 'Path `{PATH}` is required.'
-      }
+        message: 'Path `{PATH}` is required.',
+      },
     };
     error = validationErrorFor({ paths });
     expect(error).to.exist;
@@ -814,8 +826,6 @@ describe('unit', () => {
     expect(error.errors.name.path).to.be.equal('name');
     expect(error.errors.name.value).to.be.equal(undefined);
     expect(error.errors.name.reason).to.be.equal('Not provided');
-    expect(error.errors.name.message)
-      .to.be.equal('Path `name` is required.');
+    expect(error.errors.name.message).to.be.equal('Path `name` is required.');
   });
-
 });

@@ -19,6 +19,7 @@
   "main": "index.js",
   "scripts": {
     "test": "grunt test",
+    "format": "prettier --write \"{lib,test,.}/**/*.js\" --loglevel silent",
     "docs": "doxdox 'index.js' -p package.json -l markdown -o DOCUMENTATION.md"
   },
   "repository": {
@@ -52,8 +53,7 @@
     "jshint-stylish": "^2.2.1",
     "mocha": "^6.1.4",
     "mongoose": ">=5.5.13",
-    "sinon": "^7.3.2",
-    "sinon-chai": "^3.3.0"
+    "prettier": "^1.18.2"
   },
   "peerDependencies": {
     "mongoose": ">=5.5.13"

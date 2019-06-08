@@ -1,7 +1,6 @@
 'use strict';
 
-module.exports = function (grunt) {
-
+module.exports = function(grunt) {
   // add grunt tasks.
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -13,38 +12,27 @@ module.exports = function (grunt) {
       test: {
         options: {
           reporter: 'spec',
-          timeout: 80000
+          timeout: 80000,
         },
-        src: ['test/**/*.js']
-      }
+        src: ['test/**/*.js'],
+      },
     },
     jshint: {
       options: {
         reporter: require('jshint-stylish'),
-        jshintrc: '.jshintrc'
+        jshintrc: '.jshintrc',
       },
-      all: [
-        'Gruntfile.js',
-        'index.js',
-        'lib/**/*.js',
-        'test/**/*.js'
-      ]
+      all: ['Gruntfile.js', 'index.js', 'lib/**/*.js', 'test/**/*.js'],
     },
     watch: {
       all: {
-        files: [
-          'Gruntfile.js',
-          'index.js',
-          'lib/**/*.js',
-          'test/**/*.js'
-        ],
-        tasks: ['default']
-      }
-    }
+        files: ['Gruntfile.js', 'index.js', 'lib/**/*.js', 'test/**/*.js'],
+        tasks: ['default'],
+      },
+    },
   });
 
   //custom tasks
   grunt.registerTask('default', ['jshint', 'mochaTest', 'watch']);
   grunt.registerTask('test', ['jshint', 'mochaTest']);
-
 };
