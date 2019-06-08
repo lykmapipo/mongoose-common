@@ -79,6 +79,16 @@ describe('seed', () => {
     });
   });
 
+  it('should clear and seed using seeds path', done => {
+    process.env.BASE_PATH = __dirname;
+    const User = createModel({ name: { type: String } }, { modelName: 'User' });
+    User.clearAndSeed((error, seeded) => {
+      expect(error).to.not.exist;
+      expect(seeded).to.length.at.least(1);
+      done(error, seeded);
+    });
+  });
+
   it('should ignore path seeds if seed provided', done => {
     process.env.BASE_PATH = __dirname;
     const User = createModel({ name: { type: String } }, { modelName: 'User' });
