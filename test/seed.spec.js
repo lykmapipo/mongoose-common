@@ -4,9 +4,11 @@
 /* dependencies */
 // const path = require('path');
 const _ = require('lodash');
+const { waterfall } = require('async');
 const { expect, faker } = require('@lykmapipo/test-helpers');
 const { include } = require('@lykmapipo/include');
 const {
+  ObjectId,
   createModel,
   connect,
   drop
@@ -78,6 +80,29 @@ describe('seed', () => {
     process.env.BASE_PATH = __dirname;
     const User = createModel({ name: { type: String } }, { modelName: 'User' });
     User.seed((error, seeded) => {
+      expect(error).to.not.exist;
+      expect(seeded).to.length.at.least(1);
+      done(error, seeded);
+    });
+  });
+
+  it('should work with refs', done => {
+    const Parent = createModel({ name: { type: String } });
+    const Child = createModel({
+      name: { type: String },
+      parent: { type: ObjectId, ref: Parent.modelName }
+    });
+
+    const child = { name: faker.name.findName() };
+    const parent = { name: faker.name.findName() };
+
+    waterfall([
+      (next) => Parent.seed(parent, next),
+      (parents, next) => {
+        child.parent = _.sample(parents);
+        Child.seed(child, next);
+      }
+    ], (error, seeded) => {
       expect(error).to.not.exist;
       expect(seeded).to.length.at.least(1);
       done(error, seeded);
