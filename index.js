@@ -325,9 +325,10 @@ exports.disableDebug = () => mongoose.set('debug', false);
  *
  */
 exports.toCollectionName = modelName => {
-  const collectionName = !_.isEmpty(modelName)
-    ? mongoose.pluralize()(modelName)
-    : modelName;
+  let collectionName = modelName;
+  if (!_.isEmpty(modelName)) {
+    collectionName = mongoose.pluralize()(modelName);
+  }
   return collectionName;
 };
 
@@ -524,13 +525,11 @@ exports.isInstance = value => {
  * //=> { ... }
  *
  */
-exports.copyInstance = value => {
-  if (value) {
-    return exports.isInstance(value)
-      ? mergeObjects(value.toObject())
-      : mergeObjects(value);
+exports.copyInstance = (value = {}) => {
+  if (exports.isInstance(value)) {
+    return mergeObjects(value.toObject());
   }
-  return {};
+  return mergeObjects(value);
 };
 
 /**
@@ -584,9 +583,9 @@ exports.collectionNameOf = modelName => {
     _.get(Ref, 'collection.name') || _.get(Ref, 'collection.collectionName');
 
   // derive collection from model name
-  collectionName = !_.isEmpty(collectionName)
-    ? collectionName
-    : exports.toCollectionName(modelName);
+  if (_.isEmpty(collectionName)) {
+    collectionName = exports.toCollectionName(modelName);
+  }
 
   // return collection name
   return collectionName;
@@ -716,9 +715,10 @@ exports.clear = (...modelNames) => {
   const connected = isConnected(_connection);
   let deletes = _.map([..._modelNames], function(modelName) {
     // obtain model
-    const Model = isModel(modelName)
-      ? modelName
-      : exports.model(modelName, _connection);
+    let Model = modelName;
+    if (!isModel(modelName)) {
+      Model = exports.model(modelName, _connection);
+    }
     // prepare cleaner
     if (connected && Model && Model.deleteMany) {
       return function clear(next) {
@@ -755,9 +755,10 @@ exports.clear = (...modelNames) => {
  */
 exports.drop = (connection, done) => {
   // normalize arguments
-  const _connection = isConnection(connection)
-    ? connection
-    : mongoose.connection;
+  let _connection = mongoose.connection;
+  if (isConnection(connection)) {
+    _connection = connection;
+  }
   const _done = !isConnection(connection) ? connection : done;
 
   // drop database if connection available
@@ -819,10 +820,10 @@ exports.model = (modelName, schema, connection) => {
 
   // try obtain model or new register model
   try {
-    const Model = modelExists
-      ? _connection.model(_modelName)
-      : _connection.model(_modelName, _schema);
-    return Model;
+    if (modelExists) {
+      return _connection.model(_modelName);
+    }
+    return _connection.model(_modelName, _schema);
   } catch (error) {
     // catch error
     // unknown model

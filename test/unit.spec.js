@@ -338,7 +338,6 @@ describe('unit', () => {
 
     expect(copyInstance).to.exist;
     expect(copyInstance).to.be.a('function');
-    expect(copyInstance).to.have.length(1);
 
     const copy = copyInstance(user);
 
