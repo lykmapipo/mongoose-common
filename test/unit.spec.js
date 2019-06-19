@@ -125,6 +125,8 @@ describe('unit', () => {
     expect(SCHEMA_OPTIONS).to.be.eql({
       id: false,
       timestamps: true,
+      toJSON: { getters: true },
+      toObject: { getters: true },
       emitIndexErrors: true,
     });
   });
