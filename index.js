@@ -154,6 +154,8 @@ exports.LOOKUP_FIELDS = ['from', 'localField', 'foreignField', 'as'];
 exports.SCHEMA_OPTIONS = {
   id: false,
   timestamps: true,
+  toJSON: { getters: true },
+  toObject: { getters: true },
   emitIndexErrors: true,
 };
 
