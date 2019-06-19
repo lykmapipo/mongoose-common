@@ -1,3 +1,9 @@
+#### 0.25.6 (2019-06-19)
+
+##### Tests
+
+*  fix schema options assertions ([cc9be357](https://github.com/lykmapipo/mongoose-common/commit/cc9be357fb4665a55c7861a4660094e457690023))
+
 #### 0.25.5 (2019-06-19)
 
 ##### Chores
