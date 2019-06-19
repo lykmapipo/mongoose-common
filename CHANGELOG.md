@@ -1,3 +1,9 @@
+#### 0.25.4 (2019-06-19)
+
+##### New Features
+
+*  allow getters in schema options ([245e8a76](https://github.com/lykmapipo/mongoose-common/commit/245e8a76435a6a36b8e6ae58f9fd11cf2c78ebc2))
+
 #### 0.25.3 (2019-06-16)
 
 ##### Chores
