@@ -1,3 +1,13 @@
+#### 0.25.7 (2019-06-28)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([0d15732d](https://github.com/lykmapipo/mongoose-common/commit/0d15732d935fd79d05a1c6719ad4cf9d03e07088))
+
+##### Bug Fixes
+
+*  use old connection to skip multu connect errors ([66a48b87](https://github.com/lykmapipo/mongoose-common/commit/66a48b877e5fc8cee0ca8d89861259af6edf4caa))
+
 #### 0.25.6 (2019-06-19)
 
 ##### Tests
