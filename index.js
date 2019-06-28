@@ -47,6 +47,14 @@ const isAggregate = query => query instanceof Aggregate;
 
 const isConnected = conn => isConnection(conn) && conn.readyState === 1;
 
+/**
+ * @deprecated
+ */
+mongoose.oldConnect = function() {
+  const conn = mongoose.connection;
+  return conn.openUri(arguments[0], arguments[1], arguments[2]).then(() => mongoose);
+};
+
 /* set global mongoose promise */
 mongoose.Promise = global.Promise;
 
@@ -638,7 +646,7 @@ exports.connect = (url, done) => {
 
   // establish mongoose connection
   uri = _.trim(uri) || MONGODB_URI;
-  mongoose.connect(uri, _options, _done);
+  mongoose.oldConnect(uri, _options, _done);
 };
 
 /**
