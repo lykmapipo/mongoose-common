@@ -138,7 +138,7 @@ describe('integration', () => {
         expect(error.errors._id).to.exist;
         expect(error.errors._id.kind).to.exist;
         expect(error.errors._id.kind).to.be.equal('unique');
-        expect(error.errors._id.value).to.be.equal(user._id.toString());
+        expect(error.errors._id.value).to.be.equal(user._id);
         done();
       });
     });
@@ -172,7 +172,7 @@ describe('integration', () => {
         expect(error.errors.profile).to.exist;
         expect(error.errors.profile.kind).to.exist;
         expect(error.errors.profile.kind).to.be.equal('unique');
-        expect(error.errors.profile.value).to.be.equal(user.profile.toString());
+        expect(error.errors.profile.value).to.be.equal(user.profile);
         expect(error.errors.profile.index).to.equal(
           'profile_1_firstName_1_lastName_1'
         );
