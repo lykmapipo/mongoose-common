@@ -52,7 +52,9 @@ const isConnected = conn => isConnection(conn) && conn.readyState === 1;
  */
 mongoose.oldConnect = function() {
   const conn = mongoose.connection;
-  return conn.openUri(arguments[0], arguments[1], arguments[2]).then(() => mongoose);
+  return conn
+    .openUri(arguments[0], arguments[1], arguments[2])
+    .then(() => mongoose);
 };
 
 /* set global mongoose promise */
@@ -642,7 +644,11 @@ exports.connect = (url, done) => {
   const _done = _.isFunction(url) ? url : done;
 
   // connection options
-  const _options = { useNewUrlParser: true, useCreateIndex: true };
+  const _options = {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+  };
 
   // establish mongoose connection
   uri = _.trim(uri) || MONGODB_URI;
