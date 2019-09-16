@@ -1,3 +1,13 @@
+#### 0.25.13 (2019-09-16)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([e56b6f5c](https://github.com/lykmapipo/mongoose-common/commit/e56b6f5cd67b33f524395b54d3a2f94b445d1b84))
+
+##### Bug Fixes
+
+*  add support for new server discover & monitoring engine ([60eca8f5](https://github.com/lykmapipo/mongoose-common/commit/60eca8f516d477662e59bfff5802515e14e85c10))
+
 #### 0.25.12 (2019-09-16)
 
 ##### Chores
