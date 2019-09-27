@@ -1,3 +1,13 @@
+#### 0.26.0 (2019-09-27)
+
+##### New Features
+
+*  use recursive toObject on copyInstance ([75c1caca](https://github.com/lykmapipo/mongoose-common/commit/75c1caca8c5973107ecae73afa09aec8bd4efe60))
+
+##### Refactors
+
+*  simply copyInstance to merge any object ([ed32f0a6](https://github.com/lykmapipo/mongoose-common/commit/ed32f0a6511a43bdf031c09f0d19e8282c4af28d))
+
 #### 0.25.15 (2019-09-27)
 
 ##### Chores
