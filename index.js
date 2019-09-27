@@ -32,6 +32,7 @@ const { mergeObjects, uniq } = require('@lykmapipo/common');
 const { getString } = require('@lykmapipo/env');
 const { include } = require('@lykmapipo/include');
 const mongoose = require('mongoose-valid8');
+const { toObject } = require('mongoose/lib/utils');
 const { Schema, Model, Connection, Query, Aggregate } = mongoose;
 
 /* local helpers */
@@ -50,7 +51,7 @@ const isConnected = conn => isConnection(conn) && conn.readyState === 1;
 /**
  * @deprecated
  */
-mongoose.oldConnect = function() {
+mongoose.oldConnect = function () {
   const conn = mongoose.connection;
   return conn
     .openUri(arguments[0], arguments[1], arguments[2])
@@ -539,7 +540,7 @@ exports.isInstance = value => {
  */
 exports.copyInstance = (value = {}) => {
   if (exports.isInstance(value)) {
-    return mergeObjects(value.toObject());
+    return mergeObjects(toObject(value));
   }
   return mergeObjects(value);
 };
@@ -707,7 +708,7 @@ exports.clear = (...modelNames) => {
 
   // obtain callback
   let _connection = _.first(
-    _.filter([..._modelNames], function(v) {
+    _.filter([..._modelNames], function (v) {
       return isConnection(v);
     })
   );
@@ -715,7 +716,7 @@ exports.clear = (...modelNames) => {
   const _done = _.last(_.filter([..._modelNames], _.isFunction));
 
   // collect actual model names
-  _modelNames = _.filter([..._modelNames], function(v) {
+  _modelNames = _.filter([..._modelNames], function (v) {
     return _.isString(v) || isModel(v);
   });
 
@@ -729,7 +730,7 @@ exports.clear = (...modelNames) => {
 
   // map modelNames to deleteMany
   const connected = isConnected(_connection);
-  let deletes = _.map([..._modelNames], function(modelName) {
+  let deletes = _.map([..._modelNames], function (modelName) {
     // obtain model
     let Model = modelName;
     if (!isModel(modelName)) {
