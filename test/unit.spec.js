@@ -335,8 +335,16 @@ describe('unit', () => {
   });
 
   it('should copy model instance to plain object', () => {
-    const User = model(new Schema({ name: String }));
-    const user = new User();
+    const User = model(new Schema({
+      name: String,
+      contact: new Schema({ phone: String })
+    }));
+    const user = new User({
+      name: faker.name.findName(),
+      contact: {
+        phone: faker.phone.phoneNumber()
+      }
+    });
 
     expect(copyInstance).to.exist;
     expect(copyInstance).to.be.a('function');
@@ -344,6 +352,7 @@ describe('unit', () => {
     const copy = copyInstance(user);
 
     expect(copy).to.exist;
+    expect(copy.contact.toObject).to.not.exist;
     expect(isInstance(copy)).to.be.false;
   });
 
@@ -723,9 +732,7 @@ describe('unit', () => {
 
   it('should be able to create model with plugins', () => {
     const modelName = faker.random.uuid();
-    const User = createModel(
-      { name: { type: String } },
-      { modelName },
+    const User = createModel({ name: { type: String } }, { modelName },
       schema => {
         schema.statics.withTest = function withTest() {};
       }
@@ -827,6 +834,7 @@ describe('unit', () => {
     expect(error.errors.name.path).to.be.equal('name');
     expect(error.errors.name.value).to.be.equal(undefined);
     expect(error.errors.name.reason).to.be.equal('Not provided');
-    expect(error.errors.name.message).to.be.equal('Path `name` is required.');
+    expect(error.errors.name.message).to.be.equal(
+      'Path `name` is required.');
   });
 });

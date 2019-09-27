@@ -538,12 +538,7 @@ exports.isInstance = value => {
  * //=> { ... }
  *
  */
-exports.copyInstance = (value = {}) => {
-  if (exports.isInstance(value)) {
-    return mergeObjects(toObject(value));
-  }
-  return mergeObjects(value);
-};
+exports.copyInstance = (value = {}) => mergeObjects(toObject(value));
 
 /**
  * @function schemaTypeOptionOf
