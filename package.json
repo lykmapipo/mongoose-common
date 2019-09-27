@@ -43,14 +43,14 @@
     }
   ],
   "devDependencies": {
-    "@lykmapipo/test-helpers": "^0.4.4",
+    "@lykmapipo/test-helpers": "^0.4.5",
     "chai": "^4.2.0",
     "doxdox": "^3.0.0",
     "grunt": "^1.0.4",
     "grunt-contrib-jshint": "^2.1.0",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-mocha-test": "^0.13.3",
-    "handlebars": "^4.3.1",
+    "handlebars": "^4.3.3",
     "jshint-stylish": "^2.2.1",
     "mocha": "^6.2.0",
     "mongoose": ">=5.7.1",
@@ -61,8 +61,8 @@
     "mongoose": ">=5.7.1"
   },
   "dependencies": {
-    "@lykmapipo/common": ">=0.26.4",
-    "@lykmapipo/env": ">=0.14.1",
+    "@lykmapipo/common": ">=0.27.2",
+    "@lykmapipo/env": ">=0.14.2",
     "@lykmapipo/include": ">=0.2.9",
     "async": ">=3.1.0",
     "lodash": ">=4.17.15",
