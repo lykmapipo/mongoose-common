@@ -1,3 +1,13 @@
+#### 0.26.3 (2019-10-14)
+
+##### Chores
+
+* **deps:**  force latest versions ([f886d2d2](https://github.com/lykmapipo/mongoose-common/commit/f886d2d291f85155f82208fc6997275e36b2600d))
+
+##### Bug Fixes
+
+*  esnure DB_NAME if no package.json ([eef72e11](https://github.com/lykmapipo/mongoose-common/commit/eef72e11ef9afbab052a0bdbbf0e6d5603d5a7eb))
+
 #### 0.26.2 (2019-10-10)
 
 ##### Chores
