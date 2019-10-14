@@ -626,10 +626,13 @@ exports.connect = (url, done) => {
   const NODE_ENV = getString('NODE_ENV', 'development');
 
   // ensure database name using environment and package
-  let DB_NAME = _.get(include('@cwd/package.json'), 'name', NODE_ENV);
-  DB_NAME = _.toLower(_.last(_.split(DB_NAME, '/')));
-  DB_NAME = DB_NAME === NODE_ENV ? DB_NAME : `${DB_NAME} ${NODE_ENV}`;
-  DB_NAME = _.kebabCase(DB_NAME);
+  let DB_NAME = NODE_ENV;
+  try {
+    DB_NAME = _.get(include('@cwd/package.json'), 'name', NODE_ENV);
+    DB_NAME = _.toLower(_.last(_.split(DB_NAME, '/')));
+    DB_NAME = DB_NAME === NODE_ENV ? DB_NAME : `${DB_NAME} ${NODE_ENV}`;
+    DB_NAME = _.kebabCase(DB_NAME);
+  } catch (e) { /*ignore*/ }
   DB_NAME = `mongodb://localhost/${DB_NAME}`;
 
   // ensure database uri from environment
