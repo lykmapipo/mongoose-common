@@ -559,9 +559,9 @@ exports.schemaTypeOptionOf = (schemaType = {}) => {
   // grab options
   const options = mergeObjects(
     // grub schema caster options
-    _.get(schemaType, 'caster.options'),
+    _.toPlainObject(_.get(schemaType, 'caster.options')),
     // grab direct schema options
-    _.get(schemaType, 'options')
+    _.toPlainObject(_.get(schemaType, 'options'))
   );
   // return options
   return options;
