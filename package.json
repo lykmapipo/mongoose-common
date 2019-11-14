@@ -53,12 +53,12 @@
     "handlebars": "^4.5.2",
     "jshint-stylish": "^2.2.1",
     "mocha": "^6.2.2",
-    "mongoose": ">=5.7.10",
+    "mongoose": ">=5.7.11",
     "prettier": "^1.19.1",
     "shelljs": "^0.8.3"
   },
   "peerDependencies": {
-    "mongoose": ">=5.7.10"
+    "mongoose": ">=5.7.11"
   },
   "dependencies": {
     "@lykmapipo/common": ">=0.28.10",
