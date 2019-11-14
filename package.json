@@ -63,7 +63,6 @@
   "dependencies": {
     "@lykmapipo/common": ">=0.28.5",
     "@lykmapipo/env": ">=0.14.7",
-    "@lykmapipo/include": ">=0.2.10",
     "async": ">=3.1.0",
     "lodash": ">=4.17.15",
     "mongoose-schema-jsonschema": ">=1.2.1",

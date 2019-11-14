@@ -1,12 +1,9 @@
 'use strict';
 
-/* dependencies */
-// const path = require('path');
 const _ = require('lodash');
 const { waterfall } = require('async');
 const { expect, faker } = require('@lykmapipo/test-helpers');
-const { include } = require('@lykmapipo/include');
-const { ObjectId, createModel, connect, drop } = include(__dirname, '..');
+const { ObjectId, createModel, connect, drop } = require('..');
 
 describe('seed', () => {
   before(done => connect(done));

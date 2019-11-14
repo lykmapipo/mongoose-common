@@ -1,10 +1,8 @@
 'use strict';
 
-/* dependencies */
 const { sinon, expect, faker } = require('@lykmapipo/test-helpers');
-const { include } = require('@lykmapipo/include');
 const mongoose = require('mongoose');
-const MongooseCommon = include(__dirname, '..');
+const MongooseCommon = require('..');
 const {
   LOOKUP_FIELDS,
   SCHEMA_OPTIONS,
@@ -809,6 +807,7 @@ describe('unit', () => {
     expect(error.status).to.be.equal(400);
     expect(error.code).to.be.equal(400);
     expect(error.message).to.be.equal('Validation failed');
+    expect(error._message).to.be.equal('Validation failed');
     expect(error.errors).to.be.eql({});
 
     let paths = {
@@ -826,6 +825,7 @@ describe('unit', () => {
     expect(error.status).to.be.equal(400);
     expect(error.code).to.be.equal(400);
     expect(error.message).to.be.equal('Validation failed');
+    expect(error._message).to.be.equal('Validation failed');
     expect(error.errors).to.exist;
 
     expect(error.errors.name).to.exist;

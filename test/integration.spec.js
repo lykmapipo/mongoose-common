@@ -1,14 +1,16 @@
 'use strict';
 
-/* dependencies */
 const _ = require('lodash');
 const { expect } = require('@lykmapipo/test-helpers');
 const { waterfall } = require('async');
-const { include } = require('@lykmapipo/include');
-const { Schema, ObjectId, model, connect, drop, syncIndexes } = include(
-  __dirname,
-  '..'
-);
+const {
+  Schema,
+  ObjectId,
+  model,
+  connect,
+  drop,
+  syncIndexes
+} = require('..');
 
 describe('integration', () => {
   before(done => connect(done));
@@ -80,7 +82,8 @@ describe('integration', () => {
         expect(error.errors).to.exist;
         expect(error.errors.firstName).to.exist;
         expect(error.errors.firstName.kind).to.exist;
-        expect(error.errors.firstName.kind).to.be.equal('unique');
+        expect(error.errors.firstName.kind).to.be.equal(
+          'unique');
         expect(error.errors.firstName.value).to.be.equal(user.firstName);
         expect(error.errors.lastName).to.exist;
         expect(error.errors.lastName.kind).to.exist;
@@ -109,7 +112,8 @@ describe('integration', () => {
         expect(error.errors).to.exist;
         expect(error.errors.firstName).to.exist;
         expect(error.errors.firstName.kind).to.exist;
-        expect(error.errors.firstName.kind).to.be.equal('unique');
+        expect(error.errors.firstName.kind).to.be.equal(
+          'unique');
         expect(error.errors.firstName.value).to.be.equal(user.firstName);
         expect(error.errors.lastName).to.exist;
         expect(error.errors.lastName.kind).to.exist;
@@ -179,7 +183,8 @@ describe('integration', () => {
 
         expect(error.errors.firstName).to.exist;
         expect(error.errors.firstName.kind).to.exist;
-        expect(error.errors.firstName.kind).to.be.equal('unique');
+        expect(error.errors.firstName.kind).to.be.equal(
+          'unique');
         expect(error.errors.firstName.value).to.be.equal(user.firstName);
         expect(error.errors.firstName.index).to.equal(
           'profile_1_firstName_1_lastName_1'
@@ -199,22 +204,19 @@ describe('integration', () => {
 
   it('should sync indexes', done => {
     const User = model(
-      new Schema(
-        {
-          name: { type: String, index: true },
-        },
-        { autoIndex: false }
-      )
+      new Schema({
+        name: { type: String, index: true },
+      }, { autoIndex: false })
     );
 
     waterfall(
       [
         next => User.createCollection(error => next(error)),
         next =>
-          User.listIndexes((error, indexes) => {
-            expect(_.find(indexes, { name: 'name_1' })).to.not.exist;
-            next(error);
-          }),
+        User.listIndexes((error, indexes) => {
+          expect(_.find(indexes, { name: 'name_1' })).to.not.exist;
+          next(error);
+        }),
         next => syncIndexes(error => next(error)),
         next => User.listIndexes(next),
       ],

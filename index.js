@@ -30,7 +30,6 @@ const _ = require('lodash');
 const { parallel, waterfall } = require('async');
 const { mergeObjects, uniq } = require('@lykmapipo/common');
 const { getString } = require('@lykmapipo/env');
-const { include } = require('@lykmapipo/include');
 const mongoose = require('mongoose-valid8');
 const { toObject } = require('mongoose/lib/utils');
 const { Schema, Model, Connection, Query, Aggregate } = mongoose;
@@ -84,7 +83,7 @@ require('mongoose-schema-jsonschema')(mongoose);
  * //=> SchemaString { path: 'name', instance: 'String', ... }
  *
  */
-mongoose.plugin(include(__dirname, 'lib', 'path.plugin'));
+mongoose.plugin(require('./lib/path.plugin'));
 
 /**
  * @name error
@@ -93,7 +92,7 @@ mongoose.plugin(include(__dirname, 'lib', 'path.plugin'));
  * @version 0.1.0
  * @public
  */
-mongoose.plugin(include(__dirname, 'lib', 'error.plugin'));
+mongoose.plugin(require('./lib/error.plugin'));
 
 /**
  * @name seed
@@ -102,7 +101,7 @@ mongoose.plugin(include(__dirname, 'lib', 'error.plugin'));
  * @version 0.1.0
  * @public
  */
-mongoose.plugin(include(__dirname, 'lib', 'seed.plugin'));
+mongoose.plugin(require('./lib/seed.plugin'));
 
 /* expose shortcuts */
 exports.Schema = Schema;
@@ -628,7 +627,7 @@ exports.connect = (url, done) => {
   // ensure database name using environment and package
   let DB_NAME = NODE_ENV;
   try {
-    DB_NAME = _.get(include('@cwd/package.json'), 'name', NODE_ENV);
+    DB_NAME = _.get(`${process.cwd()}/package.json'`, 'name', NODE_ENV);
     DB_NAME = _.toLower(_.last(_.split(DB_NAME, '/')));
     DB_NAME = DB_NAME === NODE_ENV ? DB_NAME : `${DB_NAME} ${NODE_ENV}`;
     DB_NAME = _.kebabCase(DB_NAME);
@@ -1166,6 +1165,7 @@ exports.validationErrorFor = optns => {
   const error = new mongoose.Error.ValidationError();
   error.status = status;
   error.code = code || status;
+  error.message = error.message || error._message;
 
   // attach path validator error
   if (!_.isEmpty(paths)) {
