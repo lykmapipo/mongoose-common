@@ -1,3 +1,13 @@
+#### 0.26.6 (2019-11-14)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([6416ca36](https://github.com/lykmapipo/mongoose-common/commit/6416ca36299ad07111001c3bcc08fe698d46b8da))
+
+##### Bug Fixes
+
+*  normalize schema options to object ([774375c9](https://github.com/lykmapipo/mongoose-common/commit/774375c90d11a84e3b88ea5a943172fb106e385d))
+
 #### 0.26.5 (2019-11-14)
 
 ##### Chores
