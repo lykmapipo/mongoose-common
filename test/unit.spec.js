@@ -333,15 +333,17 @@ describe('unit', () => {
   });
 
   it('should copy model instance to plain object', () => {
-    const User = model(new Schema({
-      name: String,
-      contact: new Schema({ phone: String })
-    }));
+    const User = model(
+      new Schema({
+        name: String,
+        contact: new Schema({ phone: String }),
+      })
+    );
     const user = new User({
       name: faker.name.findName(),
       contact: {
-        phone: faker.phone.phoneNumber()
-      }
+        phone: faker.phone.phoneNumber(),
+      },
     });
 
     expect(copyInstance).to.exist;
@@ -445,33 +447,27 @@ describe('unit', () => {
   });
 
   it('should be able to connect on given url', done => {
-    connect(
-      MONGODB_URI,
-      (error, instance) => {
-        expect(error).to.not.exist;
-        expect(instance).to.exist;
-        expect(isConnection(instance)).to.be.true;
-        expect(isConnected(instance)).to.be.true;
-        expect(instance.readyState).to.be.equal(1);
-        expect(instance.name).to.be.equal('test');
-        done(error, instance);
-      }
-    );
+    connect(MONGODB_URI, (error, instance) => {
+      expect(error).to.not.exist;
+      expect(instance).to.exist;
+      expect(isConnection(instance)).to.be.true;
+      expect(isConnected(instance)).to.be.true;
+      expect(instance.readyState).to.be.equal(1);
+      expect(instance.name).to.be.equal('test');
+      done(error, instance);
+    });
   });
 
   it('should check if connected', done => {
     expect(isConnected()).to.be.false;
     expect(isConnected('connection')).to.be.false;
-    connect(
-      MONGODB_URI,
-      (error, instance) => {
-        expect(error).to.not.exist;
-        expect(instance).to.exist;
-        expect(isConnected(instance)).to.be.true;
-        expect(isConnected()).to.be.true;
-        done(error, instance);
-      }
-    );
+    connect(MONGODB_URI, (error, instance) => {
+      expect(error).to.not.exist;
+      expect(instance).to.exist;
+      expect(isConnected(instance)).to.be.true;
+      expect(isConnected()).to.be.true;
+      done(error, instance);
+    });
   });
 
   it('should be able to connect from process.env.MONGODB_URI', done => {
@@ -730,7 +726,9 @@ describe('unit', () => {
 
   it('should be able to create model with plugins', () => {
     const modelName = faker.random.uuid();
-    const User = createModel({ name: { type: String } }, { modelName },
+    const User = createModel(
+      { name: { type: String } },
+      { modelName },
       schema => {
         schema.statics.withTest = function withTest() {};
       }
@@ -834,7 +832,6 @@ describe('unit', () => {
     expect(error.errors.name.path).to.be.equal('name');
     expect(error.errors.name.value).to.be.equal(undefined);
     expect(error.errors.name.reason).to.be.equal('Not provided');
-    expect(error.errors.name.message).to.be.equal(
-      'Path `name` is required.');
+    expect(error.errors.name.message).to.be.equal('Path `name` is required.');
   });
 });

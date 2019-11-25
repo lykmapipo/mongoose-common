@@ -50,7 +50,7 @@ const isConnected = conn => isConnection(conn) && conn.readyState === 1;
 /**
  * @deprecated
  */
-mongoose.oldConnect = function () {
+mongoose.oldConnect = function() {
   const conn = mongoose.connection;
   return conn
     .openUri(arguments[0], arguments[1], arguments[2])
@@ -631,7 +631,9 @@ exports.connect = (url, done) => {
     DB_NAME = _.toLower(_.last(_.split(DB_NAME, '/')));
     DB_NAME = DB_NAME === NODE_ENV ? DB_NAME : `${DB_NAME} ${NODE_ENV}`;
     DB_NAME = _.kebabCase(DB_NAME);
-  } catch (e) { /*ignore*/ }
+  } catch (e) {
+    /*ignore*/
+  }
   DB_NAME = `mongodb://localhost/${DB_NAME}`;
 
   // ensure database uri from environment
@@ -705,7 +707,7 @@ exports.clear = (...modelNames) => {
 
   // obtain callback
   let _connection = _.first(
-    _.filter([..._modelNames], function (v) {
+    _.filter([..._modelNames], function(v) {
       return isConnection(v);
     })
   );
@@ -713,7 +715,7 @@ exports.clear = (...modelNames) => {
   const _done = _.last(_.filter([..._modelNames], _.isFunction));
 
   // collect actual model names
-  _modelNames = _.filter([..._modelNames], function (v) {
+  _modelNames = _.filter([..._modelNames], function(v) {
     return _.isString(v) || isModel(v);
   });
 
@@ -727,7 +729,7 @@ exports.clear = (...modelNames) => {
 
   // map modelNames to deleteMany
   const connected = isConnected(_connection);
-  let deletes = _.map([..._modelNames], function (modelName) {
+  let deletes = _.map([..._modelNames], function(modelName) {
     // obtain model
     let Model = modelName;
     if (!isModel(modelName)) {

@@ -171,6 +171,12 @@ const collectionName = toCollectionName('User'); // => users
 ```
 
 
+## Environment
+```js
+SEED_PATH=`${process.cwd}/seeds`
+SEED_FRESH=false
+```
+
 ## Testing
 * Clone this repository
 

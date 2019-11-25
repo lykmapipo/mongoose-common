@@ -126,6 +126,6 @@ describe('seed', () => {
 
   afterEach(() => {
     delete process.env.BASE_PATH;
-    delete process.env.SEEDS_PATH;
+    delete process.env.SEED_PATH;
   });
 });
