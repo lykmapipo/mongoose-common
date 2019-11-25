@@ -124,6 +124,38 @@ describe('seed', () => {
     );
   });
 
+  it('should work with populate', done => {
+    const Parent = createModel({ name: { type: String } });
+    const Child = createModel({
+      name: { type: String },
+      parent: { type: ObjectId, ref: Parent.modelName },
+    });
+
+    const parent = { name: faker.name.findName() };
+    const child = {
+      name: faker.name.findName(),
+      populate: {
+        parent: { model: Parent.modelName, match: parent },
+      },
+    };
+
+    waterfall(
+      [
+        next => Parent.seed(parent, next),
+        (parents, next) => {
+          Child.seed(child, next);
+        },
+      ],
+      (error, seeded) => {
+        expect(error).to.not.exist;
+        expect(seeded).to.length.at.least(1);
+        expect(_.first(seeded).parent).to.exist;
+        expect(_.first(seeded).parent.name).to.be.equal(parent.name);
+        done(error, seeded);
+      }
+    );
+  });
+
   afterEach(() => {
     delete process.env.BASE_PATH;
     delete process.env.SEED_PATH;
