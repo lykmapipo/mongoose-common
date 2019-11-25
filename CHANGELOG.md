@@ -1,3 +1,14 @@
+#### 0.27.0 (2019-11-25)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([dc379752](https://github.com/lykmapipo/mongoose-common/commit/dc3797526816a19178321f8b6d44b4281311c285))
+
+##### New Features
+
+*  allow seed dependencies ([6ca6f4c1](https://github.com/lykmapipo/mongoose-common/commit/6ca6f4c193ed396a39a8d5049d0b18a312fcd3cd))
+*  allow fresh seed to overide existing ([a4c96b5b](https://github.com/lykmapipo/mongoose-common/commit/a4c96b5bc2d754832c98a609a953016100713de1))
+
 #### 0.26.6 (2019-11-14)
 
 ##### Chores

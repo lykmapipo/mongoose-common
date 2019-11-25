@@ -1,6 +1,6 @@
 {
   "name": "@lykmapipo/mongoose-common",
-  "version": "0.26.6",
+  "version": "0.27.0",
   "description": "Re-usable helpers for mongoose",
   "keywords": [
     "lykmapipo",
