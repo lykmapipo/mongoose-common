@@ -43,7 +43,7 @@
     }
   ],
   "devDependencies": {
-    "@lykmapipo/test-helpers": "^0.4.10",
+    "@lykmapipo/test-helpers": "^0.4.11",
     "chai": "^4.2.0",
     "doxdox": "^3.0.0",
     "grunt": "^1.0.4",
@@ -61,8 +61,8 @@
     "mongoose": ">=5.7.12"
   },
   "dependencies": {
-    "@lykmapipo/common": ">=0.28.10",
-    "@lykmapipo/env": ">=0.14.11",
+    "@lykmapipo/common": ">=0.28.11",
+    "@lykmapipo/env": ">=0.15.0",
     "async": ">=3.1.0",
     "lodash": ">=4.17.15",
     "mongoose-schema-jsonschema": ">=1.2.1",
