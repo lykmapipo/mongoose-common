@@ -1,3 +1,13 @@
+#### 0.27.1 (2019-11-27)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([c67b7cdc](https://github.com/lykmapipo/mongoose-common/commit/c67b7cdcb2580f06a65307c54fe981dcde03c3d3))
+
+##### Refactors
+
+* **seed:**  fetch _id on seed related ([74845dd9](https://github.com/lykmapipo/mongoose-common/commit/74845dd9dddd3d624b4c2b342c1427c55df747c8))
+
 #### 0.27.0 (2019-11-25)
 
 ##### Chores
