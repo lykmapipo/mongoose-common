@@ -129,6 +129,7 @@ describe('seed', () => {
     const Child = createModel({
       name: { type: String },
       parent: { type: ObjectId, ref: Parent.modelName },
+      relatives: { type: [ObjectId], ref: Parent.modelName },
     });
 
     const parent = { name: faker.name.findName() };
@@ -136,6 +137,7 @@ describe('seed', () => {
       name: faker.name.findName(),
       populate: {
         parent: { model: Parent.modelName, match: parent },
+        relatives: { model: Parent.modelName, match: parent, array: true },
       },
     };
 
@@ -150,6 +152,7 @@ describe('seed', () => {
         expect(error).to.not.exist;
         expect(seeded).to.length.at.least(1);
         expect(_.first(seeded).parent).to.exist;
+        expect(_.first(seeded).relatives).to.exist;
         done(error, seeded);
       }
     );
