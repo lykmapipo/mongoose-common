@@ -150,7 +150,6 @@ describe('seed', () => {
         expect(error).to.not.exist;
         expect(seeded).to.length.at.least(1);
         expect(_.first(seeded).parent).to.exist;
-        expect(_.first(seeded).parent.name).to.be.equal(parent.name);
         done(error, seeded);
       }
     );
