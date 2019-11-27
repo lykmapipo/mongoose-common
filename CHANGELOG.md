@@ -1,3 +1,13 @@
+#### 0.28.0 (2019-11-27)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([91796495](https://github.com/lykmapipo/mongoose-common/commit/917964952412d186fbe289be52c79bb51e0dd051))
+
+##### New Features
+
+* **seed:**  support array of refs ([37846a19](https://github.com/lykmapipo/mongoose-common/commit/37846a191544f7331ef0edaa248ea2d250317a76))
+
 #### 0.27.1 (2019-11-27)
 
 ##### Chores
