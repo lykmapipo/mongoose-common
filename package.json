@@ -43,7 +43,7 @@
     }
   ],
   "devDependencies": {
-    "@lykmapipo/test-helpers": "^0.4.11",
+    "@lykmapipo/test-helpers": "^0.5.0",
     "chai": "^4.2.0",
     "doxdox": "^3.0.0",
     "grunt": "^1.0.4",
@@ -53,19 +53,19 @@
     "handlebars": "^4.5.3",
     "jshint-stylish": "^2.2.1",
     "mocha": "^6.2.2",
-    "mongoose": ">=5.7.12",
+    "mongoose": ">=5.7.14",
     "prettier": "^1.19.1",
     "shelljs": "^0.8.3"
   },
   "peerDependencies": {
-    "mongoose": ">=5.7.12"
+    "mongoose": ">=5.7.14"
   },
   "dependencies": {
-    "@lykmapipo/common": ">=0.28.11",
-    "@lykmapipo/env": ">=0.15.0",
+    "@lykmapipo/common": ">=0.29.0",
+    "@lykmapipo/env": ">=0.16.0",
     "async": ">=3.1.0",
     "lodash": ">=4.17.15",
     "mongoose-schema-jsonschema": ">=1.2.1",
-    "mongoose-valid8": ">=1.5.19"
+    "mongoose-valid8": ">=1.5.20"
   }
 }
