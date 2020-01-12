@@ -1,3 +1,9 @@
+#### 0.28.4 (2020-01-12)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([559a8fa6](https://github.com/lykmapipo/mongoose-common/commit/559a8fa6df9ffc9adbc7ec3d2d29fa6bf68b714f))
+
 #### 0.28.3 (2020-01-11)
 
 ##### Chores
