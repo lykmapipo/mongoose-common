@@ -646,6 +646,7 @@ exports.connect = (url, done) => {
   // connection options
   const _options = {
     useNewUrlParser: true,
+    useFindAndModify: false,
     useCreateIndex: true,
     useUnifiedTopology: true,
   };
