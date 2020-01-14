@@ -66,6 +66,6 @@
     "async": ">=3.1.0",
     "lodash": ">=4.17.15",
     "mongoose-schema-jsonschema": ">=1.2.1",
-    "mongoose-valid8": ">=1.6.3"
+    "mongoose-valid8": ">=1.6.4"
   }
 }
