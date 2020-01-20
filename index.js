@@ -47,16 +47,6 @@ const isAggregate = query => query instanceof Aggregate;
 
 const isConnected = conn => isConnection(conn) && conn.readyState === 1;
 
-/**
- * @deprecated
- */
-mongoose.oldConnect = function() {
-  const conn = mongoose.connection;
-  return conn
-    .openUri(arguments[0], arguments[1], arguments[2])
-    .then(() => mongoose);
-};
-
 /* set global mongoose promise */
 mongoose.Promise = global.Promise;
 
@@ -653,7 +643,7 @@ exports.connect = (url, done) => {
 
   // establish mongoose connection
   uri = _.trim(uri) || MONGODB_URI;
-  mongoose.oldConnect(uri, _options, _done);
+  mongoose.connect(uri, _options, _done);
 };
 
 /**
@@ -708,7 +698,7 @@ exports.clear = (...modelNames) => {
 
   // obtain callback
   let _connection = _.first(
-    _.filter([..._modelNames], function(v) {
+    _.filter([..._modelNames], function (v) {
       return isConnection(v);
     })
   );
@@ -716,7 +706,7 @@ exports.clear = (...modelNames) => {
   const _done = _.last(_.filter([..._modelNames], _.isFunction));
 
   // collect actual model names
-  _modelNames = _.filter([..._modelNames], function(v) {
+  _modelNames = _.filter([..._modelNames], function (v) {
     return _.isString(v) || isModel(v);
   });
 
@@ -730,7 +720,7 @@ exports.clear = (...modelNames) => {
 
   // map modelNames to deleteMany
   const connected = isConnected(_connection);
-  let deletes = _.map([..._modelNames], function(modelName) {
+  let deletes = _.map([..._modelNames], function (modelName) {
     // obtain model
     let Model = modelName;
     if (!isModel(modelName)) {
