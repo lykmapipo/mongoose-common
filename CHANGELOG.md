@@ -1,3 +1,14 @@
+#### 0.28.8 (2020-01-20)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([122fe11f](https://github.com/lykmapipo/mongoose-common/commit/122fe11fb733facd99dbd9c2672552b42f13c4f4))
+
+##### Refactors
+
+* **synIndexes:**  ensure safe syncs ([34b52f92](https://github.com/lykmapipo/mongoose-common/commit/34b52f92cb9ec9ac3bb796cf2cdd443c96c4563a))
+* **connect:**  restore mongoose.connect use ([ecd863d8](https://github.com/lykmapipo/mongoose-common/commit/ecd863d8539b730cae08fba5db94693a01cf178d))
+
 #### 0.28.7 (2020-01-17)
 
 ##### Chores
