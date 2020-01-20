@@ -944,14 +944,31 @@ exports.syncIndexes = done => {
     return exports.model(modelName);
   });
 
+  // safe sync indexes of a given model
+  // TODO: move to Model.syncIndexes
+  const syncIndexOf = Model => next => {
+    if (Model && _.isFunction(Model.syncIndexes)) {
+      return Model.syncIndexes({}, error => {
+        // handle collection exists
+        if (error && error.codeName === 'NamespaceExists') {
+          return waterfall(
+            [
+              then => Model.cleanIndexes(error => then(error)),
+              then => Model.createIndexes(error => then(error)),
+            ],
+            next
+          );
+        }
+        // otherwise unknown error
+        return next(error);
+      });
+    }
+    return undefined;
+  };
+
   // build indexes sync tasks
   let syncs = _.map(Models, Model => {
-    if (Model && Model.syncIndexes) {
-      const syncIndexOf = next => {
-        Model.syncIndexes(error => next(error));
-      };
-      return syncIndexOf;
-    }
+    return syncIndexOf(Model);
   });
 
   // do syncing
