@@ -1,3 +1,9 @@
+#### 0.29.1 (2020-01-23)
+
+##### Bug Fixes
+
+* **seed:**  filter empty ([33de07fb](https://github.com/lykmapipo/mongoose-common/commit/33de07fb6e68b5c221a9be4810e209499b172f70))
+
 #### 0.29.0 (2020-01-23)
 
 ##### New Features
