@@ -1,3 +1,9 @@
+#### 0.29.0 (2020-01-23)
+
+##### New Features
+
+* **seed:**  support transform & filter ([e48f6b49](https://github.com/lykmapipo/mongoose-common/commit/e48f6b49afbd65569733773cac4b5fcb49081233))
+
 #### 0.28.9 (2020-01-22)
 
 ##### Chores
