@@ -6,17 +6,17 @@ const { waterfall } = require('async');
 const { Schema, ObjectId, model, connect, drop, syncIndexes } = require('..');
 
 describe('integration', () => {
-  before(done => connect(done));
-  after(done => drop(done));
+  before((done) => connect(done));
+  after((done) => drop(done));
 
-  it('should beautify unique error on create', done => {
+  it('should beautify unique error on create', (done) => {
     const schema = new Schema({ name: { type: String, unique: true } });
     const User = model(schema);
     const user = { name: 'John Doe' };
 
     // wait index
     User.once('index', () => {
-      User.create([user, user], error => {
+      User.create([user, user], (error) => {
         expect(error).to.exist;
         expect(error.status).to.exist;
         expect(error.name).to.exist;
@@ -33,14 +33,14 @@ describe('integration', () => {
     });
   });
 
-  it('should beautify unique error on insertMany', done => {
+  it('should beautify unique error on insertMany', (done) => {
     const schema = new Schema({ name: { type: String, unique: true } });
     const User = model(schema);
     const user = { name: 'John Doe' };
 
     // wait index
     User.once('index', () => {
-      User.insertMany([user, user], error => {
+      User.insertMany([user, user], (error) => {
         expect(error).to.exist;
         expect(error.status).to.exist;
         expect(error.name).to.exist;
@@ -57,7 +57,7 @@ describe('integration', () => {
     });
   });
 
-  it('should beautify compound unique error on create', done => {
+  it('should beautify compound unique error on create', (done) => {
     const schema = new Schema({ firstName: String, lastName: String });
     schema.index({ firstName: 1, lastName: 1 }, { unique: true });
     const User = model(schema);
@@ -65,7 +65,7 @@ describe('integration', () => {
 
     // wait index
     User.once('index', () => {
-      User.create([user, user], error => {
+      User.create([user, user], (error) => {
         expect(error).to.exist;
         expect(error.status).to.exist;
         expect(error.name).to.exist;
@@ -75,8 +75,7 @@ describe('integration', () => {
         expect(error.errors).to.exist;
         expect(error.errors.firstName).to.exist;
         expect(error.errors.firstName.kind).to.exist;
-        expect(error.errors.firstName.kind).to.be.equal(
-          'unique');
+        expect(error.errors.firstName.kind).to.be.equal('unique');
         expect(error.errors.firstName.value).to.be.equal(user.firstName);
         expect(error.errors.lastName).to.exist;
         expect(error.errors.lastName.kind).to.exist;
@@ -87,7 +86,7 @@ describe('integration', () => {
     });
   });
 
-  it('should beautify compound unique error on insertMany', done => {
+  it('should beautify compound unique error on insertMany', (done) => {
     const schema = new Schema({ firstName: String, lastName: String });
     schema.index({ firstName: 1, lastName: 1 }, { unique: true });
     const User = model(schema);
@@ -95,7 +94,7 @@ describe('integration', () => {
 
     // wait index
     User.once('index', () => {
-      User.insertMany([user, user], error => {
+      User.insertMany([user, user], (error) => {
         expect(error).to.exist;
         expect(error.status).to.exist;
         expect(error.name).to.exist;
@@ -105,8 +104,7 @@ describe('integration', () => {
         expect(error.errors).to.exist;
         expect(error.errors.firstName).to.exist;
         expect(error.errors.firstName.kind).to.exist;
-        expect(error.errors.firstName.kind).to.be.equal(
-          'unique');
+        expect(error.errors.firstName.kind).to.be.equal('unique');
         expect(error.errors.firstName.value).to.be.equal(user.firstName);
         expect(error.errors.lastName).to.exist;
         expect(error.errors.lastName.kind).to.exist;
@@ -117,14 +115,14 @@ describe('integration', () => {
     });
   });
 
-  it('should beautify ObjectId unique error on create', done => {
+  it('should beautify ObjectId unique error on create', (done) => {
     const schema = new Schema({ name: { type: String } });
     const User = model(schema);
     const user = new User({ name: 'John Doe' }).toObject();
 
     // wait index
     User.once('index', () => {
-      User.create([user, user], error => {
+      User.create([user, user], (error) => {
         expect(error).to.exist;
         expect(error.status).to.exist;
         expect(error.name).to.exist;
@@ -141,7 +139,7 @@ describe('integration', () => {
     });
   });
 
-  it('should beautify ObjectId compound unique error on create', done => {
+  it('should beautify ObjectId compound unique error on create', (done) => {
     const schema = new Schema({
       firstName: String,
       lastName: String,
@@ -157,7 +155,7 @@ describe('integration', () => {
 
     // wait index
     User.once('index', () => {
-      User.create([user, user], error => {
+      User.create([user, user], (error) => {
         expect(error).to.exist;
         expect(error.status).to.exist;
         expect(error.name).to.exist;
@@ -176,8 +174,7 @@ describe('integration', () => {
 
         expect(error.errors.firstName).to.exist;
         expect(error.errors.firstName.kind).to.exist;
-        expect(error.errors.firstName.kind).to.be.equal(
-          'unique');
+        expect(error.errors.firstName.kind).to.be.equal('unique');
         expect(error.errors.firstName.value).to.be.equal(user.firstName);
         expect(error.errors.firstName.index).to.equal(
           'profile_1_firstName_1_lastName_1'
@@ -195,23 +192,26 @@ describe('integration', () => {
     });
   });
 
-  it('should sync indexes', done => {
+  it('should sync indexes', (done) => {
     const User = model(
-      new Schema({
-        name: { type: String, index: true },
-      }, { autoIndex: false })
+      new Schema(
+        {
+          name: { type: String, index: true },
+        },
+        { autoIndex: false }
+      )
     );
 
     waterfall(
       [
-        next => User.createCollection(error => next(error)),
-        next =>
-        User.listIndexes((error, indexes) => {
-          expect(_.find(indexes, { name: 'name_1' })).to.not.exist;
-          next(error);
-        }),
-        next => syncIndexes(error => next(error)),
-        next => User.listIndexes(next),
+        (next) => User.createCollection((error) => next(error)),
+        (next) =>
+          User.listIndexes((error, indexes) => {
+            expect(_.find(indexes, { name: 'name_1' })).to.not.exist;
+            next(error);
+          }),
+        (next) => syncIndexes((error) => next(error)),
+        (next) => User.listIndexes(next),
       ],
       (error, indexes) => {
         expect(error).to.not.exist;
@@ -222,7 +222,7 @@ describe('integration', () => {
     );
   });
 
-  it('should sync indexes without autoIndex option', done => {
+  it('should sync indexes without autoIndex option', (done) => {
     const User = model(
       new Schema({
         name: { type: String, index: true },
@@ -231,8 +231,8 @@ describe('integration', () => {
 
     waterfall(
       [
-        next => syncIndexes(error => next(error)),
-        next => User.listIndexes(next),
+        (next) => syncIndexes((error) => next(error)),
+        (next) => User.listIndexes(next),
       ],
       (error, indexes) => {
         expect(error).to.not.exist;
@@ -243,17 +243,20 @@ describe('integration', () => {
     );
   });
 
-  it('should sync indexes with autoIndex option', done => {
+  it('should sync indexes with autoIndex option', (done) => {
     const User = model(
-      new Schema({
-        name: { type: String, index: true },
-      }, { autoIndex: false })
+      new Schema(
+        {
+          name: { type: String, index: true },
+        },
+        { autoIndex: false }
+      )
     );
 
     waterfall(
       [
-        next => syncIndexes(error => next(error)),
-        next => User.listIndexes(next),
+        (next) => syncIndexes((error) => next(error)),
+        (next) => User.listIndexes(next),
       ],
       (error, indexes) => {
         expect(error).to.not.exist;

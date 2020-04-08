@@ -48,8 +48,8 @@ const {
 describe('unit', () => {
   const MONGODB_URI = 'mongodb://localhost/test';
 
-  beforeEach(done => disconnect(done));
-  afterEach(done => drop(done));
+  beforeEach((done) => disconnect(done));
+  afterEach((done) => drop(done));
 
   it('should expose shortcuts', () => {
     expect(MongooseCommon.Schema).to.exist;
@@ -446,7 +446,7 @@ describe('unit', () => {
     expect(drop.length).to.be.equal(2);
   });
 
-  it('should be able to connect on given url', done => {
+  it('should be able to connect on given url', (done) => {
     connect(MONGODB_URI, (error, instance) => {
       expect(error).to.not.exist;
       expect(instance).to.exist;
@@ -458,7 +458,7 @@ describe('unit', () => {
     });
   });
 
-  it('should check if connected', done => {
+  it('should check if connected', (done) => {
     expect(isConnected()).to.be.false;
     expect(isConnected('connection')).to.be.false;
     connect(MONGODB_URI, (error, instance) => {
@@ -470,7 +470,7 @@ describe('unit', () => {
     });
   });
 
-  it('should be able to connect from process.env.MONGODB_URI', done => {
+  it('should be able to connect from process.env.MONGODB_URI', (done) => {
     process.env.MONGODB_URI = MONGODB_URI;
     connect((error, instance) => {
       expect(error).to.not.exist;
@@ -484,23 +484,23 @@ describe('unit', () => {
     });
   });
 
-  it('should be able to clear provided models', done => {
-    clear('User', error => {
+  it('should be able to clear provided models', (done) => {
+    clear('User', (error) => {
       expect(error).to.not.exist;
       done(error);
     });
   });
 
-  it('should be able to clear provided models', done => {
+  it('should be able to clear provided models', (done) => {
     const User = model('User', new Schema({ name: String }));
-    clear(User, error => {
+    clear(User, (error) => {
       expect(error).to.not.exist;
       done(error);
     });
   });
 
-  it('should be able to clear models', done => {
-    clear(error => {
+  it('should be able to clear models', (done) => {
+    clear((error) => {
       expect(error).to.not.exist;
       done(error);
     });
@@ -706,7 +706,7 @@ describe('unit', () => {
   });
 
   it('should be able to create schema with plugins', () => {
-    const schema = createSchema({ name: { type: String } }, {}, schema => {
+    const schema = createSchema({ name: { type: String } }, {}, (schema) => {
       schema.statics.withTest = function withTest() {};
     });
     expect(schema).to.exist;
@@ -729,7 +729,7 @@ describe('unit', () => {
     const User = createModel(
       { name: { type: String } },
       { modelName },
-      schema => {
+      (schema) => {
         schema.statics.withTest = function withTest() {};
       }
     );

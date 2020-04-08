@@ -5,12 +5,11 @@ const { waterfall } = require('async');
 const { expect, faker } = require('@lykmapipo/test-helpers');
 const { ObjectId, createModel, connect, drop } = require('..');
 
+describe.only('seed', () => {
+  before((done) => connect(done));
+  after((done) => drop(done));
 
-describe('seed', () => {
-  before(done => connect(done));
-  after(done => drop(done));
-
-  it('should work when no seeds passed', done => {
+  it('should work when no seeds passed', (done) => {
     const User = createModel({ name: { type: String } });
     User.seed((error, seeded) => {
       expect(error).to.not.exist;
@@ -18,7 +17,7 @@ describe('seed', () => {
     });
   });
 
-  it('should work when single seeds passed', done => {
+  it('should work when single seeds passed', (done) => {
     const user = { name: faker.name.findName() };
     const User = createModel({ name: { type: String } });
     User.seed(user, (error, seeded) => {
@@ -29,7 +28,7 @@ describe('seed', () => {
     });
   });
 
-  it('should work when array seeds passed', done => {
+  it('should work when array seeds passed', (done) => {
     const user = { name: faker.name.findName() };
     const User = createModel({ name: { type: String } });
     User.seed([user], (error, seeded) => {
@@ -40,7 +39,7 @@ describe('seed', () => {
     });
   });
 
-  it('should upsert if seed exists', done => {
+  it('should upsert if seed exists', (done) => {
     const user = { name: faker.name.findName() };
     const User = createModel({ name: { type: String } });
     User.seed([user], (error, seeded) => {
@@ -51,10 +50,10 @@ describe('seed', () => {
     });
   });
 
-  it('should use model `prepareSeedCriteria`', done => {
+  it('should use model `prepareSeedCriteria`', (done) => {
     const user = { name: faker.name.findName() };
-    const User = createModel({ name: { type: String } }, {}, schema => {
-      schema.statics.prepareSeedCriteria = data => {
+    const User = createModel({ name: { type: String } }, {}, (schema) => {
+      schema.statics.prepareSeedCriteria = (data) => {
         expect(data).to.be.eql(user);
         return data;
       };
@@ -67,7 +66,7 @@ describe('seed', () => {
     });
   });
 
-  it('should work using seeds path', done => {
+  it('should work using seeds path', (done) => {
     process.env.BASE_PATH = __dirname;
     const User = createModel({ name: { type: String } }, { modelName: 'User' });
     User.seed((error, seeded) => {
@@ -77,7 +76,7 @@ describe('seed', () => {
     });
   });
 
-  it('should clear and seed using seeds path', done => {
+  it('should clear and seed using seeds path', (done) => {
     process.env.BASE_PATH = __dirname;
     const User = createModel({ name: { type: String } }, { modelName: 'User' });
     User.clearAndSeed((error, seeded) => {
@@ -87,7 +86,7 @@ describe('seed', () => {
     });
   });
 
-  it('should ignore path seeds if seed provided', done => {
+  it('should ignore path seeds if seed provided', (done) => {
     process.env.BASE_PATH = __dirname;
     const User = createModel({ name: { type: String } }, { modelName: 'User' });
     const user = { name: faker.name.findName() };
@@ -99,7 +98,7 @@ describe('seed', () => {
     });
   });
 
-  it('should work with refs', done => {
+  it('should work with refs', (done) => {
     const Parent = createModel({ name: { type: String } });
     const Child = createModel({
       name: { type: String },
@@ -111,7 +110,7 @@ describe('seed', () => {
 
     waterfall(
       [
-        next => Parent.seed(parent, next),
+        (next) => Parent.seed(parent, next),
         (parents, next) => {
           child.parent = _.sample(parents);
           Child.seed(child, next);
@@ -125,7 +124,7 @@ describe('seed', () => {
     );
   });
 
-  it('should work with populate', done => {
+  it('should work with populate', (done) => {
     const Parent = createModel({ name: { type: String } });
     const Child = createModel({
       name: { type: String },
@@ -144,7 +143,7 @@ describe('seed', () => {
 
     waterfall(
       [
-        next => Parent.seed(parent, next),
+        (next) => Parent.seed(parent, next),
         (parents, next) => {
           Child.seed(child, next);
         },
