@@ -1,3 +1,15 @@
+#### 0.30.0 (2020-04-08)
+
+##### Chores
+
+* **deps:**
+  *  force latest version & audit fix ([b1219af8](https://github.com/lykmapipo/mongoose-common/commit/b1219af85ca17321e9c84123d85b886f40a1cb12))
+  *  force latest version & audit fix ([f61e734f](https://github.com/lykmapipo/mongoose-common/commit/f61e734f4febe7456be86c028be2d94bcff52ef2))
+
+##### Refactors
+
+* **seed:**  preload dependencies before prepare criteria ([b6d716a8](https://github.com/lykmapipo/mongoose-common/commit/b6d716a862142d9fd2a9c0aa800f2c3a37696b29))
+
 #### 0.29.7 (2020-03-30)
 
 ##### Chores
