@@ -1256,14 +1256,14 @@ exports.areSameObjectId = (a, b) => {
  * @name toObjectIds
  * @description convert given model instances into object ids
  * @param {...Object} instances valid model instances
- * @returns {Boolean} whether objectid's are same
+ * @returns {Object[]} objectid's of model instances
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.31.0
  * @version 0.1.0
  * @public
  * @example
  *
- * toObjectIds(a, a); //=> [ '5e90486301de071ca4ebc03d', ... ]
+ * toObjectIds(a, b); //=> [ '5e90486301de071ca4ebc03d', ... ]
  *
  */
 exports.toObjectIds = (...instances) => {
@@ -1272,4 +1272,28 @@ exports.toObjectIds = (...instances) => {
     return id;
   });
   return ids;
+};
+
+/**
+ * @function toObjectIdStrings
+ * @name toObjectIdStrings
+ * @description convert given model instances objectid's into strings
+ * @param {...Object} instances valid model instances
+ * @returns {String[]} objectid's as strings
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.31.0
+ * @version 0.1.0
+ * @public
+ * @example
+ *
+ * toObjectIdStrings(a, b); //=> [ '5e90486301de071ca4ebc03d', ... ]
+ *
+ */
+exports.toObjectIdStrings = (...instances) => {
+  const ids = exports.toObjectIds(...instances);
+  const idStrings = _.map([...ids], (id) => {
+    const idString = exports.isObjectId(id) ? id.toString() : id;
+    return idString;
+  });
+  return idStrings;
 };

@@ -46,6 +46,7 @@ const {
   areSameInstance,
   areSameObjectId,
   toObjectIds,
+  toObjectIdStrings,
 } = MongooseCommon;
 
 describe('unit', () => {
@@ -877,13 +878,37 @@ describe('unit', () => {
     const User = model(new Schema({ name: String }));
     const a = new User();
     const b = new User();
+    const c = new MongooseTypes.ObjectId();
+    const d = new MongooseTypes.ObjectId();
 
     expect(toObjectIds).to.exist;
     expect(toObjectIds).to.be.a('function');
 
-    const ids = toObjectIds(a, b);
+    let ids = toObjectIds(a, b);
     expect(ids).to.have.length(2);
     expect(areSameObjectId(ids[0], a.id)).to.be.true;
     expect(areSameObjectId(ids[1], b.id)).to.be.true;
+
+    ids = toObjectIds(c, d);
+    expect(ids).to.have.length(2);
+    expect(areSameObjectId(ids[0], c)).to.be.true;
+    expect(areSameObjectId(ids[1], d)).to.be.true;
+  });
+
+  it('should convert values to objectids string', () => {
+    const User = model(new Schema({ name: String }));
+    const a = new User();
+    const b = new User();
+    const c = new MongooseTypes.ObjectId();
+    const d = new MongooseTypes.ObjectId();
+
+    expect(toObjectIdStrings).to.exist;
+    expect(toObjectIdStrings).to.be.a('function');
+
+    let ids = toObjectIdStrings(a, b);
+    expect(ids).to.be.eql([a.id.toString(), b.id.toString()]);
+
+    ids = toObjectIdStrings(c, d);
+    expect(ids).to.be.eql([c.toString(), d.toString()]);
   });
 });
