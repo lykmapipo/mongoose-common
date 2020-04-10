@@ -1,3 +1,16 @@
+#### 0.31.0 (2020-04-10)
+
+##### Chores
+
+* **release:**  compile latest source & release notes ([4438dc2b](https://github.com/lykmapipo/mongoose-common/commit/4438dc2b54d2bd773831572f5fb5e35d217ff091))
+
+##### New Features
+
+*  convert instance to objectids strings ([82508a06](https://github.com/lykmapipo/mongoose-common/commit/82508a0628ce1e0d03b531594e4a66a6ccd05aaa))
+*  convert instances to objectids ([4b0f01e8](https://github.com/lykmapipo/mongoose-common/commit/4b0f01e87ba9d6e9ac361056dddd9ec64a283a88))
+*  allow to check if two objectid are same ([99d96af1](https://github.com/lykmapipo/mongoose-common/commit/99d96af12ca01961876ea44211af39c586bdf5d2))
+*  allow check two model instance if are equal ([fe9ffb9f](https://github.com/lykmapipo/mongoose-common/commit/fe9ffb9f837f7bc764e8f98f8f2a0c8849f82694))
+
 #### 0.30.0 (2020-04-08)
 
 ##### Chores
