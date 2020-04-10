@@ -35,17 +35,17 @@ const { toObject } = require('mongoose/lib/utils');
 const { Schema, Model, Connection, Query, Aggregate } = mongoose;
 
 /* local helpers */
-const isConnection = conn => conn instanceof Connection;
+const isConnection = (conn) => conn instanceof Connection;
 
-const isSchema = schema => schema instanceof Schema;
+const isSchema = (schema) => schema instanceof Schema;
 
-const isModel = model => model && model.prototype instanceof Model;
+const isModel = (model) => model && model.prototype instanceof Model;
 
-const isQuery = query => query instanceof Query;
+const isQuery = (query) => query instanceof Query;
 
-const isAggregate = query => query instanceof Aggregate;
+const isAggregate = (query) => query instanceof Aggregate;
 
-const isConnected = conn => isConnection(conn) && conn.readyState === 1;
+const isConnected = (conn) => isConnection(conn) && conn.readyState === 1;
 
 /* set global mongoose promise */
 mongoose.Promise = global.Promise;
@@ -326,7 +326,7 @@ exports.disableDebug = () => mongoose.set('debug', false);
  * //=> users
  *
  */
-exports.toCollectionName = modelName => {
+exports.toCollectionName = (modelName) => {
   let collectionName = modelName;
   if (!_.isEmpty(modelName)) {
     collectionName = mongoose.pluralize()(modelName);
@@ -349,7 +349,7 @@ exports.toCollectionName = modelName => {
  * //=> true
  *
  */
-exports.isObjectId = val => {
+exports.isObjectId = (val) => {
   const _isObjectId = val instanceof mongoose.Types.ObjectId;
   return _isObjectId;
 };
@@ -369,7 +369,7 @@ exports.isObjectId = val => {
  * //=> true
  *
  */
-exports.isMap = val => {
+exports.isMap = (val) => {
   const _isMap = val instanceof mongoose.Types.Map;
   return _isMap;
 };
@@ -388,7 +388,7 @@ exports.isMap = val => {
  * isString(val);
  * //=> true
  */
-exports.isString = val => {
+exports.isString = (val) => {
   const _isString = val instanceof Schema.Types.String;
   return _isString;
 };
@@ -434,7 +434,7 @@ exports.isArraySchemaType = (val = {}) => {
  * //=> true
  *
  */
-exports.isStringArray = val => {
+exports.isStringArray = (val) => {
   const _isStringArray =
     val &&
     val instanceof Schema.Types.Array &&
@@ -457,7 +457,7 @@ exports.isStringArray = val => {
  * //=> true
  *
  */
-exports.isNumber = val => {
+exports.isNumber = (val) => {
   const _isNumber = val instanceof Schema.Types.Number;
   return _isNumber;
 };
@@ -478,7 +478,7 @@ exports.isNumber = val => {
  * //=> true
  *
  */
-exports.isNumberArray = val => {
+exports.isNumberArray = (val) => {
   const _isNumberArray =
     val &&
     val instanceof Schema.Types.Array &&
@@ -502,7 +502,7 @@ exports.isNumberArray = val => {
  * //=> true
  *
  */
-exports.isInstance = value => {
+exports.isInstance = (value) => {
   if (value) {
     const _isInstance =
       _.isFunction(_.get(value, 'toObject', null)) &&
@@ -573,7 +573,7 @@ exports.schemaTypeOptionOf = (schemaType = {}) => {
  * //=> 'users'
  *
  */
-exports.collectionNameOf = modelName => {
+exports.collectionNameOf = (modelName) => {
   // derive collection name from model
   const Ref = exports.model(modelName);
   let collectionName =
@@ -932,7 +932,7 @@ exports.jsonSchema = () => {
  * syncIndexes(done);
  *
  */
-exports.syncIndexes = done => {
+exports.syncIndexes = (done) => {
   // ensure connection before sync
   const canSync = isConnected(mongoose.connection);
   if (!canSync) {
@@ -940,21 +940,21 @@ exports.syncIndexes = done => {
   }
 
   // obtain available models
-  const Models = _.map(exports.modelNames(), modelName => {
+  const Models = _.map(exports.modelNames(), (modelName) => {
     return exports.model(modelName);
   });
 
   // safe sync indexes of a given model
   // TODO: move to Model.syncIndexes
-  const syncIndexOf = Model => next => {
+  const syncIndexOf = (Model) => (next) => {
     if (Model && _.isFunction(Model.syncIndexes)) {
-      return Model.syncIndexes({}, error => {
+      return Model.syncIndexes({}, (error) => {
         // handle collection exists
         if (error && error.codeName === 'NamespaceExists') {
           return waterfall(
             [
-              then => Model.cleanIndexes(error => then(error)),
-              then => Model.createIndexes(error => then(error)),
+              (then) => Model.cleanIndexes((error) => then(error)),
+              (then) => Model.createIndexes((error) => then(error)),
             ],
             next
           );
@@ -967,13 +967,13 @@ exports.syncIndexes = done => {
   };
 
   // build indexes sync tasks
-  let syncs = _.map(Models, Model => {
+  let syncs = _.map(Models, (Model) => {
     return syncIndexOf(Model);
   });
 
   // do syncing
   syncs = _.compact([...syncs]);
-  return parallel(syncs, error => done(error));
+  return parallel(syncs, (error) => done(error));
 };
 
 /**
@@ -1034,7 +1034,7 @@ exports.createSchema = (definition, optns, ...plugins) => {
   const schema = new Schema(schemaDefinition, schemaOptions);
 
   // apply schema plugins with model options
-  _.forEach([...plugins], plugin => {
+  _.forEach([...plugins], (plugin) => {
     schema.plugin(plugin, schemaOptions);
   });
 
@@ -1116,7 +1116,7 @@ exports.createVarySubSchema = (optns, ...paths) => {
   const options = mergeObjects(defaults, optns);
 
   // normalize and collect fields
-  const fields = _.map([...paths], field => {
+  const fields = _.map([...paths], (field) => {
     // handle: string field definition
     if (_.isString(field)) {
       return { name: field, required: false };
@@ -1133,7 +1133,7 @@ exports.createVarySubSchema = (optns, ...paths) => {
 
   // prepare schema definition
   const definition = {};
-  _.forEach(uniq([...fields]), field => {
+  _.forEach(uniq([...fields]), (field) => {
     definition[field.name] = mergeObjects(options, _.omit(field, 'name'));
   });
 
@@ -1167,7 +1167,7 @@ exports.createVarySubSchema = (optns, ...paths) => {
  * //=> error
  *
  */
-exports.validationErrorFor = optns => {
+exports.validationErrorFor = (optns) => {
   // obtain options
   const { status = 400, code = 400, paths = {} } = mergeObjects(optns);
 
@@ -1190,4 +1190,29 @@ exports.validationErrorFor = optns => {
 
   // return validation error
   return error;
+};
+
+/**
+ * @function areSameInstance
+ * @name areSameInstance
+ * @description check if given two mongoose model instances are same
+ * @param {Object} a valid model instance
+ * @param {Object} b valid model instance
+ * @returns {Boolean} whether model instance are same
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.31.0
+ * @version 0.1.0
+ * @public
+ * @example
+ *
+ * areSameInstance(a, a); //=> true
+ *
+ */
+exports.areSameInstance = (a, b) => {
+  try {
+    const areSame = !!(a && b && a.equals(b));
+    return areSame;
+  } catch (e) {
+    return false;
+  }
 };

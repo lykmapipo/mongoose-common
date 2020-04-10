@@ -43,6 +43,7 @@ const {
   createModel,
   createVarySubSchema,
   validationErrorFor,
+  areSameInstance,
 } = MongooseCommon;
 
 describe('unit', () => {
@@ -833,5 +834,23 @@ describe('unit', () => {
     expect(error.errors.name.value).to.be.equal(undefined);
     expect(error.errors.name.reason).to.be.equal('Not provided');
     expect(error.errors.name.message).to.be.equal('Path `name` is required.');
+  });
+
+  it('should check if values are a model instances', () => {
+    const User = model(new Schema({ name: String }));
+    const a = new User();
+    const b = new User();
+
+    expect(areSameInstance).to.exist;
+    expect(areSameInstance).to.be.a('function');
+    expect(areSameInstance).to.have.length(2);
+
+    expect(areSameInstance(a, a)).to.be.true;
+    expect(areSameInstance(a, b)).to.be.false;
+    expect(areSameInstance(undefined, a)).to.be.false;
+    expect(areSameInstance(1, a)).to.be.false;
+    expect(areSameInstance('', a)).to.be.false;
+    expect(areSameInstance(null, a)).to.be.false;
+    expect(areSameInstance(1, 1)).to.be.false;
   });
 });
