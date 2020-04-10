@@ -44,6 +44,7 @@ const {
   createVarySubSchema,
   validationErrorFor,
   areSameInstance,
+  areSameObjectId,
 } = MongooseCommon;
 
 describe('unit', () => {
@@ -836,7 +837,7 @@ describe('unit', () => {
     expect(error.errors.name.message).to.be.equal('Path `name` is required.');
   });
 
-  it('should check if values are a model instances', () => {
+  it('should check if values are same model instances', () => {
     const User = model(new Schema({ name: String }));
     const a = new User();
     const b = new User();
@@ -852,5 +853,22 @@ describe('unit', () => {
     expect(areSameInstance('', a)).to.be.false;
     expect(areSameInstance(null, a)).to.be.false;
     expect(areSameInstance(1, 1)).to.be.false;
+  });
+
+  it('should check if values are same object ids', () => {
+    const a = new MongooseTypes.ObjectId();
+    const b = new MongooseTypes.ObjectId();
+
+    expect(areSameObjectId).to.exist;
+    expect(areSameObjectId).to.be.a('function');
+    expect(areSameObjectId).to.have.length(2);
+
+    expect(areSameObjectId(a, a)).to.be.true;
+    expect(areSameObjectId(a, b)).to.be.false;
+    expect(areSameObjectId(1, 1)).to.be.true;
+    expect(areSameObjectId(undefined, a)).to.be.false;
+    expect(areSameObjectId(1, a)).to.be.false;
+    expect(areSameObjectId('', a)).to.be.false;
+    expect(areSameObjectId(null, a)).to.be.false;
   });
 });

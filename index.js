@@ -28,7 +28,7 @@
 /* dependencies */
 const _ = require('lodash');
 const { parallel, waterfall } = require('async');
-const { mergeObjects, uniq } = require('@lykmapipo/common');
+const { idOf, mergeObjects, uniq } = require('@lykmapipo/common');
 const { getString } = require('@lykmapipo/env');
 const mongoose = require('mongoose-valid8');
 const { toObject } = require('mongoose/lib/utils');
@@ -1211,6 +1211,40 @@ exports.validationErrorFor = (optns) => {
 exports.areSameInstance = (a, b) => {
   try {
     const areSame = !!(a && b && a.equals(b));
+    return areSame;
+  } catch (e) {
+    return false;
+  }
+};
+
+/**
+ * @function areSameObjectId
+ * @name areSameObjectId
+ * @description check if given two mongoose objectid are same
+ * @param {Object} a valid object id
+ * @param {Object} b valid object
+ * @returns {Boolean} whether objectid's are same
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.31.0
+ * @version 0.1.0
+ * @public
+ * @example
+ *
+ * areSameObjectId(a, a); //=> true
+ *
+ */
+exports.areSameObjectId = (a, b) => {
+  try {
+    // grab actual ids
+    const idOfA = idOf(a) || a;
+    const idOfB = idOf(b) || b;
+
+    // convert to string
+    const idA = exports.isObjectId(idOfA) ? idOfA.toString() : idOfA;
+    const idB = exports.isObjectId(idOfB) ? idOfB.toString() : idOfB;
+
+    // check if are equal
+    const areSame = idA === idB;
     return areSame;
   } catch (e) {
     return false;
