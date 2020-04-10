@@ -45,6 +45,7 @@ const {
   validationErrorFor,
   areSameInstance,
   areSameObjectId,
+  toObjectIds,
 } = MongooseCommon;
 
 describe('unit', () => {
@@ -870,5 +871,19 @@ describe('unit', () => {
     expect(areSameObjectId(1, a)).to.be.false;
     expect(areSameObjectId('', a)).to.be.false;
     expect(areSameObjectId(null, a)).to.be.false;
+  });
+
+  it('should convert model instances to object ids', () => {
+    const User = model(new Schema({ name: String }));
+    const a = new User();
+    const b = new User();
+
+    expect(toObjectIds).to.exist;
+    expect(toObjectIds).to.be.a('function');
+
+    const ids = toObjectIds(a, b);
+    expect(ids).to.have.length(2);
+    expect(areSameObjectId(ids[0], a.id)).to.be.true;
+    expect(areSameObjectId(ids[1], b.id)).to.be.true;
   });
 });

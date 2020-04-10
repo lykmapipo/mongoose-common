@@ -1250,3 +1250,26 @@ exports.areSameObjectId = (a, b) => {
     return false;
   }
 };
+
+/**
+ * @function toObjectIds
+ * @name toObjectIds
+ * @description convert given model instances into object ids
+ * @param {...Object} instances valid model instances
+ * @returns {Boolean} whether objectid's are same
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.31.0
+ * @version 0.1.0
+ * @public
+ * @example
+ *
+ * toObjectIds(a, a); //=> [ '5e90486301de071ca4ebc03d', ... ]
+ *
+ */
+exports.toObjectIds = (...instances) => {
+  const ids = _.map([...instances], (instance) => {
+    const id = idOf(instance) || instance;
+    return id;
+  });
+  return ids;
+};
