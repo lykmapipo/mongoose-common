@@ -1,3 +1,9 @@
+#### 0.32.0 (2020-04-23)
+
+##### New Features
+
+* **seed:**  allow ignore on populate ([f7a61ee9](https://github.com/lykmapipo/mongoose-common/commit/f7a61ee963f8e719bc8f183e4b1f8fce702f2b70))
+
 #### 0.31.1 (2020-04-16)
 
 ##### Chores
