@@ -1,3 +1,13 @@
+#### 0.33.0 (2020-04-28)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([61de07fe](https://github.com/lykmapipo/mongoose-common/commit/61de07fec35cbc34f146f99d919b7a46cf2612ca))
+
+##### New Features
+
+*  load seeds from es6 default exports ([cfd41d71](https://github.com/lykmapipo/mongoose-common/commit/cfd41d71b1cddf01bd428723435f3038cb8d8a79))
+
 #### 0.32.1 (2020-04-27)
 
 ##### Chores
