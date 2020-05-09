@@ -1,3 +1,13 @@
+#### 0.34.0 (2020-05-09)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([a50b2a6d](https://github.com/lykmapipo/mongoose-common/commit/a50b2a6d6f8cea0168a5b84fd8278c5ab1b18617))
+
+##### New Features
+
+* **seed:**  allow select option on related ([8268aa2f](https://github.com/lykmapipo/mongoose-common/commit/8268aa2fdcfae8cff58b7667debaa09f19980957))
+
 #### 0.33.1 (2020-05-02)
 
 ##### Chores
