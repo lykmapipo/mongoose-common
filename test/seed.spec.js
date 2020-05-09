@@ -5,7 +5,7 @@ const { waterfall } = require('async');
 const { expect, faker } = require('@lykmapipo/test-helpers');
 const { ObjectId, createModel, connect, drop } = require('..');
 
-describe.only('seed', () => {
+describe('seed', () => {
   before((done) => connect(done));
   after((done) => drop(done));
 
@@ -140,7 +140,7 @@ describe.only('seed', () => {
     const child = {
       name: faker.name.findName(),
       populate: {
-        parent: { model: Parent.modelName, match: parent },
+        parent: { model: Parent.modelName, match: parent, select: { name: 1 } },
         relatives: {
           model: Parent.modelName,
           match: { name: { $in: _.map([...relatives, parent], 'name') } },
@@ -160,6 +160,7 @@ describe.only('seed', () => {
         expect(error).to.not.exist;
         expect(seeded).to.have.length.at.least(1);
         expect(_.first(seeded).parent).to.exist;
+        expect(_.first(seeded).parent.name).to.exist;
         expect(_.first(seeded).relatives).to.exist.and.to.have.length(2);
         done(error, seeded);
       }
