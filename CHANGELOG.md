@@ -1,3 +1,9 @@
+#### 0.34.2 (2020-05-10)
+
+##### Refactors
+
+* **seed:**  remove null & empty relations ([9bd34064](https://github.com/lykmapipo/mongoose-common/commit/9bd340641b1b626242ab04bb261e7e4f7001e0a3))
+
 #### 0.34.1 (2020-05-09)
 
 ##### Chores
