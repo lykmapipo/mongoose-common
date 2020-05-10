@@ -129,10 +129,13 @@ describe('seed', () => {
     const Child = createModel({
       name: { type: String },
       parent: { type: ObjectId, ref: Parent.modelName },
+      guardian: { type: ObjectId, ref: Parent.modelName },
+      brothers: { type: [ObjectId], ref: Parent.modelName },
       relatives: { type: [ObjectId], ref: Parent.modelName },
     });
 
     const parent = { name: faker.name.findName() };
+    const guardian = { name: faker.name.findName() };
     const relatives = [
       { name: faker.name.findName() },
       { name: faker.name.findName() },
@@ -141,6 +144,16 @@ describe('seed', () => {
       name: faker.name.findName(),
       populate: {
         parent: { model: Parent.modelName, match: parent, select: { name: 1 } },
+        guardian: {
+          model: Parent.modelName,
+          match: guardian,
+          select: { name: 1 },
+        },
+        brothers: {
+          model: Parent.modelName,
+          match: { name: { $in: _.map([guardian], 'name') } },
+          array: true,
+        },
         relatives: {
           model: Parent.modelName,
           match: { name: { $in: _.map([...relatives, parent], 'name') } },
@@ -160,7 +173,9 @@ describe('seed', () => {
         expect(error).to.not.exist;
         expect(seeded).to.have.length.at.least(1);
         expect(_.first(seeded).parent).to.exist;
+        expect(_.first(seeded).guardian).to.not.exist;
         expect(_.first(seeded).parent.name).to.exist;
+        // expect(_.first(seeded).brothers).to.not.exist;
         expect(_.first(seeded).relatives).to.exist.and.to.have.length(2);
         done(error, seeded);
       }
