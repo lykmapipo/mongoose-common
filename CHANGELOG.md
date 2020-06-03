@@ -1,3 +1,17 @@
+#### 0.35.0 (2020-06-03)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([90a6e2e0](https://github.com/lykmapipo/mongoose-common/commit/90a6e2e02cc4f1e434d25c0acbad54c4ef4328d6))
+
+##### New Features
+
+* **seed:**  ensure safe seed data ([5ce318f3](https://github.com/lykmapipo/mongoose-common/commit/5ce318f367df957809e8a35fbfe6928e013107c1))
+
+##### Bug Fixes
+
+* **seed:**  transform seed to array ([ec998e02](https://github.com/lykmapipo/mongoose-common/commit/ec998e02324761f62158092956443617f39f7e5b))
+
 #### 0.34.3 (2020-05-20)
 
 ##### Chores
