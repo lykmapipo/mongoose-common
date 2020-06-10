@@ -59,7 +59,7 @@ mongoose.Promise = global.Promise;
  *
  * const jsonSchema = User.jsonSchema();
  */
-require('mongoose-schema-jsonschema')(mongoose);
+require('mongoose-schema-jsonschema')(mongoose); // TODO: ignore global
 
 /**
  * @name path
@@ -73,7 +73,7 @@ require('mongoose-schema-jsonschema')(mongoose);
  * //=> SchemaString { path: 'name', instance: 'String', ... }
  *
  */
-mongoose.plugin(require('./lib/path.plugin'));
+mongoose.plugin(require('./lib/path.plugin')); // TODO: ignore global
 
 /**
  * @name error
@@ -82,7 +82,7 @@ mongoose.plugin(require('./lib/path.plugin'));
  * @version 0.1.0
  * @public
  */
-mongoose.plugin(require('./lib/error.plugin'));
+mongoose.plugin(require('./lib/error.plugin')); // TODO: ignore global
 
 /**
  * @name seed
@@ -91,7 +91,7 @@ mongoose.plugin(require('./lib/error.plugin'));
  * @version 0.1.0
  * @public
  */
-mongoose.plugin(require('./lib/seed.plugin'));
+mongoose.plugin(require('./lib/seed.plugin')); // TODO: ignore global
 
 /* expose shortcuts */
 exports.Schema = Schema;
@@ -1078,7 +1078,7 @@ exports.createModel = (schema, options, ...plugins) => {
   const modelSchema = exports.createSchema(
     schemaDefinition,
     modelOptions,
-    ...plugins
+    ...plugins // TODO: plugin common global plugins
   );
 
   // register model
