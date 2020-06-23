@@ -27,8 +27,15 @@
 
 /* dependencies */
 const _ = require('lodash');
+const { createHmac } = require('crypto');
 const { parallel, waterfall } = require('async');
-const { idOf, mergeObjects, uniq } = require('@lykmapipo/common');
+const {
+  compact,
+  idOf,
+  join,
+  mergeObjects,
+  uniq,
+} = require('@lykmapipo/common');
 const { getString } = require('@lykmapipo/env');
 const mongoose = require('mongoose-valid8');
 const { toObject } = require('mongoose/lib/utils');
@@ -1296,4 +1303,41 @@ exports.toObjectIdStrings = (...instances) => {
     return idString;
   });
   return idStrings;
+};
+
+/**
+ * @function objectIdFor
+ * @name objectIdFor
+ * @description create a unique objectid of a given model values
+ * @param {...String} model valid model name
+ * @param {...String} parts values to generate object id for
+ * @returns {Object} valid objectid
+ * @author lally elias <lallyelias87@mail.com>
+ * @since 0.36.0
+ * @version 0.1.0
+ * @public
+ * @example
+ *
+ * objectIdFor('Party', 'TZ-0101');
+ * //=> '5e90486301de071ca4ebc03d'
+ *
+ */
+exports.objectIdFor = (model, ...parts) => {
+  // ensure parts
+  const values = compact([].concat(model).concat(...parts));
+
+  // ensure secret & message
+  const secret = _.head(values);
+  const data = join(_.tail(values), ':');
+
+  // generate 24-byte hex hash
+  const hash = createHmac('md5', secret)
+    .update(data)
+    .digest('hex')
+    .slice(0, 24);
+
+  // create objectid from hash
+  const objectId = mongoose.Types.ObjectId.createFromHexString(hash);
+
+  return objectId;
 };

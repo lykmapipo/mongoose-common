@@ -47,6 +47,7 @@ const {
   areSameObjectId,
   toObjectIds,
   toObjectIdStrings,
+  objectIdFor,
 } = MongooseCommon;
 
 describe('unit', () => {
@@ -910,5 +911,42 @@ describe('unit', () => {
 
     ids = toObjectIdStrings(c, d);
     expect(ids).to.be.eql([c.toString(), d.toString()]);
+  });
+
+  it('should generate defult objectid for models', () => {
+    const oid1 = objectIdFor('Party');
+    const oid2 = objectIdFor('Party');
+    expect(oid1).to.exist;
+    expect(oid2).to.exist;
+    expect(oid1).to.be.eql(oid2);
+
+    const oid3 = objectIdFor('Predefine');
+    const oid4 = objectIdFor('Predefine');
+    expect(oid3).to.exist;
+    expect(oid4).to.exist;
+    expect(oid3).to.be.eql(oid4);
+
+    const oid5 = objectIdFor('Predefine', 'Unit');
+    const oid6 = objectIdFor('Predefine', 'Unit');
+    expect(oid5).to.exist;
+    expect(oid6).to.exist;
+    expect(oid5).to.be.eql(oid6);
+
+    const oid7 = objectIdFor('Predefine', 'Unit', 'piece');
+    const oid8 = objectIdFor('Predefine', 'Unit', 'piece');
+    expect(oid7).to.exist;
+    expect(oid8).to.exist;
+    expect(oid7).to.be.eql(oid8);
+
+    const oid9 = objectIdFor('Predefine', 'HealthFacility', 'Hospital', 'Care');
+    const oid10 = objectIdFor(
+      'Predefine',
+      'HealthFacility',
+      'Hospital',
+      'Care'
+    );
+    expect(oid9).to.exist;
+    expect(oid10).to.exist;
+    expect(oid9).to.be.eql(oid10);
   });
 });
