@@ -1,3 +1,13 @@
+#### 0.36.0 (2020-06-23)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([97c1d25d](https://github.com/lykmapipo/mongoose-common/commit/97c1d25d98acec88e321eff5296abc19894c7848))
+
+##### New Features
+
+*  add object id helper ([2063ec2e](https://github.com/lykmapipo/mongoose-common/commit/2063ec2e3fdddf93b7b48e0a6fd74cea518dd511))
+
 #### 0.35.1 (2020-06-10)
 
 ##### Chores
