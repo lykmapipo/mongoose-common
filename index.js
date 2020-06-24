@@ -613,7 +613,7 @@ exports.collectionNameOf = (modelName) => {
  * @param {Function} done a callback to invoke on success or failure
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.1.0
- * @version 0.3.0
+ * @version 0.3.1
  * @public
  * @example
  *
