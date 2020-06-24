@@ -1,3 +1,13 @@
+#### 0.37.1 (2020-06-24)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([a729a145](https://github.com/lykmapipo/mongoose-common/commit/a729a1459a5f93fe6e5749494f43f9ec97fea854))
+
+##### Bug Fixes
+
+* **connect:**  ensure callback invoke ([26c8fac5](https://github.com/lykmapipo/mongoose-common/commit/26c8fac5d2ba003ecb34d604eecf9cc91db505cd))
+
 #### 0.37.0 (2020-06-24)
 
 ##### Chores
