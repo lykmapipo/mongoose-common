@@ -658,7 +658,9 @@ exports.connect = (url, done) => {
   // return: if already connected
   const conn = mongoose.connection;
   if (isConnectedOrConnecting(conn)) {
-    _done(null, conn);
+    if (_.isFunction(_done)) {
+      _done(null, conn);
+    }
   }
   // do: establish connections
   else {
