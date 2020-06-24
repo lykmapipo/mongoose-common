@@ -1,5 +1,6 @@
 'use strict';
 
+const { parallel } = require('async');
 const { sinon, expect, faker } = require('@lykmapipo/test-helpers');
 const mongoose = require('mongoose');
 const MongooseCommon = require('..');
@@ -461,6 +462,19 @@ describe('unit', () => {
       expect(instance.name).to.be.equal('test');
       done(error, instance);
     });
+  });
+
+  it('should not throw when connect multiple times', (done) => {
+    parallel(
+      [
+        (next) => connect(MONGODB_URI, (error) => next(error)),
+        (next) => connect(MONGODB_URI, (error) => next(error)),
+      ],
+      (error) => {
+        expect(error).to.not.exist;
+        done(error);
+      }
+    );
   });
 
   it('should check if connected', (done) => {

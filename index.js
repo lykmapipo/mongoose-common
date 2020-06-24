@@ -41,6 +41,9 @@ const mongoose = require('mongoose-valid8');
 const { toObject } = require('mongoose/lib/utils');
 const { Schema, Model, Connection, Query, Aggregate } = mongoose;
 
+/* set global mongoose promise */
+mongoose.Promise = global.Promise;
+
 /* local helpers */
 const isConnection = (conn) => conn instanceof Connection;
 
@@ -54,8 +57,9 @@ const isAggregate = (query) => query instanceof Aggregate;
 
 const isConnected = (conn) => isConnection(conn) && conn.readyState === 1;
 
-/* set global mongoose promise */
-mongoose.Promise = global.Promise;
+const isConnectedOrConnecting = (conn) => {
+  return isConnection(conn) && (conn.readyState === 1 || conn.readyState === 2);
+};
 
 /**
  * @description register jsonschema schema plugin
@@ -650,7 +654,16 @@ exports.connect = (url, done) => {
 
   // establish mongoose connection
   uri = _.trim(uri) || MONGODB_URI;
-  mongoose.connect(uri, _options, _done);
+
+  // return: if already connected
+  const conn = mongoose.connection;
+  if (isConnectedOrConnecting(conn)) {
+    _done(null, conn);
+  }
+  // do: establish connections
+  else {
+    mongoose.connect(uri, _options, _done);
+  }
 };
 
 /**
