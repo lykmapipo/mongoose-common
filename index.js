@@ -28,38 +28,36 @@
 /* dependencies */
 const _ = require('lodash');
 const { createHmac } = require('crypto');
-const { parallel, waterfall } = require('async');
-const {
-  compact,
-  idOf,
-  join,
-  mergeObjects,
-  uniq,
-} = require('@lykmapipo/common');
-const { getString } = require('@lykmapipo/env');
+const { compact, idOf, join, mergeObjects } = require('@lykmapipo/common');
 const mongoose = require('mongoose-valid8');
 const { toObject } = require('mongoose/lib/utils');
-const { Schema, Model, Connection, Query, Aggregate } = mongoose;
+const {
+  SCHEMA_OPTIONS,
+  SUB_SCHEMA_OPTIONS,
+  enableDebug,
+  disableDebug,
+  isConnection,
+  isSchema,
+  isModel,
+  isQuery,
+  isAggregate,
+  isConnected,
+  collectionNameOf,
+  connect,
+  disconnect,
+  clear,
+  drop,
+  model,
+  syncIndexes,
+  createSubSchema,
+  createSchema,
+  createVarySubSchema,
+  createModel,
+} = require('@lykmapipo/mongoose-connection');
+const { Schema, Connection, Query, Aggregate } = mongoose;
 
 /* set global mongoose promise */
 mongoose.Promise = global.Promise;
-
-/* local helpers */
-const isConnection = (conn) => conn instanceof Connection;
-
-const isSchema = (schema) => schema instanceof Schema;
-
-const isModel = (model) => model && model.prototype instanceof Model;
-
-const isQuery = (query) => query instanceof Query;
-
-const isAggregate = (query) => query instanceof Aggregate;
-
-const isConnected = (conn) => isConnection(conn) && conn.readyState === 1;
-
-const isConnectedOrConnecting = (conn) => {
-  return isConnection(conn) && (conn.readyState === 1 || conn.readyState === 2);
-};
 
 /**
  * @description register jsonschema schema plugin
@@ -162,13 +160,7 @@ exports.LOOKUP_FIELDS = ['from', 'localField', 'foreignField', 'as'];
  * //=> { timestamps: true, ... }
  *
  */
-exports.SCHEMA_OPTIONS = {
-  id: false,
-  timestamps: true,
-  toJSON: { getters: true },
-  toObject: { getters: true },
-  emitIndexErrors: true,
-};
+exports.SCHEMA_OPTIONS = SCHEMA_OPTIONS;
 
 /**
  * @name SUB_SCHEMA_OPTIONS
@@ -182,12 +174,7 @@ exports.SCHEMA_OPTIONS = {
  * const { SUB_SCHEMA_OPTIONS } = require('@lykmapipo/mongoose-common');
  * //=> { timestamps: false, ... }
  */
-exports.SUB_SCHEMA_OPTIONS = {
-  _id: false,
-  id: false,
-  timestamps: false,
-  emitIndexErrors: true,
-};
+exports.SUB_SCHEMA_OPTIONS = SUB_SCHEMA_OPTIONS;
 
 /**
  * @function isConnection
@@ -221,7 +208,7 @@ exports.isConnection = isConnection;
  * //=> true
  *
  */
-exports.isConnected = (conn = mongoose.connection) => isConnected(conn);
+exports.isConnected = isConnected;
 
 /**
  * @function isSchema
@@ -304,7 +291,7 @@ exports.isAggregate = isAggregate;
  * enableDebug();
  *
  */
-exports.enableDebug = () => mongoose.set('debug', true);
+exports.enableDebug = enableDebug;
 
 /**
  * @function disableDebug
@@ -319,7 +306,7 @@ exports.enableDebug = () => mongoose.set('debug', true);
  * disableDebug();
  *
  */
-exports.disableDebug = () => mongoose.set('debug', false);
+exports.disableDebug = disableDebug;
 
 /**
  * @function toCollectionName
@@ -584,20 +571,7 @@ exports.schemaTypeOptionOf = (schemaType = {}) => {
  * //=> 'users'
  *
  */
-exports.collectionNameOf = (modelName) => {
-  // derive collection name from model
-  const Ref = exports.model(modelName);
-  let collectionName =
-    _.get(Ref, 'collection.name') || _.get(Ref, 'collection.collectionName');
-
-  // derive collection from model name
-  if (_.isEmpty(collectionName)) {
-    collectionName = exports.toCollectionName(modelName);
-  }
-
-  // return collection name
-  return collectionName;
-};
+exports.collectionNameOf = collectionNameOf;
 
 // TODO return default connection
 // TODO return created connection
@@ -621,52 +595,7 @@ exports.collectionNameOf = (modelName) => {
  * connect(url, done);
  *
  */
-exports.connect = (url, done) => {
-  // obtain current node runtime environment
-  const NODE_ENV = getString('NODE_ENV', 'development');
-
-  // ensure database name using environment and package
-  let DB_NAME = NODE_ENV;
-  try {
-    DB_NAME = _.get(`${process.cwd()}/package.json'`, 'name', NODE_ENV);
-    DB_NAME = _.toLower(_.last(_.split(DB_NAME, '/')));
-    DB_NAME = DB_NAME === NODE_ENV ? DB_NAME : `${DB_NAME} ${NODE_ENV}`;
-    DB_NAME = _.kebabCase(DB_NAME);
-  } catch (e) {
-    /*ignore*/
-  }
-  DB_NAME = `mongodb://localhost/${DB_NAME}`;
-
-  // ensure database uri from environment
-  const MONGODB_URI = _.trim(getString('MONGODB_URI', DB_NAME)) || DB_NAME;
-
-  // normalize arguments
-  let uri = _.isFunction(url) ? MONGODB_URI : url;
-  const _done = _.isFunction(url) ? url : done;
-
-  // connection options
-  const _options = {
-    useNewUrlParser: true,
-    useFindAndModify: false,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-  };
-
-  // establish mongoose connection
-  uri = _.trim(uri) || MONGODB_URI;
-
-  // return: if already connected
-  const conn = mongoose.connection;
-  if (isConnectedOrConnecting(conn)) {
-    if (_.isFunction(_done)) {
-      _done(null, conn);
-    }
-  }
-  // do: establish connections
-  else {
-    mongoose.connect(uri, _options, _done);
-  }
-};
+exports.connect = connect;
 
 /**
  * @function disconnect
@@ -682,18 +611,7 @@ exports.connect = (url, done) => {
  * disconnect(done);
  *
  */
-exports.disconnect = (connection, done) => {
-  // normalize arguments
-  const _connection = isConnection(connection) ? connection : undefined;
-  const _done = !isConnection(connection) ? connection : done;
-
-  // disconnect
-  if (_connection) {
-    _connection.close(_done);
-  } else {
-    mongoose.disconnect(_done);
-  }
-};
+exports.disconnect = disconnect;
 
 /**
  * @function clear
@@ -714,56 +632,7 @@ exports.disconnect = (connection, done) => {
  * clear('User', 'Profile', done);
  *
  */
-exports.clear = (...modelNames) => {
-  // collect provided model names
-  let _modelNames = [].concat(...modelNames);
-
-  // obtain callback
-  let _connection = _.first(
-    _.filter([..._modelNames], function (v) {
-      return isConnection(v);
-    })
-  );
-  _connection = _connection || mongoose.connection;
-  const _done = _.last(_.filter([..._modelNames], _.isFunction));
-
-  // collect actual model names
-  _modelNames = _.filter([..._modelNames], function (v) {
-    return _.isString(v) || isModel(v);
-  });
-
-  // collect from connection.modelNames();
-  if (_.isEmpty(_modelNames)) {
-    _modelNames = [...modelNames].concat(_connection.modelNames());
-  }
-
-  // compact and ensure unique model names
-  _modelNames = _.uniq(_.compact([..._modelNames]));
-
-  // map modelNames to deleteMany
-  const connected = isConnected(_connection);
-  let deletes = _.map([..._modelNames], function (modelName) {
-    // obtain model
-    let Model = modelName;
-    if (!isModel(modelName)) {
-      Model = exports.model(modelName, _connection);
-    }
-    // prepare cleaner
-    if (connected && Model && Model.deleteMany) {
-      return function clear(next) {
-        Model.deleteMany(function afterDeleteMany(error) {
-          next(error);
-        });
-      };
-    }
-  });
-
-  // compact deletes
-  deletes = _.compact([...deletes]);
-
-  // delete
-  waterfall(deletes, _done);
-};
+exports.clear = clear;
 
 /**
  * @function drop
@@ -782,34 +651,7 @@ exports.clear = (...modelNames) => {
  * drop(done);
  *
  */
-exports.drop = (connection, done) => {
-  // normalize arguments
-  let _connection = mongoose.connection;
-  if (isConnection(connection)) {
-    _connection = connection;
-  }
-  const _done = !isConnection(connection) ? connection : done;
-
-  // drop database if connection available
-  let canDrop = isConnected(_connection);
-  canDrop = canDrop && _connection.dropDatabase;
-  if (canDrop) {
-    _connection.dropDatabase(function afterDropDatabase(error) {
-      // back-off on error
-      if (error) {
-        _done(error);
-      }
-      // disconnect
-      else {
-        exports.disconnect(_connection, _done);
-      }
-    });
-  }
-  // continue to disconnect
-  else {
-    exports.disconnect(_connection, _done);
-  }
-};
+exports.drop = drop;
 
 /**
  * @function model
@@ -829,36 +671,7 @@ exports.drop = (connection, done) => {
  * const User = model('User', Schema);
  *
  */
-exports.model = (modelName, schema, connection) => {
-  // normalize arguments
-
-  // obtain modelName or obtain random name
-  let _modelName = new mongoose.Types.ObjectId().toString();
-  _modelName = _.isString(modelName) ? modelName : _modelName;
-
-  // obtain schema
-  const _schema = isSchema(modelName) ? modelName : schema;
-
-  // ensure connection or use default connection
-  let _connection = isConnection(modelName) ? modelName : schema;
-  _connection = isConnection(_connection) ? _connection : connection;
-  _connection = isConnection(_connection) ? _connection : mongoose.connection;
-
-  // check if modelName already registered
-  const modelExists = _.includes(_connection.modelNames(), _modelName);
-
-  // try obtain model or new register model
-  try {
-    if (modelExists) {
-      return _connection.model(_modelName);
-    }
-    return _connection.model(_modelName, _schema);
-  } catch (error) {
-    // catch error
-    // unknown model
-    return undefined;
-  }
-};
+exports.model = model;
 
 /**
  * @function eachPath
@@ -954,49 +767,7 @@ exports.jsonSchema = () => {
  * syncIndexes(done);
  *
  */
-exports.syncIndexes = (done) => {
-  // ensure connection before sync
-  const canSync = isConnected(mongoose.connection);
-  if (!canSync) {
-    return done();
-  }
-
-  // obtain available models
-  const Models = _.map(exports.modelNames(), (modelName) => {
-    return exports.model(modelName);
-  });
-
-  // safe sync indexes of a given model
-  // TODO: move to Model.syncIndexes
-  const syncIndexOf = (Model) => (next) => {
-    if (Model && _.isFunction(Model.syncIndexes)) {
-      return Model.syncIndexes({}, (error) => {
-        // handle collection exists
-        if (error && error.codeName === 'NamespaceExists') {
-          return waterfall(
-            [
-              (then) => Model.cleanIndexes((error) => then(error)),
-              (then) => Model.createIndexes((error) => then(error)),
-            ],
-            next
-          );
-        }
-        // otherwise unknown error
-        return next(error);
-      });
-    }
-    return undefined;
-  };
-
-  // build indexes sync tasks
-  let syncs = _.map(Models, (Model) => {
-    return syncIndexOf(Model);
-  });
-
-  // do syncing
-  syncs = _.compact([...syncs]);
-  return parallel(syncs, (error) => done(error));
-};
+exports.syncIndexes = syncIndexes;
 
 /**
  * @function createSubSchema
@@ -1014,19 +785,7 @@ exports.syncIndexes = (done) => {
  * const User = createSubSchema({ name: { type: String } });
  *
  */
-exports.createSubSchema = (definition, optns) => {
-  // ensure schema definition
-  const schemaDefinition = mergeObjects(definition);
-
-  // ensure schema options
-  const schemaOptions = mergeObjects(exports.SUB_SCHEMA_OPTIONS, optns);
-
-  // create sub schema
-  const subSchema = new Schema(schemaDefinition, schemaOptions);
-
-  // return created sub schema
-  return subSchema;
-};
+exports.createSubSchema = createSubSchema;
 
 /**
  * @function createSchema
@@ -1045,24 +804,7 @@ exports.createSubSchema = (definition, optns) => {
  * const User = createSchema({ name: { type: String } });
  *
  */
-exports.createSchema = (definition, optns, ...plugins) => {
-  // ensure schema definition
-  const schemaDefinition = mergeObjects(definition);
-
-  // ensure schema options
-  const schemaOptions = mergeObjects(exports.SCHEMA_OPTIONS, optns);
-
-  // create schema
-  const schema = new Schema(schemaDefinition, schemaOptions);
-
-  // apply schema plugins with model options
-  _.forEach([...plugins], (plugin) => {
-    schema.plugin(plugin, schemaOptions);
-  });
-
-  // return created schema
-  return schema;
-};
+exports.createSchema = createSchema;
 
 /**
  * @function createModel
@@ -1089,27 +831,7 @@ exports.createSchema = (definition, optns, ...plugins) => {
  * );
  *
  */
-exports.createModel = (schema, options, ...plugins) => {
-  // ensure model schema definition
-  const schemaDefinition = mergeObjects(schema);
-
-  // ensure model options with timestamps
-  const modelOptions = mergeObjects(options, exports.SCHEMA_OPTIONS);
-
-  // create schema
-  const modelSchema = exports.createSchema(
-    schemaDefinition,
-    modelOptions,
-    ...plugins // TODO: plugin common global plugins
-  );
-
-  // register model
-  const { modelName } = modelOptions;
-  const model = exports.model(modelName, modelSchema);
-
-  // return created model
-  return model;
-};
+exports.createModel = createModel;
 
 /**
  * @function createVarySubSchema
@@ -1132,39 +854,7 @@ exports.createModel = (schema, options, ...plugins) => {
  * );
  *
  */
-exports.createVarySubSchema = (optns, ...paths) => {
-  // ensure options
-  const defaults = { required: false };
-  const options = mergeObjects(defaults, optns);
-
-  // normalize and collect fields
-  const fields = _.map([...paths], (field) => {
-    // handle: string field definition
-    if (_.isString(field)) {
-      return { name: field, required: false };
-    }
-    // handle: object field definition
-    else if (_.isPlainObject(field)) {
-      return mergeObjects({ required: false }, field);
-    }
-    // ignore: not valid field definition
-    else {
-      return undefined;
-    }
-  });
-
-  // prepare schema definition
-  const definition = {};
-  _.forEach(uniq([...fields]), (field) => {
-    definition[field.name] = mergeObjects(options, _.omit(field, 'name'));
-  });
-
-  // build field as sub-schema
-  const schema = exports.createSubSchema(definition);
-
-  // return vary sub-schema
-  return schema;
-};
+exports.createVarySubSchema = createVarySubSchema;
 
 /**
  * @function validationErrorFor

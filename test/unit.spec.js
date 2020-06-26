@@ -407,7 +407,7 @@ describe('unit', () => {
   it('should be able to clear', () => {
     expect(clear).to.exist;
     expect(clear).to.be.a('function');
-    expect(clear.length).to.be.equal(0);
+    expect(clear.length).to.be.equal(1);
   });
 
   it('should be able to get model silent', () => {
