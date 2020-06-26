@@ -1,3 +1,13 @@
+#### 0.38.0 (2020-06-26)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([6636d723](https://github.com/lykmapipo/mongoose-common/commit/6636d72375d31e159714983a50c1940db7a76bd3))
+
+##### Refactors
+
+*  use mongoose connection helpers ([16744448](https://github.com/lykmapipo/mongoose-common/commit/167444488c0878ce670761988209ff307b550c82))
+
 #### 0.37.1 (2020-06-24)
 
 ##### Chores
