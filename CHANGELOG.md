@@ -1,3 +1,14 @@
+#### 0.38.5 (2020-12-27)
+
+##### Chores
+
+* **deps:**
+  *  force latest version & audit fix ([de2ac84f](https://github.com/lykmapipo/mongoose-common/commit/de2ac84fdf5b6f4c12a3412aefd25d2f09998e04))
+  *  bump bl from 2.2.0 to 2.2.1 ([06b6d44e](https://github.com/lykmapipo/mongoose-common/commit/06b6d44ea5646c3cf8f7c598199db45271c4ccca))
+  *  bump dot-prop from 4.2.0 to 4.2.1 ([588c537c](https://github.com/lykmapipo/mongoose-common/commit/588c537cbdc2ef700f3034852f7d01c0cb7183d0))
+  *  bump ini from 1.3.5 to 1.3.7 ([b649f9cf](https://github.com/lykmapipo/mongoose-common/commit/b649f9cf975c8607267c7ae6b8641532cc882842))
+  *  bump websocket-extensions from 0.1.3 to 0.1.4 ([db5656c4](https://github.com/lykmapipo/mongoose-common/commit/db5656c44ff52848ecb2ab1512cf24c9e7045e8c))
+
 #### 0.38.4 (2020-08-08)
 
 ##### Chores
