@@ -53,20 +53,20 @@
     "handlebars": "^4.7.6",
     "jshint-stylish": "^2.2.1",
     "mocha": "^8.2.1",
-    "mongoose": ">=5.11.8",
+    "mongoose": ">=5.11.9",
     "prettier": "^2.2.1",
     "shelljs": "^0.8.4"
   },
   "peerDependencies": {
-    "mongoose": ">=5.11.8"
+    "mongoose": ">=5.11.9"
   },
   "dependencies": {
     "@lykmapipo/common": ">=0.42.5",
     "@lykmapipo/env": ">=0.17.25",
-    "@lykmapipo/mongoose-connection": ">=0.3.6",
+    "@lykmapipo/mongoose-connection": ">=0.4.0",
     "async": ">=3.2.0",
     "lodash": ">=4.17.20",
     "mongoose-schema-jsonschema": ">=1.4.4",
-    "mongoose-valid8": ">=1.6.26"
+    "mongoose-valid8": ">=1.7.0"
   }
 }
