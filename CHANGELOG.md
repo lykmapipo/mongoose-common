@@ -1,3 +1,9 @@
+#### 0.39.0 (2020-12-29)
+
+##### Bug Fixes
+
+*  connect & disconnect failures ([a84456c0](https://github.com/lykmapipo/mongoose-common/commit/a84456c00a21c6e89f4b00c31347e69c1d1f5661))
+
 #### 0.38.5 (2020-12-27)
 
 ##### Chores
