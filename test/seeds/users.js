@@ -1,2 +1,3 @@
-const { faker } = require('@lykmapipo/test-helpers');
-module.exports = exports = [{ name: faker.name.findName() }];
+import { faker } from '@lykmapipo/test-helpers';
+
+export default [{ name: faker.name.findName() }];

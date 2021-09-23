@@ -1,16 +1,40 @@
-'use strict';
+import { parallel } from 'async';
+import { sinon, expect, faker } from '@lykmapipo/test-helpers';
+import mongoose from 'mongoose';
 
-const { parallel } = require('async');
-const { sinon, expect, faker } = require('@lykmapipo/test-helpers');
-const mongoose = require('mongoose');
-const MongooseCommon = require('..');
-const {
+import {
   LOOKUP_FIELDS,
   SCHEMA_OPTIONS,
   SUB_SCHEMA_OPTIONS,
   Schema,
   SchemaTypes,
+  SchemaType,
+  VirtualType,
   MongooseTypes,
+  Types,
+  MongooseError,
+  CastError,
+  STATES,
+  modelNames,
+  GridFSBucket,
+  Aggregate,
+  Query,
+  SchemaString,
+  SchemaNumber,
+  SchemaBoolean,
+  DocumentArray,
+  SchemaDocumentArray,
+  Embedded,
+  SchemaEmbedded,
+  SchemaArray,
+  SchemaBuffer,
+  SchemaDate,
+  ObjectId,
+  SchemaObjectId,
+  Mixed,
+  SchemaMixed,
+  SchemaDecimal,
+  SchemaMap,
   enableDebug,
   disableDebug,
   isConnection,
@@ -38,7 +62,6 @@ const {
   model,
   eachPath,
   jsonSchema,
-  modelNames,
   createSubSchema,
   createSchema,
   createModel,
@@ -49,7 +72,7 @@ const {
   toObjectIds,
   toObjectIdStrings,
   objectIdFor,
-} = MongooseCommon;
+} from '../../src';
 
 describe('unit', () => {
   const MONGODB_URI = 'mongodb://localhost/test';
@@ -58,58 +81,50 @@ describe('unit', () => {
   afterEach((done) => drop(done));
 
   it('should expose shortcuts', () => {
-    expect(MongooseCommon.Schema).to.exist;
-    expect(MongooseCommon.SchemaTypes).to.exist;
-    expect(MongooseCommon.SchemaType).to.exist;
-    expect(MongooseCommon.VirtualType).to.exist;
-    expect(MongooseCommon.MongooseTypes).to.exist;
-    expect(MongooseCommon.Types).to.exist;
-    expect(MongooseCommon.MongooseError).to.exist;
-    expect(MongooseCommon.Error).to.exist;
-    expect(MongooseCommon.CastError).to.exist;
-    expect(MongooseCommon.STATES).to.exist;
-    expect(MongooseCommon.modelNames).to.exist;
-    expect(MongooseCommon.GridFSBucket).to.exist;
-    expect(MongooseCommon.Aggregate).to.exist;
-    expect(MongooseCommon.Query).to.exist;
+    expect(Schema).to.exist;
+    expect(SchemaTypes).to.exist;
+    expect(SchemaType).to.exist;
+    expect(VirtualType).to.exist;
+    expect(MongooseTypes).to.exist;
+    expect(Types).to.exist;
+    expect(MongooseError).to.exist;
+    expect(CastError).to.exist;
+    expect(STATES).to.exist;
+    expect(modelNames).to.exist;
+    expect(GridFSBucket).to.exist;
+    expect(Aggregate).to.exist;
+    expect(Query).to.exist;
   });
 
   it('should expose schema types shortcuts', () => {
-    expect(MongooseCommon.String).to.exist;
-    expect(MongooseCommon.SchemaString).to.exist;
+    expect(SchemaString).to.exist;
 
-    expect(MongooseCommon.Number).to.exist;
-    expect(MongooseCommon.SchemaNumber).to.exist;
+    expect(SchemaNumber).to.exist;
 
-    expect(MongooseCommon.Boolean).to.exist;
-    expect(MongooseCommon.SchemaBoolean).to.exist;
+    expect(SchemaBoolean).to.exist;
 
-    expect(MongooseCommon.DocumentArray).to.exist;
-    expect(MongooseCommon.SchemaDocumentArray).to.exist;
+    expect(DocumentArray).to.exist;
+    expect(SchemaDocumentArray).to.exist;
 
-    expect(MongooseCommon.Embedded).to.exist;
-    expect(MongooseCommon.SchemaEmbedded).to.exist;
+    expect(Embedded).to.exist;
+    expect(SchemaEmbedded).to.exist;
 
-    expect(MongooseCommon.SchemaArray).to.exist;
-    expect(MongooseCommon.SchemaArray).to.exist;
+    expect(SchemaArray).to.exist;
+    expect(SchemaArray).to.exist;
 
-    expect(MongooseCommon.SchemaBuffer).to.exist;
-    expect(MongooseCommon.SchemaBuffer).to.exist;
+    expect(SchemaBuffer).to.exist;
 
-    expect(MongooseCommon.Date).to.exist;
-    expect(MongooseCommon.SchemaDate).to.exist;
+    expect(SchemaDate).to.exist;
 
-    expect(MongooseCommon.ObjectId).to.exist;
-    expect(MongooseCommon.SchemaObjectId).to.exist;
+    expect(ObjectId).to.exist;
+    expect(SchemaObjectId).to.exist;
 
-    expect(MongooseCommon.Mixed).to.exist;
-    expect(MongooseCommon.SchemaMixed).to.exist;
+    expect(Mixed).to.exist;
+    expect(SchemaMixed).to.exist;
 
-    expect(MongooseCommon.Decimal).to.exist;
-    expect(MongooseCommon.SchemaDecimal).to.exist;
+    expect(SchemaDecimal).to.exist;
 
-    expect(MongooseCommon.Map).to.exist;
-    expect(MongooseCommon.SchemaMap).to.exist;
+    expect(SchemaMap).to.exist;
   });
 
   it('should provide lookup fields options', () => {
@@ -163,7 +178,7 @@ describe('unit', () => {
     expect(isConnection).to.be.a('function');
     expect(isConnection).to.have.length(1);
 
-    let val = '12345';
+    const val = '12345';
     expect(isConnection(val)).to.be.false;
   });
 
@@ -172,7 +187,7 @@ describe('unit', () => {
     expect(isQuery).to.be.a('function');
     expect(isQuery).to.have.length(1);
 
-    let val = model(new Schema({ name: String })).find();
+    const val = model(new Schema({ name: String })).find();
     expect(isQuery(val)).to.be.true;
     expect(isQuery('124')).to.be.false;
   });
@@ -182,7 +197,7 @@ describe('unit', () => {
     expect(isAggregate).to.be.a('function');
     expect(isAggregate).to.have.length(1);
 
-    let val = model(new Schema({ name: String })).aggregate();
+    const val = model(new Schema({ name: String })).aggregate();
     expect(isAggregate(val)).to.be.true;
     expect(isAggregate('124')).to.be.false;
   });
@@ -192,7 +207,7 @@ describe('unit', () => {
     expect(isModel).to.be.a('function');
     expect(isModel).to.have.length(1);
 
-    let val = model(new Schema({ name: String }));
+    const val = model(new Schema({ name: String }));
     expect(isModel(val)).to.be.true;
     expect(isModel(new Schema({ name: String }))).to.be.false;
     expect(isModel('124')).to.be.false;
@@ -651,9 +666,9 @@ describe('unit', () => {
     expect(User.jsonSchema).to.exist;
     expect(User.jsonSchema).to.be.a('function');
 
-    const jsonSchema = User.jsonSchema();
-    expect(jsonSchema).to.exist;
-    expect(jsonSchema).to.be.eql({
+    const $jsonSchema = User.jsonSchema();
+    expect($jsonSchema).to.exist;
+    expect($jsonSchema).to.be.eql({
       title: User.modelName,
       type: 'object',
       properties: {
@@ -725,17 +740,18 @@ describe('unit', () => {
   });
 
   it('should be able to create schema with plugins', () => {
-    const schema = createSchema({ name: { type: String } }, {}, (schema) => {
+    const $schema = createSchema({ name: { type: String } }, {}, (schema) => {
+      // eslint-disable-next-line no-param-reassign
       schema.statics.withTest = function withTest() {};
     });
-    expect(schema).to.exist;
-    expect(schema.base).to.exist;
-    expect(schema.path('name')).to.exist;
-    expect(schema.statics.withTest).to.exist.and.to.be.a('function');
+    expect($schema).to.exist;
+    expect($schema.base).to.exist;
+    expect($schema.path('name')).to.exist;
+    expect($schema.statics.withTest).to.exist.and.to.be.a('function');
   });
 
   it('should be able to create model', () => {
-    const modelName = faker.random.uuid();
+    const modelName = faker.datatype.uuid();
     const User = createModel({ name: { type: String } }, { modelName });
     expect(User).to.exist;
     expect(User.modelName).to.exist.and.be.equal(modelName);
@@ -744,11 +760,12 @@ describe('unit', () => {
   });
 
   it('should be able to create model with plugins', () => {
-    const modelName = faker.random.uuid();
+    const modelName = faker.datatype.uuid();
     const User = createModel(
       { name: { type: String } },
       { modelName },
       (schema) => {
+        // eslint-disable-next-line no-param-reassign
         schema.statics.withTest = function withTest() {};
       }
     );
@@ -767,8 +784,8 @@ describe('unit', () => {
     expect(schema.tree.sw).to.exist;
     expect(schema.tree.en).to.exist;
 
-    const sw = schema.tree.sw;
-    const instance = schema.paths.sw.instance;
+    const { sw } = schema.tree;
+    const { instance } = schema.paths.sw;
 
     expect(instance).to.be.equal('String');
     expect(sw).to.exist;
@@ -785,8 +802,8 @@ describe('unit', () => {
     expect(schema.tree.sw).to.exist;
     expect(schema.tree.en).to.exist;
 
-    const sw = schema.tree.sw;
-    const instance = schema.paths.sw.instance;
+    const { sw } = schema.tree;
+    const { instance } = schema.paths.sw;
 
     expect(instance).to.be.equal('String');
     expect(sw).to.exist;
@@ -806,8 +823,8 @@ describe('unit', () => {
     expect(schema.tree.sw).to.exist;
     expect(schema.tree.en).to.exist;
 
-    const sw = schema.tree.sw;
-    const instance = schema.paths.sw.instance;
+    const { sw } = schema.tree;
+    const { instance } = schema.paths.sw;
 
     expect(instance).to.be.equal('String');
     expect(sw).to.exist;
@@ -827,7 +844,7 @@ describe('unit', () => {
     expect(error._message).to.be.equal('Validation failed');
     expect(error.errors).to.be.eql({});
 
-    let paths = {
+    const paths = {
       name: {
         type: 'required',
         path: 'name',

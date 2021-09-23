@@ -1,11 +1,7 @@
-'use strict';
+import { expect } from '@lykmapipo/test-helpers';
+import { Schema, ObjectId, model, connect, drop } from '../../src';
 
-const _ = require('lodash');
-const { expect } = require('@lykmapipo/test-helpers');
-const { waterfall } = require('async');
-const { Schema, ObjectId, model, connect, drop, syncIndexes } = require('..');
-
-describe('integration', () => {
+describe('unique error plugin', () => {
   before((done) => connect(done));
   after((done) => drop(done));
 
@@ -190,80 +186,5 @@ describe('integration', () => {
         done();
       });
     });
-  });
-
-  it('should sync indexes', (done) => {
-    const User = model(
-      new Schema(
-        {
-          name: { type: String, index: true },
-        },
-        { autoIndex: false }
-      )
-    );
-
-    waterfall(
-      [
-        (next) => User.createCollection((error) => next(error)),
-        (next) =>
-          User.listIndexes((error, indexes) => {
-            expect(_.find(indexes, { name: 'name_1' })).to.not.exist;
-            next(error);
-          }),
-        (next) => syncIndexes((error) => next(error)),
-        (next) => User.listIndexes(next),
-      ],
-      (error, indexes) => {
-        expect(error).to.not.exist;
-        expect(indexes).to.exist;
-        expect(_.find(indexes, { name: 'name_1' })).to.exist;
-        done(error, indexes);
-      }
-    );
-  });
-
-  it('should sync indexes without autoIndex option', (done) => {
-    const User = model(
-      new Schema({
-        name: { type: String, index: true },
-      })
-    );
-
-    waterfall(
-      [
-        (next) => syncIndexes((error) => next(error)),
-        (next) => User.listIndexes(next),
-      ],
-      (error, indexes) => {
-        expect(error).to.not.exist;
-        expect(indexes).to.exist;
-        expect(_.find(indexes, { name: 'name_1' })).to.exist;
-        done(error, indexes);
-      }
-    );
-  });
-
-  it('should sync indexes with autoIndex option', (done) => {
-    const User = model(
-      new Schema(
-        {
-          name: { type: String, index: true },
-        },
-        { autoIndex: false }
-      )
-    );
-
-    waterfall(
-      [
-        (next) => syncIndexes((error) => next(error)),
-        (next) => User.listIndexes(next),
-      ],
-      (error, indexes) => {
-        expect(error).to.not.exist;
-        expect(indexes).to.exist;
-        expect(_.find(indexes, { name: 'name_1' })).to.exist;
-        done(error, indexes);
-      }
-    );
   });
 });

@@ -1,11 +1,9 @@
-'use strict';
+import _ from 'lodash';
+import { waterfall } from 'async';
+import { expect, faker } from '@lykmapipo/test-helpers';
+import { ObjectId, createModel, connect, drop } from '../../src';
 
-const _ = require('lodash');
-const { waterfall } = require('async');
-const { expect, faker } = require('@lykmapipo/test-helpers');
-const { ObjectId, createModel, connect, drop } = require('..');
-
-describe('seed', () => {
+describe('seed plugin', () => {
   before((done) => connect(done));
   after((done) => drop(done));
 
@@ -53,6 +51,7 @@ describe('seed', () => {
   it('should use model `prepareSeedCriteria`', (done) => {
     const user = { name: faker.name.findName() };
     const User = createModel({ name: { type: String } }, {}, (schema) => {
+      // eslint-disable-next-line no-param-reassign
       schema.statics.prepareSeedCriteria = (data) => {
         expect(data).to.be.eql(user);
         return data;
@@ -67,7 +66,7 @@ describe('seed', () => {
   });
 
   it('should work using seeds path', (done) => {
-    process.env.BASE_PATH = __dirname;
+    process.env.BASE_PATH = './test';
     const User = createModel({ name: { type: String } }, { modelName: 'User' });
     User.seed((error, seeded) => {
       expect(error).to.not.exist;
@@ -77,7 +76,7 @@ describe('seed', () => {
   });
 
   it('should clear and seed using seeds path', (done) => {
-    process.env.BASE_PATH = __dirname;
+    process.env.BASE_PATH = './test';
     const User = createModel({ name: { type: String } }, { modelName: 'User' });
     User.clearAndSeed((error, seeded) => {
       expect(error).to.not.exist;
@@ -87,7 +86,7 @@ describe('seed', () => {
   });
 
   it('should ignore path seeds if seed provided', (done) => {
-    process.env.BASE_PATH = __dirname;
+    process.env.BASE_PATH = './test';
     const User = createModel({ name: { type: String } }, { modelName: 'User' });
     const user = { name: faker.name.findName() };
     User.seed([user], (error, seeded) => {

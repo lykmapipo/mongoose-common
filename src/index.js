@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @module mongoose-common
  * @name mongoose-common
@@ -22,16 +20,16 @@
  * clear((error) => { ... });
  * drop((error) => { ... });
  * disconnect((error) => { ... });
- *
  */
 
 /* dependencies */
-const _ = require('lodash');
-const { createHmac } = require('crypto');
-const { compact, idOf, join, mergeObjects } = require('@lykmapipo/common');
-const mongoose = require('mongoose-valid8');
-const { toObject } = require('mongoose/lib/utils');
-const {
+import _ from 'lodash';
+import { createHmac } from 'crypto';
+import { compact, idOf, join, mergeObjects } from '@lykmapipo/common';
+import mongoose from 'mongoose';
+import 'mongoose-valid8';
+import { toObject } from 'mongoose/lib/utils';
+import {
   SCHEMA_OPTIONS,
   SUB_SCHEMA_OPTIONS,
   enableDebug,
@@ -53,10 +51,15 @@ const {
   createSchema,
   createVarySubSchema,
   createModel,
-} = require('@lykmapipo/mongoose-connection');
+} from '@lykmapipo/mongoose-connection';
+import mongooseJsonSchema from 'mongoose-schema-jsonschema';
+import errorPlugin from './plugins/error.plugin';
+import pathPlugin from './plugins/path.plugin';
+import seedPlugin from './plugins/seed.plugin';
+
 const { Schema, Connection, Query, Aggregate } = mongoose;
 
-/* set global mongoose promise */
+// set global mongoose promise
 mongoose.Promise = global.Promise;
 
 /**
@@ -68,7 +71,7 @@ mongoose.Promise = global.Promise;
  *
  * const jsonSchema = User.jsonSchema();
  */
-require('mongoose-schema-jsonschema')(mongoose); // TODO: ignore global
+mongooseJsonSchema(mongoose); // TODO: ignore global
 
 /**
  * @name path
@@ -80,9 +83,8 @@ require('mongoose-schema-jsonschema')(mongoose); // TODO: ignore global
  *
  * const name = User.path('name');
  * //=> SchemaString { path: 'name', instance: 'String', ... }
- *
  */
-mongoose.plugin(require('./lib/path.plugin')); // TODO: ignore global
+mongoose.plugin(pathPlugin); // TODO: ignore global
 
 /**
  * @name error
@@ -91,7 +93,7 @@ mongoose.plugin(require('./lib/path.plugin')); // TODO: ignore global
  * @version 0.1.0
  * @public
  */
-mongoose.plugin(require('./lib/error.plugin')); // TODO: ignore global
+mongoose.plugin(errorPlugin); // TODO: ignore global
 
 /**
  * @name seed
@@ -100,37 +102,38 @@ mongoose.plugin(require('./lib/error.plugin')); // TODO: ignore global
  * @version 0.1.0
  * @public
  */
-mongoose.plugin(require('./lib/seed.plugin')); // TODO: ignore global
+mongoose.plugin(seedPlugin); // TODO: ignore global
 
-/* expose shortcuts */
-exports.Schema = Schema;
-exports.SchemaTypes = Schema.Types;
-exports.SchemaType = mongoose.SchemaType;
-exports.VirtualType = mongoose.VirtualType;
-exports.Types = exports.MongooseTypes = mongoose.Types;
-exports.Error = exports.MongooseError = mongoose.Error;
-exports.CastError = mongoose.CastError;
-exports.STATES = mongoose.STATES;
-exports.modelNames = () => mongoose.modelNames();
-exports.GridFSBucket = mongoose.mongo.GridFSBucket;
-exports.Connection = Connection;
-exports.Query = Query;
-exports.Aggregate = Aggregate;
+// expose shortcuts
+export { Schema, Connection, Query, Aggregate };
+export const SchemaTypes = Schema.Types;
+export const { SchemaType } = mongoose;
+export const { VirtualType } = mongoose;
+export const { Types } = mongoose;
+export const MongooseTypes = mongoose.Types;
+export const MongooseError = mongoose.Error;
+export const { CastError } = mongoose;
+export const { STATES } = mongoose;
+export const modelNames = () => mongoose.modelNames();
+export const { GridFSBucket } = mongoose.mongo;
 
-/* schema types shortcuts*/
-exports.String = exports.SchemaString = Schema.Types.String;
-exports.Number = exports.SchemaNumber = Schema.Types.Number;
-exports.Boolean = exports.SchemaBoolean = Schema.Types.Boolean;
-exports.DocumentArray = exports.SchemaDocumentArray =
-  Schema.Types.DocumentArray;
-exports.Embedded = exports.SchemaEmbedded = Schema.Types.Embedded;
-exports.Array = exports.SchemaArray = Schema.Types.Array;
-exports.Buffer = exports.SchemaBuffer = Schema.Types.Buffer;
-exports.Date = exports.SchemaDate = Schema.Types.Date;
-exports.ObjectId = exports.SchemaObjectId = Schema.Types.ObjectId;
-exports.Mixed = exports.SchemaMixed = Schema.Types.Mixed;
-exports.Decimal = exports.SchemaDecimal = Schema.Types.Decimal;
-exports.Map = exports.SchemaMap = Schema.Types.Map;
+// schema types shortcuts
+export const SchemaString = Schema.Types.String;
+export const SchemaNumber = Schema.Types.Number;
+export const SchemaBoolean = Schema.Types.Boolean;
+export const { DocumentArray } = Schema.Types;
+export const SchemaDocumentArray = Schema.Types.DocumentArray;
+export const { Embedded } = Schema.Types;
+export const SchemaEmbedded = Schema.Types.Embedded;
+export const SchemaArray = Schema.Types.Array;
+export const SchemaBuffer = Schema.Types.Buffer;
+export const SchemaDate = Schema.Types.Date;
+export const { ObjectId } = Schema.Types;
+export const SchemaObjectId = Schema.Types.ObjectId;
+export const { Mixed } = Schema.Types;
+export const SchemaMixed = Schema.Types.Mixed;
+export const SchemaDecimal = Schema.Types.Decimal;
+export const SchemaMap = Schema.Types.Map;
 
 /**
  * @name LOOKUP_FIELDS
@@ -143,9 +146,8 @@ exports.Map = exports.SchemaMap = Schema.Types.Map;
  *
  * const { LOOKUP_FIELDS } = require('@lykmapipo/mongoose-common');
  * //=> ['from', 'localField', 'foreignField', 'as']
- *
  */
-exports.LOOKUP_FIELDS = ['from', 'localField', 'foreignField', 'as'];
+export const LOOKUP_FIELDS = ['from', 'localField', 'foreignField', 'as'];
 
 /**
  * @name SCHEMA_OPTIONS
@@ -158,9 +160,8 @@ exports.LOOKUP_FIELDS = ['from', 'localField', 'foreignField', 'as'];
  *
  * const { SCHEMA_OPTIONS } = require('@lykmapipo/mongoose-common');
  * //=> { timestamps: true, ... }
- *
  */
-exports.SCHEMA_OPTIONS = SCHEMA_OPTIONS;
+export { SCHEMA_OPTIONS };
 
 /**
  * @name SUB_SCHEMA_OPTIONS
@@ -174,7 +175,7 @@ exports.SCHEMA_OPTIONS = SCHEMA_OPTIONS;
  * const { SUB_SCHEMA_OPTIONS } = require('@lykmapipo/mongoose-common');
  * //=> { timestamps: false, ... }
  */
-exports.SUB_SCHEMA_OPTIONS = SUB_SCHEMA_OPTIONS;
+export { SUB_SCHEMA_OPTIONS };
 
 /**
  * @function isConnection
@@ -189,9 +190,8 @@ exports.SUB_SCHEMA_OPTIONS = SUB_SCHEMA_OPTIONS;
  *
  * isConnection(conn);
  * //=> true
- *
  */
-exports.isConnection = isConnection;
+export { isConnection };
 
 /**
  * @function isConnected
@@ -206,9 +206,8 @@ exports.isConnection = isConnection;
  *
  * isConnected(conn);
  * //=> true
- *
  */
-exports.isConnected = isConnected;
+export { isConnected };
 
 /**
  * @function isSchema
@@ -223,9 +222,8 @@ exports.isConnected = isConnected;
  *
  * isSchema(schema);
  * //=> true
- *
  */
-exports.isSchema = isSchema;
+export { isSchema };
 
 /**
  * @function isModel
@@ -240,9 +238,8 @@ exports.isSchema = isSchema;
  *
  * isModel(model);
  * //=> true
- *
  */
-exports.isModel = isModel;
+export { isModel };
 
 /**
  * @function isQuery
@@ -257,9 +254,8 @@ exports.isModel = isModel;
  *
  * isQuery(query);
  * //=> true
- *
  */
-exports.isQuery = isQuery;
+export { isQuery };
 
 /**
  * @function isAggregate
@@ -274,9 +270,8 @@ exports.isQuery = isQuery;
  *
  * isAggregate(query);
  * //=> true
- *
  */
-exports.isAggregate = isAggregate;
+export { isAggregate };
 
 /**
  * @function enableDebug
@@ -289,9 +284,8 @@ exports.isAggregate = isAggregate;
  * @example
  *
  * enableDebug();
- *
  */
-exports.enableDebug = enableDebug;
+export { enableDebug };
 
 /**
  * @function disableDebug
@@ -304,16 +298,15 @@ exports.enableDebug = enableDebug;
  * @example
  *
  * disableDebug();
- *
  */
-exports.disableDebug = disableDebug;
+export { disableDebug };
 
 /**
  * @function toCollectionName
  * @name toCollectionName
  * @description Produces a collection name of provided model name
- * @param {String} modelName a model name
- * @return {String} a collection name
+ * @param {string} modelName a model name
+ * @returns {string} a collection name
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.8.0
  * @version 0.1.0
@@ -322,9 +315,8 @@ exports.disableDebug = disableDebug;
  *
  * const collectionName = toCollectionName('User');
  * //=> users
- *
  */
-exports.toCollectionName = (modelName) => {
+export const toCollectionName = (modelName) => {
   let collectionName = modelName;
   if (!_.isEmpty(modelName)) {
     collectionName = mongoose.pluralize()(modelName);
@@ -338,6 +330,7 @@ exports.toCollectionName = (modelName) => {
  * @description Check if provided value is an instance of ObjectId
  * @param {Mixed} val value to check if its an ObjectId
  * @author lally elias <lallyelias87@mail.com>
+ * @returns {boolean} whether a val is ObjectId instance
  * @since 0.2.0
  * @version 0.1.0
  * @public
@@ -345,11 +338,10 @@ exports.toCollectionName = (modelName) => {
  *
  * isObjectId(val);
  * //=> true
- *
  */
-exports.isObjectId = (val) => {
-  const _isObjectId = val instanceof mongoose.Types.ObjectId;
-  return _isObjectId;
+export const isObjectId = (val) => {
+  const $isObjectId = val instanceof mongoose.Types.ObjectId;
+  return $isObjectId;
 };
 
 /**
@@ -358,6 +350,7 @@ exports.isObjectId = (val) => {
  * @description Check if provided value is an instance of Map
  * @param {Mixed} val value to check if its a Map
  * @author lally elias <lallyelias87@mail.com>
+ * @returns {boolean} whether a val is Map instance
  * @since 0.2.0
  * @version 0.1.0
  * @public
@@ -365,11 +358,10 @@ exports.isObjectId = (val) => {
  *
  * isMap(val);
  * //=> true
- *
  */
-exports.isMap = (val) => {
-  const _isMap = val instanceof mongoose.Types.Map;
-  return _isMap;
+export const isMap = (val) => {
+  const $isMap = val instanceof mongoose.Types.Map;
+  return $isMap;
 };
 
 /**
@@ -378,6 +370,7 @@ exports.isMap = (val) => {
  * @description Check if provided value is an instance of String schema type
  * @param {Mixed} val value to check if its a String schema type
  * @author lally elias <lallyelias87@mail.com>
+ * @returns {boolean} whether a val is String instance
  * @since 0.10.0
  * @version 0.1.0
  * @public
@@ -386,9 +379,9 @@ exports.isMap = (val) => {
  * isString(val);
  * //=> true
  */
-exports.isString = (val) => {
-  const _isString = val instanceof Schema.Types.String;
-  return _isString;
+export const isString = (val) => {
+  const $isString = val instanceof Schema.Types.String;
+  return $isString;
 };
 
 /**
@@ -396,7 +389,7 @@ exports.isString = (val) => {
  * @name isArraySchemaType
  * @description check if schema type is array
  * @param {SchemaType} val valid mongoose schema type
- * @return {Boolean} whether schema type is array
+ * @returns {boolean} whether schema type is array
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.16.0
  * @version 0.1.0
@@ -405,9 +398,8 @@ exports.isString = (val) => {
  *
  * isArraySchemaType(val)
  * //=> true
- *
  */
-exports.isArraySchemaType = (val = {}) => {
+export const isArraySchemaType = (val = {}) => {
   const { $isMongooseArray = false, instance } = val;
   const isArray =
     val instanceof Schema.Types.Array ||
@@ -423,6 +415,7 @@ exports.isArraySchemaType = (val = {}) => {
  * schema type
  * @param {Mixed} val value to check if its a StringArray schema type
  * @author lally elias <lallyelias87@mail.com>
+ * @returns {boolean} whether a val is String Array instance
  * @since 0.11.0
  * @version 0.1.0
  * @public
@@ -430,14 +423,13 @@ exports.isArraySchemaType = (val = {}) => {
  *
  * isStringArray(val);
  * //=> true
- *
  */
-exports.isStringArray = (val) => {
-  const _isStringArray =
+export const isStringArray = (val) => {
+  const $isStringArray =
     val &&
     val instanceof Schema.Types.Array &&
     val.caster instanceof Schema.Types.String;
-  return _isStringArray;
+  return $isStringArray;
 };
 
 /**
@@ -446,6 +438,7 @@ exports.isStringArray = (val) => {
  * @description Check if provided value is an instance of Number schema type
  * @param {Mixed} val value to check if its a Number schema type
  * @author lally elias <lallyelias87@mail.com>
+ * @returns {boolean} whether a val is Number instance
  * @since 0.10.0
  * @version 0.1.0
  * @public
@@ -453,11 +446,10 @@ exports.isStringArray = (val) => {
  *
  * isNumber(<val>);
  * //=> true
- *
  */
-exports.isNumber = (val) => {
-  const _isNumber = val instanceof Schema.Types.Number;
-  return _isNumber;
+export const isNumber = (val) => {
+  const $isNumber = val instanceof Schema.Types.Number;
+  return $isNumber;
 };
 
 /**
@@ -467,6 +459,7 @@ exports.isNumber = (val) => {
  * schema type
  * @param {Mixed} val value to check if its a NumberArray schema type
  * @author lally elias <lallyelias87@mail.com>
+ * @returns {boolean} whether a val is Number Array instance
  * @since 0.11.0
  * @version 0.1.0
  * @public
@@ -474,22 +467,21 @@ exports.isNumber = (val) => {
  *
  * isNumberArray(val);
  * //=> true
- *
  */
-exports.isNumberArray = (val) => {
-  const _isNumberArray =
+export const isNumberArray = (val) => {
+  const $isNumberArray =
     val &&
     val instanceof Schema.Types.Array &&
     val.caster instanceof Schema.Types.Number;
-  return _isNumberArray;
+  return $isNumberArray;
 };
 
 /**
  * @function isInstance
  * @name isInstance
  * @description check if object is valid mongoose model instance
- * @param {Object} value valid object
- * @returns {Boolean} whether object is valid model instance
+ * @param {object} value valid object
+ * @returns {boolean} whether object is valid model instance
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.4.0
  * @version 0.2.0
@@ -498,14 +490,13 @@ exports.isNumberArray = (val) => {
  *
  * isInstance(val);
  * //=> true
- *
  */
-exports.isInstance = (value) => {
+export const isInstance = (value) => {
   if (value) {
-    const _isInstance =
+    const $isInstance =
       _.isFunction(_.get(value, 'toObject', null)) &&
       !_.isNull(_.get(value, '$__', null));
-    return _isInstance;
+    return $isInstance;
   }
   return false;
 };
@@ -513,8 +504,8 @@ exports.isInstance = (value) => {
 /**
  * @name copyInstance
  * @description copy and return plain object of mongoose model instance
- * @param {Object} value valid object
- * @returns {Object} plain object from mongoose model instance
+ * @param {object} value valid object
+ * @returns {object} plain object from mongoose model instance
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.4.0
  * @version 0.1.0
@@ -523,16 +514,15 @@ exports.isInstance = (value) => {
  *
  * const instance = copyInstance(val);
  * //=> { ... }
- *
  */
-exports.copyInstance = (value = {}) => mergeObjects(toObject(value));
+export const copyInstance = (value = {}) => mergeObjects(toObject(value));
 
 /**
  * @function schemaTypeOptionOf
  * @name schemaTypeOptionOf
  * @description obtain schema type options
  * @param {SchemaType} schemaType valid mongoose schema type
- * @return {Object} schema type options
+ * @returns {object} schema type options
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.14.0
  * @version 0.1.0
@@ -541,9 +531,8 @@ exports.copyInstance = (value = {}) => mergeObjects(toObject(value));
  *
  * const options = schemaTypeOptionOf(schemaType)
  * //=> { trim: true, ... }
- *
  */
-exports.schemaTypeOptionOf = (schemaType = {}) => {
+export const schemaTypeOptionOf = (schemaType = {}) => {
   // grab options
   const options = mergeObjects(
     // grub schema caster options
@@ -559,8 +548,8 @@ exports.schemaTypeOptionOf = (schemaType = {}) => {
  * @function collectionNameOf
  * @name collectionNameOf
  * @description obtain collection name of provided model name
- * @param {String} modelName valid model name
- * @return {String} underlying collection of the model
+ * @param {string} modelName valid model name
+ * @returns {string} underlying collection of the model
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.16.0
  * @version 0.1.0
@@ -569,9 +558,8 @@ exports.schemaTypeOptionOf = (schemaType = {}) => {
  *
  * const collectionName = collectionNameOf('User');
  * //=> 'users'
- *
  */
-exports.collectionNameOf = collectionNameOf;
+export { collectionNameOf };
 
 // TODO return default connection
 // TODO return created connection
@@ -581,7 +569,7 @@ exports.collectionNameOf = collectionNameOf;
  * @function connect
  * @name connect
  * @description Opens the default mongoose connection
- * @param {String} [url] valid mongodb conenction string. if not provided it
+ * @param {string} [url] valid mongodb conenction string. if not provided it
  * will be obtained from process.env.MONGODB_URI or package name prefixed with
  * current execution environment name
  * @param {Function} done a callback to invoke on success or failure
@@ -593,9 +581,8 @@ exports.collectionNameOf = collectionNameOf;
  *
  * connect(done);
  * connect(url, done);
- *
  */
-exports.connect = connect;
+export { connect };
 
 /**
  * @function disconnect
@@ -609,9 +596,8 @@ exports.connect = connect;
  * @example
  *
  * disconnect(done);
- *
  */
-exports.disconnect = disconnect;
+export { disconnect };
 
 /**
  * @function clear
@@ -619,7 +605,7 @@ exports.disconnect = disconnect;
  * @description Clear provided collection or all if none give
  * @param {Connection} [connection] valid mongoose database connection. If not
  * provide default connection will be used.
- * @param {String[]|String|...String} modelNames name of models to clear
+ * @param {string[] | string | ...string} modelNames name of models to clear
  * @param {Function} done a callback to invoke on success or failure
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.1.0
@@ -630,9 +616,8 @@ exports.disconnect = disconnect;
  * clear(done);
  * clear('User', done);
  * clear('User', 'Profile', done);
- *
  */
-exports.clear = clear;
+export { clear };
 
 /**
  * @function drop
@@ -649,15 +634,14 @@ exports.clear = clear;
  * @example
  *
  * drop(done);
- *
  */
-exports.drop = drop;
+export { drop };
 
 /**
  * @function model
  * @name model
  * @description Try obtain already registered or register new model safely.
- * @param {String} [modelName] valid model name
+ * @param {string} [modelName] valid model name
  * @param {Schema} [schema] valid mongoose schema instance
  * @param {Connection} [connection] valid mongoose database connection. If not
  * provide default connection will be used.
@@ -669,16 +653,15 @@ exports.drop = drop;
  *
  * const User = model('User');
  * const User = model('User', Schema);
- *
  */
-exports.model = model;
+export { model };
 
 /**
  * @function eachPath
  * @name eachPath
  * @description iterate recursively on schema primitive paths and invoke
  * provided iteratee function.
- * @param {Schema} Schema valid instance of mongoose schema
+ * @param {object} schema valid instance of mongoose schema
  * @param {Function} iteratee callback function invoked per each path found.
  * The callback is passed the pathName, parentPath and schemaType as arguments
  * on each iteration.
@@ -690,28 +673,34 @@ exports.model = model;
  * @example
  *
  * eachPath(schema, (path, schemaType) => { ... });
- *
  */
-exports.eachPath = (schema, iteratee) => {
+export const eachPath = (schema, iteratee) => {
+  /**
+   * @name iterateRecursive
+   * @description recursivily search for a schema path
+   * @param {string} pathName valid schema path name
+   * @param {object} schemaType valid schema type
+   * @param {string} parentPath parent schema path
+   */
   function iterateRecursive(pathName, schemaType, parentPath) {
     // compute path name
-    const _path = _.compact([parentPath, pathName]).join('.');
+    const $path = _.compact([parentPath, pathName]).join('.');
 
     // check if is sub schema
-    const isSchema =
+    const $isSchema =
       schemaType.schema && _.isFunction(schemaType.schema.eachPath);
 
     // iterate over sub schema
-    if (isSchema) {
+    if ($isSchema) {
       const { schema: subSchema } = schemaType;
-      subSchema.eachPath(function iterateSubSchema(_pathName, _schemaType) {
-        iterateRecursive(_pathName, _schemaType, _path);
+      subSchema.eachPath(function iterateSubSchema($pathName, $schemaType) {
+        iterateRecursive($pathName, $schemaType, $path);
       });
     }
 
     // invoke iteratee
     else {
-      iteratee(_path, schemaType);
+      iteratee($path, schemaType);
     }
   }
 
@@ -726,6 +715,7 @@ exports.eachPath = (schema, iteratee) => {
  * @name jsonSchema
  * @description Produces valid json schema of all available models
  * @author lally elias <lallyelias87@mail.com>
+ * @returns {object[]} models json schema
  * @since 0.8.0
  * @version 0.1.0
  * @public
@@ -733,23 +723,22 @@ exports.eachPath = (schema, iteratee) => {
  *
  * const jsonSchema = jsonSchema();
  * //=> {"user": {title: "User", type: "object", properties: {..} } }
- *
  */
-exports.jsonSchema = () => {
+export const jsonSchema = () => {
   // initialize schemas dictionary
-  let schemas = {};
+  const schemas = {};
   // get model names
-  const modelNames = mongoose.modelNames();
+  const $modelNames = mongoose.modelNames();
   // loop model names to get schemas
-  _.forEach(modelNames, function getJsonSchema(modelName) {
+  _.forEach($modelNames, function getJsonSchema(modelName) {
     // get model
-    const Model = exports.model(modelName);
+    const Model = model(modelName);
     // collect model json schema
     if (Model && _.isFunction(Model.jsonSchema)) {
       schemas[modelName] = Model.jsonSchema();
     }
   });
-  //return available schemas
+  // return available schemas
   return schemas;
 };
 
@@ -765,17 +754,16 @@ exports.jsonSchema = () => {
  * @example
  *
  * syncIndexes(done);
- *
  */
-exports.syncIndexes = syncIndexes;
+export { syncIndexes };
 
 /**
  * @function createSubSchema
  * @name createSubSchema
  * @description Create mongoose sub schema with no id and timestamp
- * @param {Object} definition valid model schema definition
- * @param {Object} [optns] valid schema options
- * @return {Schema} valid mongoose sub schema
+ * @param {object} definition valid model schema definition
+ * @param {object} [optns] valid schema options
+ * @returns {object} valid mongoose sub schema
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.21.0
  * @version 0.3.0
@@ -783,18 +771,17 @@ exports.syncIndexes = syncIndexes;
  * @example
  *
  * const User = createSubSchema({ name: { type: String } });
- *
  */
-exports.createSubSchema = createSubSchema;
+export { createSubSchema };
 
 /**
  * @function createSchema
  * @name createSchema
  * @description Create mongoose schema with timestamps
- * @param {Object} definition valid model schema definition
- * @param {Object} [optns] valid schema options
+ * @param {object} definition valid model schema definition
+ * @param {object} [optns] valid schema options
  * @param {...Function} [plugins] list of valid mongoose plugin to apply
- * @return {Schema} valid mongoose schema
+ * @returns {object} valid mongoose schema
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.23.0
  * @version 0.1.0
@@ -802,21 +789,20 @@ exports.createSubSchema = createSubSchema;
  * @example
  *
  * const User = createSchema({ name: { type: String } });
- *
  */
-exports.createSchema = createSchema;
+export { createSchema };
 
 /**
  * @function createModel
  * @name createModel
  * @description Create and register mongoose model
- * @param {Object} schema valid model schema definition
- * @param {Object} options valid model schema options
- * @param {String} options.modelName valid model name
+ * @param {object} schema valid model schema definition
+ * @param {object} options valid model schema options
+ * @param {string} options.modelName valid model name
  * @param {...Function} [plugins] list of valid mongoose plugin to apply
  * @param {Connection} [connection] valid mongoose database connection. If not
  * provide default connection will be used.
- * @return {Model} valid mongoose model
+ * @returns {object} valid mongoose model
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.21.0
  * @version 0.2.0
@@ -829,17 +815,16 @@ exports.createSchema = createSchema;
  *  { name: 'User' },
  *  autopopulate, hidden
  * );
- *
  */
-exports.createModel = createModel;
+export { createModel };
 
 /**
  * @function createVarySubSchema
  * @name createVarySubSchema
  * @description Create sub schema with variable paths
- * @param {Object} optns valid schema type options
- * @param {...Object|...String} paths variable paths to include on schema
- * @return {Schema} valid mongoose schema
+ * @param {object} optns valid schema type options
+ * @param {...object | ...string} paths variable paths to include on schema
+ * @returns {object} valid mongoose schema
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.22.0
  * @version 0.1.0
@@ -852,19 +837,18 @@ exports.createModel = createModel;
  *  { name: 'en': required: true },
  *  'sw'
  * );
- *
  */
-exports.createVarySubSchema = createVarySubSchema;
+export { createVarySubSchema };
 
 /**
  * @function validationErrorFor
  * @name validationErrorFor
  * @description Create mongoose validation error for specified options
- * @param {Object} optns valid error options
- * @param {Number|String} [optns.status] valid error status
- * @param {Number|String} [optns.code] valid error code
- * @param {Object} [optns.paths] paths with validator error properties
- * @return {ValidationError} valid instance of mongoose validation error
+ * @param {object} optns valid error options
+ * @param {number | string} [optns.status] valid error status
+ * @param {number | string} [optns.code] valid error code
+ * @param {object} [optns.paths] paths with validator error properties
+ * @returns {object} valid instance of mongoose validation error
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.24.0
  * @version 0.1.0
@@ -877,9 +861,8 @@ exports.createVarySubSchema = createVarySubSchema;
  * };
  * const error = validationErrorFor({ status, paths });
  * //=> error
- *
  */
-exports.validationErrorFor = (optns) => {
+export const validationErrorFor = (optns) => {
   // obtain options
   const { status = 400, code = 400, paths = {} } = mergeObjects(optns);
 
@@ -887,6 +870,7 @@ exports.validationErrorFor = (optns) => {
   const error = new mongoose.Error.ValidationError();
   error.status = status;
   error.code = code || status;
+  // eslint-disable-next-line no-underscore-dangle
   error.message = error.message || error._message;
 
   // attach path validator error
@@ -908,9 +892,9 @@ exports.validationErrorFor = (optns) => {
  * @function areSameInstance
  * @name areSameInstance
  * @description check if given two mongoose model instances are same
- * @param {Object} a valid model instance
- * @param {Object} b valid model instance
- * @returns {Boolean} whether model instance are same
+ * @param {object} a valid model instance
+ * @param {object} b valid model instance
+ * @returns {boolean} whether model instance are same
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.31.0
  * @version 0.1.0
@@ -918,9 +902,8 @@ exports.validationErrorFor = (optns) => {
  * @example
  *
  * areSameInstance(a, a); //=> true
- *
  */
-exports.areSameInstance = (a, b) => {
+export const areSameInstance = (a, b) => {
   try {
     const areSame = !!(a && b && a.equals(b));
     return areSame;
@@ -933,9 +916,9 @@ exports.areSameInstance = (a, b) => {
  * @function areSameObjectId
  * @name areSameObjectId
  * @description check if given two mongoose objectid are same
- * @param {Object} a valid object id
- * @param {Object} b valid object
- * @returns {Boolean} whether objectid's are same
+ * @param {object} a valid object id
+ * @param {object} b valid object
+ * @returns {boolean} whether objectid's are same
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.31.0
  * @version 0.1.0
@@ -943,17 +926,16 @@ exports.areSameInstance = (a, b) => {
  * @example
  *
  * areSameObjectId(a, a); //=> true
- *
  */
-exports.areSameObjectId = (a, b) => {
+export const areSameObjectId = (a, b) => {
   try {
     // grab actual ids
     const idOfA = idOf(a) || a;
     const idOfB = idOf(b) || b;
 
     // convert to string
-    const idA = exports.isObjectId(idOfA) ? idOfA.toString() : idOfA;
-    const idB = exports.isObjectId(idOfB) ? idOfB.toString() : idOfB;
+    const idA = isObjectId(idOfA) ? idOfA.toString() : idOfA;
+    const idB = isObjectId(idOfB) ? idOfB.toString() : idOfB;
 
     // check if are equal
     const areSame = idA === idB;
@@ -967,8 +949,8 @@ exports.areSameObjectId = (a, b) => {
  * @function toObjectIds
  * @name toObjectIds
  * @description convert given model instances into object ids
- * @param {...Object} instances valid model instances
- * @returns {Object[]} objectid's of model instances
+ * @param {...object} instances valid model instances
+ * @returns {object[]} objectid's of model instances
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.31.0
  * @version 0.1.0
@@ -976,9 +958,8 @@ exports.areSameObjectId = (a, b) => {
  * @example
  *
  * toObjectIds(a, b); //=> [ '5e90486301de071ca4ebc03d', ... ]
- *
  */
-exports.toObjectIds = (...instances) => {
+export const toObjectIds = (...instances) => {
   const ids = _.map([...instances], (instance) => {
     const id = idOf(instance) || instance;
     return id;
@@ -990,8 +971,8 @@ exports.toObjectIds = (...instances) => {
  * @function toObjectIdStrings
  * @name toObjectIdStrings
  * @description convert given model instances objectid's into strings
- * @param {...Object} instances valid model instances
- * @returns {String[]} objectid's as strings
+ * @param {...object} instances valid model instances
+ * @returns {string[]} objectid's as strings
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.31.0
  * @version 0.1.0
@@ -999,10 +980,9 @@ exports.toObjectIds = (...instances) => {
  * @example
  *
  * toObjectIdStrings(a, b); //=> [ '5e90486301de071ca4ebc03d', ... ]
- *
  */
-exports.toObjectIdStrings = (...instances) => {
-  const ids = exports.toObjectIds(...instances);
+export const toObjectIdStrings = (...instances) => {
+  const ids = toObjectIds(...instances);
   const idStrings = _.map([...ids], (id) => {
     const idString = exports.isObjectId(id) ? id.toString() : id;
     return idString;
@@ -1014,9 +994,9 @@ exports.toObjectIdStrings = (...instances) => {
  * @function objectIdFor
  * @name objectIdFor
  * @description create a unique objectid of a given model values
- * @param {...String} model valid model name
- * @param {...String} parts values to generate object id for
- * @returns {Object} valid objectid
+ * @param {...string} modelName valid model name
+ * @param {...string} parts values to generate object id for
+ * @returns {object} valid objectid
  * @author lally elias <lallyelias87@mail.com>
  * @since 0.36.0
  * @version 0.1.0
@@ -1025,11 +1005,10 @@ exports.toObjectIdStrings = (...instances) => {
  *
  * objectIdFor('Party', 'TZ-0101');
  * //=> '5e90486301de071ca4ebc03d'
- *
  */
-exports.objectIdFor = (model, ...parts) => {
+export const objectIdFor = (modelName, ...parts) => {
   // ensure parts
-  const values = compact([].concat(model).concat(...parts));
+  const values = compact([].concat(modelName).concat(...parts));
 
   // ensure secret & message
   const secret = _.head(values);

@@ -1,52 +1,85 @@
-'use strict';
+import { join as joinPath, resolve as resolvePath } from 'path';
+import {
+  compact,
+  filter,
+  forEach,
+  get,
+  isArray,
+  isEmpty,
+  isFunction,
+  isPlainObject,
+  isString,
+  map,
+  mapValues,
+  noop,
+  omit,
+} from 'lodash';
+import { waterfall, parallel } from 'async';
+import { mergeObjects, idOf } from '@lykmapipo/common';
+import { getBoolean, getString } from '@lykmapipo/env';
+import mongoose from 'mongoose';
 
-/* dependencies */
-const path = require('path');
-const _ = require('lodash');
-const { waterfall, parallel } = require('async');
-const { mergeObjects, idOf } = require('@lykmapipo/common');
-const { getBoolean, getString } = require('@lykmapipo/env');
-const mongoose = require('mongoose');
-
-const loadPathSeeds = (collectionName) => {
+/**
+ * @name loadPathSeeds
+ * @description load seeds from paths
+ * @param {string} collectionName valid collection name
+ * @returns {object|object[]} given collection seed from a path
+ * @since 0.21.0
+ * @version 0.2.0
+ * @private
+ */
+function loadPathSeeds(collectionName) {
+  // resolve seed path
   const BASE_PATH = getString('BASE_PATH', process.cwd());
-  let SEED_PATH = getString('SEED_PATH', path.join(BASE_PATH, 'seeds'));
-  SEED_PATH = path.resolve(SEED_PATH, collectionName);
+  let SEED_PATH = getString('SEED_PATH', joinPath(BASE_PATH, 'seeds'));
+  SEED_PATH = resolvePath(SEED_PATH, collectionName);
+
+  // try load seeds from path
   try {
+    // eslint-disable-next-line import/no-dynamic-require, global-require
     let seeds = require(SEED_PATH);
     // honor es6 default exports
-    seeds = [].concat(_.isArray(seeds.default) ? seeds.default : seeds);
+    seeds = [].concat(isArray(seeds.default) ? seeds.default : seeds);
     return seeds;
   } catch (e) {
     return [];
   }
-};
+}
 
-const seedModel = function (data, done) {
-  /* jshint validthis: true */
-
+/**
+ * @function clearAndSeedModel
+ * @name clearAndSeedModel
+ * @description clear and seed the given model data
+ * @param {object|object[]|Function} data valid model data
+ * @param {Function} done callback to invoke on success or error
+ * @returns {object} seed results
+ * @since 0.21.0
+ * @version 0.2.0
+ * @private
+ */
+function seedModel(data, done) {
   // this: Model static context
 
   // normalize arguments
   let seeds = [];
-  let cb = _.noop;
-  let filter = (val) => val;
-  let transform = (val) => val;
-  if (_.isFunction(data)) {
+  let cb = noop;
+  let filterFn = (val) => val;
+  let transformFn = (val) => val;
+  if (isFunction(data)) {
     cb = data;
   }
-  if (_.isArray(data)) {
+  if (isArray(data)) {
     seeds = [].concat(data);
   }
-  if (_.isPlainObject(data)) {
-    filter = data.filter || filter;
-    transform = data.transform || transform;
-    seeds = data.data || _.omit(data, 'filter', 'transform');
-    seeds = _.isArray(seeds) ? seeds : mergeObjects(seeds);
+  if (isPlainObject(data)) {
+    filterFn = data.filter || filterFn;
+    transformFn = data.transform || transformFn;
+    seeds = data.data || omit(data, 'filter', 'transform');
+    seeds = isArray(seeds) ? seeds : mergeObjects(seeds);
     seeds = [].concat(seeds);
-    seeds = _.filter(seeds, (seed) => !_.isEmpty(seed));
+    seeds = filter(seeds, (seed) => !isEmpty(seed));
   }
-  if (_.isFunction(done)) {
+  if (isFunction(done)) {
     cb = done || cb;
   }
   // let seeds = _.isFunction(data) ? [] : [].concat(data);
@@ -54,34 +87,34 @@ const seedModel = function (data, done) {
 
   // compact seeds
   const collectionName =
-    _.get(this, 'collection.name') || _.get(this, 'collection.collectionName');
+    get(this, 'collection.name') || get(this, 'collection.collectionName');
 
   // ignore path seeds if seed provided
-  if (_.isEmpty(seeds)) {
+  if (isEmpty(seeds)) {
     const pathSeeds = loadPathSeeds(collectionName);
-    seeds = _.compact([...seeds, ...pathSeeds]);
-    seeds = _.filter(seeds, (seed) => !_.isEmpty(seed));
+    seeds = compact([...seeds, ...pathSeeds]);
+    seeds = filter(seeds, (seed) => !isEmpty(seed));
   }
 
   // filter seeds
-  seeds = _.filter(seeds, filter);
+  seeds = filter(seeds, filterFn);
 
   // transform seeds
-  seeds = _.map(seeds, transform);
+  seeds = map(seeds, transformFn);
 
   // filter empty seeds
-  seeds = _.filter(seeds, (seed) => !_.isEmpty(seed));
+  seeds = filter(seeds, (seed) => !isEmpty(seed));
 
   // find existing instance fullfill seed criteria
   const findExisting = (seed, afterFind) => {
     // map seed to criteria
-    const canProvideCriteria = _.isFunction(this.prepareSeedCriteria);
-    let prepareSeedCriteria = (seed) => seed;
+    const canProvideCriteria = isFunction(this.prepareSeedCriteria);
+    let prepareSeedCriteria = ($seed) => $seed;
     if (canProvideCriteria) {
       prepareSeedCriteria = this.prepareSeedCriteria;
     }
     let criteria = prepareSeedCriteria(seed);
-    criteria = _.omit(criteria, 'populate');
+    criteria = omit(criteria, 'populate');
 
     // find existing data
     return this.findOne(criteria, afterFind);
@@ -93,12 +126,12 @@ const seedModel = function (data, done) {
     const { model, match, select, array } = dependency;
 
     const afterFetchDependency = (error, found) => {
-      const result = _.isEmpty(found) ? undefined : found;
+      const result = isEmpty(found) ? undefined : found;
       return afterDependency(error, result);
     };
 
     // try fetch with provide options
-    if (_.isString(model) && _.isPlainObject(match)) {
+    if (isString(model) && isPlainObject(match)) {
       try {
         const Model = mongoose.model(model);
         if (array) {
@@ -131,20 +164,21 @@ const seedModel = function (data, done) {
     return waterfall(
       [
         (next) => {
-          if (_.isEmpty(ignore)) {
+          if (isEmpty(ignore)) {
             return next(null, []);
           }
-          const ignoreCriteria = _.omit(ignore, 'select');
+          const ignoreCriteria = omit(ignore, 'select');
           return fetchDependency(ignoreCriteria, next);
         }, // fetch ignored
         (ignored, next) => {
           // use ignored
           const ignorePath = ignore.path || '_id';
-          const ignoredIds = _.compact(
-            _.map([].concat(ignored), (val) => idOf(val))
+          const ignoredIds = compact(
+            map([].concat(ignored), (val) => idOf(val))
           );
-          let { model, match, select, array } = mergeObjects(dependency);
-          if (!_.isEmpty(ignoredIds)) {
+          const { model, select, array } = mergeObjects(dependency);
+          let { match } = mergeObjects(dependency);
+          if (!isEmpty(ignoredIds)) {
             match = mergeObjects(
               {
                 [ignorePath]: { $nin: ignoredIds },
@@ -163,8 +197,8 @@ const seedModel = function (data, done) {
   // TODO: optimize queries
   const fetchDependencies = (seed, afterDependencies) => {
     let dependencies = mergeObjects(seed.populate);
-    if (_.isPlainObject(dependencies) && !_.isEmpty(dependencies)) {
-      dependencies = _.mapValues(dependencies, (dependency) => {
+    if (isPlainObject(dependencies) && !isEmpty(dependencies)) {
+      dependencies = mapValues(dependencies, (dependency) => {
         return (afterDependency) => {
           return fetchDependencyExcludeIgnore(dependency, afterDependency);
         };
@@ -175,19 +209,21 @@ const seedModel = function (data, done) {
   };
 
   // merge existing with seed data
-  const mergeOne = (found, data, afterMergeOne) => {
+  const mergeOne = (found, $data, afterMergeOne) => {
     if (found) {
       const SEED_FRESH = getBoolean('SEED_FRESH', false);
       let updates = {};
       if (SEED_FRESH) {
-        updates = mergeObjects(found.toObject(), data);
+        updates = mergeObjects(found.toObject(), $data);
       } else {
-        updates = mergeObjects(data, found.toObject());
+        updates = mergeObjects($data, found.toObject());
       }
       found.set(updates);
+      // eslint-disable-next-line no-param-reassign
       found.updatedAt = new Date();
     } else {
-      found = new this(data);
+      // eslint-disable-next-line no-param-reassign
+      found = new this($data);
     }
     return found.put ? found.put(afterMergeOne) : found.save(afterMergeOne);
   };
@@ -201,7 +237,8 @@ const seedModel = function (data, done) {
             if (error) {
               return next(error);
             }
-            _.forEach(dependencies, (value, key) => {
+            forEach(dependencies, (value, key) => {
+              // eslint-disable-next-line no-param-reassign
               seed[key] = value;
             });
             return next();
@@ -215,48 +252,61 @@ const seedModel = function (data, done) {
   };
 
   // prepare seeds
-  seeds = _.map(seeds, (seed) => {
+  seeds = map(seeds, (seed) => {
     return (next) => upsertOne(seed, next);
   });
 
   // run seeds
   return parallel(seeds, cb);
-};
+}
 
-const clearAndSeedModel = function (data, done) {
-  /* jshint validthis: true */
-
+/**
+ * @function clearAndSeedModel
+ * @name clearAndSeedModel
+ * @description clear and seed the given model data
+ * @param {object|object[]|Function} data valid model data
+ * @param {Function} done callback to invoke on success or error
+ * @returns {object} seed results
+ * @since 0.21.0
+ * @version 0.2.0
+ * @private
+ */
+function clearAndSeedModel(data, done) {
   // this: Model static context
 
   // normalize callback
-  let cb = _.isFunction(data) ? data : done;
+  const cb = isFunction(data) ? data : done;
 
   // clear model data
   const doClear = (next) => this.deleteMany((error) => next(error));
 
   // seed model data
   const doSeed = (next) =>
-    _.isFunction(data) ? this.seed(next) : this.seed(data, next);
+    isFunction(data) ? this.seed(next) : this.seed(data, next);
 
   // run clear then seed
   return waterfall([doClear, doSeed], cb);
-};
+}
 
 /**
- * @function seed
- * @name seed
- * @description extend mongoose schema with seed capability
- * @param {Schema} schema valid mongoose schema instance
+ * @function seedPlugin
+ * @name seedPlugin
+ * @description Extend mongoose schema with seed capability
+ * @param {object} schema valid mongoose schema instance
  * @since 0.21.0
- * @version 0.1.0
+ * @version 0.2.0
+ * @public
  */
-module.exports = exports = (schema) => {
-  const canNotSeed = !_.isFunction(schema.statics.seed);
+export default function seedPlugin(schema) {
+  const canNotSeed = !isFunction(schema.statics.seed);
   if (canNotSeed) {
+    // eslint-disable-next-line no-param-reassign
     schema.statics.seed = seedModel;
+
+    // eslint-disable-next-line no-param-reassign
     schema.statics.clearAndSeed = clearAndSeedModel;
   }
-};
+}
 
 // TODO: async prepareSeedCriteria
 // TODO: prepareSeedCriteria(seed, code)
