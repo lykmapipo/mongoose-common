@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { forEach, isFunction, split } from 'lodash';
 
 /**
  * @function path
@@ -11,7 +11,7 @@ import _ from 'lodash';
  */
 export default (schema) => {
   // register path
-  const canNotGetPath = !_.isFunction(schema.statics.path);
+  const canNotGetPath = !isFunction(schema.statics.path);
 
   if (canNotGetPath) {
     // eslint-disable-next-line no-param-reassign
@@ -20,10 +20,10 @@ export default (schema) => {
       let $path;
 
       // tokenize path
-      const paths = _.split(pathName, '.');
+      const paths = split(pathName, '.');
 
       // iterate on schema recursive to get path schema
-      _.forEach(paths, function getPath(part) {
+      forEach(paths, function getPath(part) {
         // obtain schema to resolve path
         const $schema = $path ? $path.schema : schema;
         $path = $schema && $schema.path ? $schema.path(part) : undefined;

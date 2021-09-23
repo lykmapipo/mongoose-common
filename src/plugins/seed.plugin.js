@@ -17,7 +17,7 @@ import {
 import { waterfall, parallel } from 'async';
 import { mergeObjects, idOf } from '@lykmapipo/common';
 import { getBoolean, getString } from '@lykmapipo/env';
-import mongoose from 'mongoose';
+import mongoose from 'mongoose-valid8';
 
 /**
  * @name loadPathSeeds

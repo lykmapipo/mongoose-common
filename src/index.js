@@ -22,12 +22,20 @@
  * disconnect((error) => { ... });
  */
 
-/* dependencies */
-import _ from 'lodash';
+import {
+  forEach,
+  get,
+  head,
+  isEmpty,
+  isFunction,
+  isNull,
+  map,
+  tail,
+  toPlainObject,
+} from 'lodash';
 import { createHmac } from 'crypto';
 import { compact, idOf, join, mergeObjects } from '@lykmapipo/common';
-import mongoose from 'mongoose';
-import 'mongoose-valid8';
+import mongoose from 'mongoose-valid8';
 import { toObject } from 'mongoose/lib/utils';
 import {
   SCHEMA_OPTIONS,
@@ -318,7 +326,7 @@ export { disableDebug };
  */
 export const toCollectionName = (modelName) => {
   let collectionName = modelName;
-  if (!_.isEmpty(modelName)) {
+  if (!isEmpty(modelName)) {
     collectionName = mongoose.pluralize()(modelName);
   }
   return collectionName;
@@ -494,8 +502,8 @@ export const isNumberArray = (val) => {
 export const isInstance = (value) => {
   if (value) {
     const $isInstance =
-      _.isFunction(_.get(value, 'toObject', null)) &&
-      !_.isNull(_.get(value, '$__', null));
+      isFunction(get(value, 'toObject', null)) &&
+      !isNull(get(value, '$__', null));
     return $isInstance;
   }
   return false;
@@ -536,9 +544,9 @@ export const schemaTypeOptionOf = (schemaType = {}) => {
   // grab options
   const options = mergeObjects(
     // grub schema caster options
-    _.toPlainObject(_.get(schemaType, 'caster.options')),
+    toPlainObject(get(schemaType, 'caster.options')),
     // grab direct schema options
-    _.toPlainObject(_.get(schemaType, 'options'))
+    toPlainObject(get(schemaType, 'options'))
   );
   // return options
   return options;
@@ -684,11 +692,11 @@ export const eachPath = (schema, iteratee) => {
    */
   function iterateRecursive(pathName, schemaType, parentPath) {
     // compute path name
-    const $path = _.compact([parentPath, pathName]).join('.');
+    const $path = compact([parentPath, pathName]).join('.');
 
     // check if is sub schema
     const $isSchema =
-      schemaType.schema && _.isFunction(schemaType.schema.eachPath);
+      schemaType.schema && isFunction(schemaType.schema.eachPath);
 
     // iterate over sub schema
     if ($isSchema) {
@@ -730,11 +738,11 @@ export const jsonSchema = () => {
   // get model names
   const $modelNames = mongoose.modelNames();
   // loop model names to get schemas
-  _.forEach($modelNames, function getJsonSchema(modelName) {
+  forEach($modelNames, function getJsonSchema(modelName) {
     // get model
     const Model = model(modelName);
     // collect model json schema
-    if (Model && _.isFunction(Model.jsonSchema)) {
+    if (Model && isFunction(Model.jsonSchema)) {
       schemas[modelName] = Model.jsonSchema();
     }
   });
@@ -874,9 +882,9 @@ export const validationErrorFor = (optns) => {
   error.message = error.message || error._message;
 
   // attach path validator error
-  if (!_.isEmpty(paths)) {
+  if (!isEmpty(paths)) {
     const errors = {};
-    _.forEach(paths, (props, path) => {
+    forEach(paths, (props, path) => {
       let pathError = mergeObjects({ path }, props);
       pathError = new mongoose.Error.ValidatorError(pathError);
       errors[path] = pathError;
@@ -960,7 +968,7 @@ export const areSameObjectId = (a, b) => {
  * toObjectIds(a, b); //=> [ '5e90486301de071ca4ebc03d', ... ]
  */
 export const toObjectIds = (...instances) => {
-  const ids = _.map([...instances], (instance) => {
+  const ids = map([...instances], (instance) => {
     const id = idOf(instance) || instance;
     return id;
   });
@@ -983,8 +991,8 @@ export const toObjectIds = (...instances) => {
  */
 export const toObjectIdStrings = (...instances) => {
   const ids = toObjectIds(...instances);
-  const idStrings = _.map([...ids], (id) => {
-    const idString = exports.isObjectId(id) ? id.toString() : id;
+  const idStrings = map([...ids], (id) => {
+    const idString = isObjectId(id) ? id.toString() : id;
     return idString;
   });
   return idStrings;
@@ -1011,8 +1019,8 @@ export const objectIdFor = (modelName, ...parts) => {
   const values = compact([].concat(modelName).concat(...parts));
 
   // ensure secret & message
-  const secret = _.head(values);
-  const data = join(_.tail(values), ':');
+  const secret = head(values);
+  const data = join(tail(values), ':');
 
   // generate 24-byte hex hash
   const hash = createHmac('md5', secret)

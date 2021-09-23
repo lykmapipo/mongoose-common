@@ -1,6 +1,6 @@
 import { filter, forEach, isEmpty, isFunction, map, nth } from 'lodash';
 import { uniq } from '@lykmapipo/common';
-import mongoose from 'mongoose';
+import mongoose from 'mongoose-valid8';
 
 /**
  * @function isUniqueError
