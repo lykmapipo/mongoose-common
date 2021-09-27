@@ -1,3 +1,19 @@
+#### 0.40.0 (2021-09-27)
+
+##### Chores
+
+* **release:**  compile latest source ([6bd384a1](https://github.com/lykmapipo/mongoose-common/commit/6bd384a15405769b8ab437caae80b1a4cd0c324c))
+* **deps:**  force latest version & audit fix ([097ebf76](https://github.com/lykmapipo/mongoose-common/commit/097ebf76ef2811096edb315a0f95bf9b3067a23f))
+
+##### Other Changes
+
+*  migrate to mongoose v6 ([25d89389](https://github.com/lykmapipo/mongoose-common/commit/25d893893fff8ba94a3bc3978fab5f3abb316989))
+
+##### Refactors
+
+*  use named imports ([0713b619](https://github.com/lykmapipo/mongoose-common/commit/0713b619bf3a2457944597f105493a8547dbe4da))
+*  migrate to es6 ([a7aa7662](https://github.com/lykmapipo/mongoose-common/commit/a7aa76627f45fe9723a459852dabff57df50795e))
+
 #### 0.39.0 (2020-12-29)
 
 ##### Bug Fixes
