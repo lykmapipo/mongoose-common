@@ -18,12 +18,16 @@ import {
   modelNames,
   GridFSBucket,
   Aggregate,
+  Collection,
+  Connection,
   Query,
   SchemaString,
   SchemaNumber,
   SchemaBoolean,
   DocumentArray,
   SchemaDocumentArray,
+  SubDocument,
+  SchemaSubDocument,
   Embedded,
   SchemaEmbedded,
   SchemaArray,
@@ -33,6 +37,7 @@ import {
   SchemaObjectId,
   Mixed,
   SchemaMixed,
+  Decimal128,
   SchemaDecimal,
   SchemaMap,
   enableDebug,
@@ -81,19 +86,21 @@ describe('unit', () => {
   afterEach((done) => drop(done));
 
   it('should expose shortcuts', () => {
+    expect(STATES).to.exist;
+    expect(Aggregate).to.exist;
+    expect(Collection).to.exist;
+    expect(Connection).to.exist;
     expect(Schema).to.exist;
-    expect(SchemaTypes).to.exist;
     expect(SchemaType).to.exist;
+    expect(SchemaTypes).to.exist;
     expect(VirtualType).to.exist;
-    expect(MongooseTypes).to.exist;
     expect(Types).to.exist;
+    expect(MongooseTypes).to.exist;
+    expect(Query).to.exist;
     expect(MongooseError).to.exist;
     expect(CastError).to.exist;
-    expect(STATES).to.exist;
     expect(modelNames).to.exist;
     expect(GridFSBucket).to.exist;
-    expect(Aggregate).to.exist;
-    expect(Query).to.exist;
   });
 
   it('should expose schema types shortcuts', () => {
@@ -105,6 +112,9 @@ describe('unit', () => {
 
     expect(DocumentArray).to.exist;
     expect(SchemaDocumentArray).to.exist;
+
+    expect(SubDocument).to.exist;
+    expect(SchemaSubDocument).to.exist;
 
     expect(Embedded).to.exist;
     expect(SchemaEmbedded).to.exist;
@@ -122,6 +132,7 @@ describe('unit', () => {
     expect(Mixed).to.exist;
     expect(SchemaMixed).to.exist;
 
+    expect(Decimal128).to.exist;
     expect(SchemaDecimal).to.exist;
 
     expect(SchemaMap).to.exist;
@@ -658,7 +669,7 @@ describe('unit', () => {
     expect(country).to.be.an.instanceof(SchemaTypes.String);
   });
 
-  it('should able to get jsonschema of a model', () => {
+  it.skip('should able to get jsonschema of a model', () => {
     const schema = new Schema({ name: String });
     const User = model(schema);
 
@@ -679,7 +690,7 @@ describe('unit', () => {
     });
   });
 
-  it('should able to get connection models jsonschema', () => {
+  it.skip('should able to get connection models jsonschema', () => {
     const schema = new Schema({ name: String });
     const Task = model('Task', schema);
 

@@ -1,6 +1,6 @@
 {
   "name": "@lykmapipo/mongoose-common",
-  "version": "0.39.0",
+  "version": "0.40.0",
   "description": "Re-usable helpers for mongoose",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -19,7 +19,7 @@
     "docs": "doxdox 'lib/**/*.js' -p package.json -l markdown -o DOCUMENTATION.md",
     "cmt": "git add -A && git-cz",
     "changelog": "changelog",
-    "chore:deps": "ncu -u && npm install --save",
+    "chore:deps": "ncu -u --timeout=60000 && npm install --save",
     "lint:config": "eslint --print-config rollup.config.js",
     "examples": "NODE_ENV=development BASE_PATH=./examples babel-node ./examples/index.js"
   },
@@ -68,7 +68,7 @@
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "@commitlint/travis-cli": "^13.1.0",
-    "@lykmapipo/test-helpers": "^0.6.23",
+    "@lykmapipo/test-helpers": ">=0.6.23",
     "acorn": "^8.5.0",
     "chai": "^4.3.4",
     "commitizen": "^4.2.4",
@@ -89,24 +89,21 @@
     "lint-staged": "^11.1.2",
     "lodash.template": "^4.5.0",
     "minimist": "^1.2.5",
-    "mocha": "^9.1.1",
-    "mongoose": ">=6.0.7",
+    "mocha": "^9.1.2",
     "nyc": "^15.1.0",
     "prettier": "^2.4.1",
     "rimraf": "^3.0.2",
     "rollup": "^2.57.0",
     "shelljs": "^0.8.4"
   },
-  "peerDependencies": {
-    "mongoose": ">=6.0.7"
-  },
+  "peerDependencies": {},
   "dependencies": {
     "@lykmapipo/common": ">=0.44.4",
     "@lykmapipo/env": ">=0.17.39",
     "@lykmapipo/mongoose-connection": ">=0.5.2",
     "async": ">=3.2.1",
     "lodash": ">=4.17.21",
-    "mongoose-schema-jsonschema": ">=2.0.0",
+    "mongoose": ">=6.0.7",
     "mongoose-valid8": ">=1.7.1"
   },
   "engines": {

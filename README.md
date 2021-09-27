@@ -12,12 +12,14 @@
 
 Re-usable helpers for mongoose
 
+**Note: This version no longer support [mongoose-schema-jsonschema](https://github.com/DScheglov/mongoose-schema-jsonschema)**
+
 ## Requirements
 
 - [NodeJS v13+](https://nodejs.org)
 - [Npm v6.12+](https://www.npmjs.com/)
 - [MongoDB v4+](https://www.mongodb.com/)
-- [Mongoose v5.7+](https://github.com/Automattic/mongoose)
+- [Mongoose v6+](https://github.com/Automattic/mongoose)
 
 ## Install
 ```sh

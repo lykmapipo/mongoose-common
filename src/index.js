@@ -60,26 +60,12 @@ import {
   createVarySubSchema,
   createModel,
 } from '@lykmapipo/mongoose-connection';
-import mongooseJsonSchema from 'mongoose-schema-jsonschema';
 import errorPlugin from './plugins/error.plugin';
 import pathPlugin from './plugins/path.plugin';
 import seedPlugin from './plugins/seed.plugin';
 
-const { Schema, Connection, Query, Aggregate } = mongoose;
-
 // set global mongoose promise
 mongoose.Promise = global.Promise;
-
-/**
- * @description register jsonschema schema plugin
- * @since 0.1.0
- * @version 0.1.0
- * @public
- * @example
- *
- * const jsonSchema = User.jsonSchema();
- */
-mongooseJsonSchema(mongoose); // TODO: ignore global
 
 /**
  * @name path
@@ -113,26 +99,33 @@ mongoose.plugin(errorPlugin); // TODO: ignore global
 mongoose.plugin(seedPlugin); // TODO: ignore global
 
 // expose shortcuts
-export { Schema, Connection, Query, Aggregate };
-export const SchemaTypes = Schema.Types;
+export const { STATES } = mongoose;
+export const { Aggregate } = mongoose;
+export const { Collection } = mongoose;
+export const { Connection } = mongoose;
+export const { Schema } = mongoose;
 export const { SchemaType } = mongoose;
+export const { SchemaTypes } = mongoose;
 export const { VirtualType } = mongoose;
 export const { Types } = mongoose;
 export const MongooseTypes = mongoose.Types;
+export const { Query } = mongoose;
 export const MongooseError = mongoose.Error;
 export const { CastError } = mongoose;
-export const { STATES } = mongoose;
 export const modelNames = () => mongoose.modelNames();
 export const { GridFSBucket } = mongoose.mongo;
 
 // schema types shortcuts
+
 export const SchemaString = Schema.Types.String;
 export const SchemaNumber = Schema.Types.Number;
 export const SchemaBoolean = Schema.Types.Boolean;
 export const { DocumentArray } = Schema.Types;
 export const SchemaDocumentArray = Schema.Types.DocumentArray;
-export const { Embedded } = Schema.Types;
-export const SchemaEmbedded = Schema.Types.Embedded;
+export const SubDocument = Schema.Types.Subdocument;
+export const SchemaSubDocument = Schema.Types.Subdocument;
+export const Embedded = SubDocument;
+export const SchemaEmbedded = SubDocument;
 export const SchemaArray = Schema.Types.Array;
 export const SchemaBuffer = Schema.Types.Buffer;
 export const SchemaDate = Schema.Types.Date;
@@ -140,7 +133,9 @@ export const { ObjectId } = Schema.Types;
 export const SchemaObjectId = Schema.Types.ObjectId;
 export const { Mixed } = Schema.Types;
 export const SchemaMixed = Schema.Types.Mixed;
-export const SchemaDecimal = Schema.Types.Decimal;
+export const { Decimal128 } = Schema.Types;
+export const SchemaDecimal = Decimal128;
+export const SchemaDecimal128 = Decimal128;
 export const SchemaMap = Schema.Types.Map;
 
 /**
@@ -722,6 +717,7 @@ export const eachPath = (schema, iteratee) => {
  * @function jsonSchema
  * @name jsonSchema
  * @description Produces valid json schema of all available models
+ * if `mongoose-schema-jsonschema` has been applied
  * @author lally elias <lallyelias87@mail.com>
  * @returns {object[]} models json schema
  * @since 0.8.0

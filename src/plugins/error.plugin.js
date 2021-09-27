@@ -15,7 +15,10 @@ import mongoose from 'mongoose-valid8';
 const isUniqueError = (error) => {
   return (
     error &&
-    (error.name === 'BulkWriteError' || error.name === 'MongoError') &&
+    (error.name === 'BulkWriteError' ||
+      error.name === 'MongoError' ||
+      error.name === 'MongoServerError' ||
+      error.name === 'MongoBulkWriteError') &&
     (error.code === 11000 || error.code === 11001) &&
     !isEmpty(error.message)
   );
