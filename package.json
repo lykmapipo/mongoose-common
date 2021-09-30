@@ -65,9 +65,9 @@
     "@babel/node": "^7.15.4",
     "@babel/preset-env": "^7.15.6",
     "@babel/register": "^7.15.3",
-    "@commitlint/cli": "^13.1.0",
-    "@commitlint/config-conventional": "^13.1.0",
-    "@commitlint/travis-cli": "^13.1.0",
+    "@commitlint/cli": "^13.2.0",
+    "@commitlint/config-conventional": "^13.2.0",
+    "@commitlint/travis-cli": "^13.2.0",
     "@lykmapipo/test-helpers": ">=0.6.23",
     "acorn": "^8.5.0",
     "chai": "^4.3.4",
@@ -103,7 +103,7 @@
     "@lykmapipo/mongoose-connection": ">=0.5.2",
     "async": ">=3.2.1",
     "lodash": ">=4.17.21",
-    "mongoose": ">=6.0.7",
+    "mongoose": ">=6.0.8",
     "mongoose-valid8": ">=1.7.1"
   },
   "engines": {
