@@ -105,7 +105,7 @@
     "@lykmapipo/mongoose-connection": ">=0.5.2",
     "async": ">=3.2.4",
     "lodash": ">=4.17.21",
-    "mongoose": ">=6.4.5",
+    "mongoose": ">=6.4.6",
     "mongoose-valid8": ">=1.7.1"
   },
   "engines": {
